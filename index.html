@@ -7,7 +7,7 @@
 
   <!-- Font (optional) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" 기억rossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Font Awesome (for search icon) -->
@@ -225,6 +225,7 @@
       font-weight:900;
     }
 
+    /* ✅ Mobile: نفس شكل الصورة (5 أعمدة) + تصغير أحجام فقط */
     @media (max-width: 560px){
       body{ padding:12px; }
       .top{ padding:14px 14px 12px; }
@@ -255,6 +256,7 @@
       .date-bot, .t-bot{ font-size:12px; }
 
       .two{ gap:4px; }
+      .footer{ font-size:11px; padding:10px 14px 12px; }
     }
 
     @media (max-width: 390px){
@@ -329,63 +331,25 @@
       font-size:15px;
     }
 
-/* ==== Footer / Credit ==== */
-.footer{
-  padding:12px 18px 14px;
-  text-align:center;
-  color:rgba(234,240,255,.55);
-  font-weight:900;
-  font-size:12px;
-  letter-spacing:.2px;
-  border-top:1px solid var(--stroke);
-  background: rgba(0,0,0,.08);
-}
-.footer span{
-  color: rgba(234,240,255,.72);
-}
+    /* ==== Footer / Credit ==== */
+    .footer{
+      padding:12px 18px 14px;
+      text-align:center;
+      color:rgba(234,240,255,.55);
+      font-weight:900;
+      font-size:12px;
+      letter-spacing:.2px;
+      border-top:1px solid var(--stroke);
+      background: rgba(0,0,0,.08);
+    }
+    .footer span{
+      color: rgba(234,240,255,.72);
+    }
 
-/* ==== Responsive results layout (keeps the same 5 columns like the screenshot) ==== */
-/* We keep the header pills visible on mobile, and just scale spacing/typography. */
-@media (max-width: 820px){
-  .app{ border-radius:20px; }
-  .r-head, .row{
-    grid-template-columns: 1.05fr 1fr 1.05fr .9fr .9fr;
-  }
-}
-
-@media (max-width: 560px){
-  /* tighter outer spacing so it fills the phone nicely */
-  body{ padding:12px; }
-  .app{ border-radius:18px; }
-  .top{ padding:14px 14px 12px; }
-  .results-wrap{ padding:12px 14px 14px; }
-
-  .r-head{ padding:10px; gap:6px; }
-  .r-body{ padding:10px; gap:8px; }
-  .row{ padding:10px 8px; gap:6px; }
-
-  /* Keep 5 columns, but slightly rebalance to fit */
-  .r-head, .row{
-    grid-template-columns: 1.05fr .95fr 1.05fr .85fr .85fr;
-  }
-
-  .h-pill{ font-size:12px; padding:8px 6px; }
-  .course{ font-size:14px; }
-  .venue{ font-size:13px; }
-  .duration{ font-size:12px; }
-
-  .date-top, .t-top{ font-size:13px; }
-  .date-bot, .t-bot{ font-size:12px; }
-
-  .two{ gap:4px; }
-}
-
-/* ultra small phones: allow horizontal swipe instead of breaking the design */
-@media (max-width: 360px){
-  .results{ overflow-x:auto; -webkit-overflow-scrolling: touch; }
-  .r-head, .r-body{ min-width: 520px; }
-}
-
+    /* NOTE:
+       تم حذف بلوك "Mobile: card-style rows..." بالكامل
+       لأنه كان يخفي .r-head ويحوّل .row إلى 2 أعمدة ويغير الهوية في الجوال.
+    */
   </style>
 </head>
 
@@ -431,9 +395,9 @@
       </div>
     </section>
 
-<footer class="footer">
-  <span>Designed by alrasasi</span>
-</footer>
+    <footer class="footer">
+      <span>Designed by alrasasi</span>
+    </footer>
   </main>
 
   <script>

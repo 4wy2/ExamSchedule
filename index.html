@@ -1,0 +1,641 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>جدول الاختبارات - قسم الهندسة الكهربائية</title>
+
+  <!-- Font (optional) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome (for search icon) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    :root{
+      /* Base */
+      --bg0:#060a16;
+      --bg1:#0b1330;
+
+      /* Panels */
+      --panel:#0d1738;
+      --panel2:#101f46;
+
+      /* Strokes */
+      --stroke:rgba(255,255,255,.08);
+      --soft:rgba(255,255,255,.06);
+
+      /* Text */
+      --text:#eaf0ff;
+      --muted:rgba(234,240,255,.65);
+
+      /* Brand-ish palette (Blue / Purple / Green + Gold highlight) */
+      --rc-blue:#0a2e7a;
+      --rc-royal:#2734fe;
+      --rc-purple:#8042ff;
+      --rc-green:#1fc47c;
+      --rc-gold:#dac6b5;
+
+      --shadow: 0 20px 60px rgba(0,0,0,.45);
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:"Tajawal", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(1200px 600px at 70% 0%, rgba(39,52,254,.20), transparent 60%),
+        radial-gradient(900px 520px at 10% 20%, rgba(31,196,124,.10), transparent 55%),
+        linear-gradient(180deg, var(--bg0), #050816 60%, #040610);
+      color:var(--text);
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+    }
+
+    .app{
+      width:min(920px, 100%);
+      background: linear-gradient(180deg, rgba(13,23,56,.82), rgba(13,23,56,.72));
+      border:1px solid var(--stroke);
+      border-radius:22px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      backdrop-filter: blur(10px);
+      margin:0 auto;
+    }
+
+    .top{
+      padding:18px 18px 14px;
+      border-bottom:1px solid var(--stroke);
+      background: linear-gradient(180deg, rgba(16,31,70,.55), rgba(13,23,56,0));
+    }
+
+    /* سنترة العنوان */
+    .title{
+      margin:0 0 10px;
+      font-weight:900;
+      letter-spacing:.2px;
+      font-size:18px;
+      color:var(--text);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      text-align:center;
+    }
+
+    /* ✅ بادج سنتر + هوية (Blue→Purple + touch Green) */
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+
+      font-size:12px;
+      font-weight:900;
+      padding:6px 12px;
+      border-radius:999px;
+
+      background: linear-gradient(135deg,
+        rgba(39,52,254,.28),
+        rgba(128,66,255,.22),
+        rgba(31,196,124,.16)
+      );
+      border:1px solid rgba(39,52,254,.35);
+      color:rgba(234,240,255,.94);
+
+      box-shadow:
+        0 10px 24px rgba(39,52,254,.14),
+        0 0 0 1px rgba(255,255,255,.04) inset;
+
+      letter-spacing:.6px;
+    }
+
+    .subtitle{
+      margin:0 0 12px;
+      text-align:center;
+      color:rgba(234,240,255,.6);
+      font-weight:800;
+    }
+
+    .controls{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:10px;
+      align-items:center;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .results-wrap{
+      padding: 14px 18px 18px;
+    }
+
+    .results{
+      background: radial-gradient(900px 200px at 50% 0%, rgba(255,255,255,.06), transparent 65%),
+                  linear-gradient(180deg, rgba(16,31,70,.55), rgba(11,19,48,.35));
+      border:1px solid var(--stroke);
+      border-radius:18px;
+      overflow:hidden;
+    }
+
+    .r-head{
+      display:grid;
+      grid-template-columns: 1.05fr 1fr 1.05fr 1fr 1fr;
+      gap:10px;
+      padding:12px;
+      background: rgba(0,0,0,.10);
+      border-bottom:1px solid var(--stroke);
+    }
+
+    .h-pill{
+      text-align:center;
+      padding:10px 8px;
+      border-radius:999px;
+      background: rgba(10,16,36,.65);
+      border:1px solid rgba(255, 255, 205, 0.71);
+      color: rgba(255, 255, 205, 0.71);
+      font-weight:1000;
+      font-size:13px;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,.06);
+    }
+
+    .r-body{
+      padding: 10px 12px 14px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns: 1.05fr 1fr 1.05fr 1fr 1fr;
+      gap:10px;
+      align-items:center;
+      padding:10px 10px;
+      border-radius:16px;
+
+      background:
+        radial-gradient(600px 120px at 50% 0%, rgba(39,52,254,.06), transparent 60%),
+        rgba(255,255,255,.04);
+
+      border:1px solid rgba(255,255,255,.06);
+      transition:.12s border-color ease, .12s background ease;
+    }
+    .row:hover{
+      border-color: rgba(39,52,254,.18);
+      background:
+        radial-gradient(600px 120px at 50% 0%, rgba(31,196,124,.06), transparent 60%),
+        rgba(255,255,255,.045);
+    }
+
+    .cell{
+      text-align:center;
+      font-weight:1000;
+      line-height:1.15;
+    }
+
+    /* ألوان البيانات (EE + Brand) */
+    .course{ color: var(--rc-gold); font-size:16px; letter-spacing:.35px }
+
+    .date-top{ color: rgba(234,240,255,.92); font-size:15px; opacity:.95 }
+    .date-bot{ color: rgba(31,196,124,.98); font-size:14px; font-weight:1000 }
+
+    .t-top{ color: var(--rc-gold); font-size:15px; letter-spacing:.3px }
+    .t-bot{ color: rgba(255,77,109,.95); font-size:15px; opacity:.95 }
+
+    .duration{ color: rgba(234,240,255,.76); font-size:14px; font-weight:900 }
+    .venue{ color: rgba(278,252,204,.92); font-size:15px }
+
+    .two{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:6px;
+    }
+
+    .empty{
+      padding:18px;
+      text-align:center;
+      color:rgba(234,240,255,.75);
+      font-weight:900;
+    }
+
+    @media (max-width: 560px){
+      body{ padding:12px; }
+      .top{ padding:14px 14px 12px; }
+      .title{ font-size:16px; }
+      .controls{ grid-template-columns: 1fr; }
+
+      .results-wrap{ padding: 12px 14px 14px; }
+
+      .r-head, .row{
+        gap:6px;
+        grid-template-columns: 1.02fr .95fr 1.02fr .95fr .95fr;
+      }
+
+      .h-pill{
+        padding:8px 6px;
+        font-size:12px;
+      }
+
+      .row{
+        padding:10px 8px;
+      }
+
+      .course{ font-size:14px; }
+      .venue{ font-size:13px; }
+      .duration{ font-size:12px; }
+
+      .date-top, .t-top{ font-size:13px; }
+      .date-bot, .t-bot{ font-size:12px; }
+
+      .two{ gap:4px; }
+    }
+
+    @media (max-width: 390px){
+      .r-head, .row{ gap:5px; }
+      .h-pill{ font-size:11px; padding:7px 5px; }
+      .course{ font-size:13px; }
+      .date-top, .t-top{ font-size:12px; }
+      .date-bot, .t-bot{ font-size:11px; }
+      .venue{ font-size:12px; }
+      .duration{ font-size:11px; }
+    }
+
+    /* ==== Expanding Search Button (RTL + Dark Theme) ==== */
+    .search-wrapper{
+      width:52px;
+      height:52px;
+      display:flex;
+      align-items:center;
+      border-radius:999px;
+      background: rgba(255,255,255,.06);
+      border:1px solid var(--stroke);
+      overflow:hidden;
+      transition: width .35s ease, background .2s ease;
+      position:relative;
+      margin: 0 auto;
+    }
+
+    .search-wrapper.active{
+      width:100%;
+      max-width:360px;
+    }
+
+    .search-wrapper input{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      padding-inline:16px 64px;
+      border:none;
+      outline:none;
+      background:transparent;
+      color:var(--text);
+      font-weight:900;
+      font-size:15px;
+      opacity:0;
+      transition: opacity .2s ease;
+    }
+
+    .search-wrapper.active input{
+      opacity:1;
+    }
+
+    .search-btn{
+      width:52px;
+      height:52px;
+      border-radius:50%;
+      border:none;
+      cursor:pointer;
+      background: linear-gradient(180deg, rgba(31,196,124,1), rgba(39,52,254,.9));
+      margin-inline-start:auto;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:
+        0 12px 28px rgba(31,196,124,.25),
+        inset 0 0 0 1px rgba(255,255,255,.15);
+      z-index: 1;
+    }
+
+    .search-btn i{
+      color:#071022;
+      font-size:15px;
+    }
+
+/* ==== Footer / Credit ==== */
+.footer{
+  padding:12px 18px 14px;
+  text-align:center;
+  color:rgba(234,240,255,.55);
+  font-weight:900;
+  font-size:12px;
+  letter-spacing:.2px;
+  border-top:1px solid var(--stroke);
+  background: rgba(0,0,0,.08);
+}
+.footer span{
+  color: rgba(234,240,255,.72);
+}
+
+/* ==== Responsive results layout (keeps the same 5 columns like the screenshot) ==== */
+/* We keep the header pills visible on mobile, and just scale spacing/typography. */
+@media (max-width: 820px){
+  .app{ border-radius:20px; }
+  .r-head, .row{
+    grid-template-columns: 1.05fr 1fr 1.05fr .9fr .9fr;
+  }
+}
+
+@media (max-width: 560px){
+  /* tighter outer spacing so it fills the phone nicely */
+  body{ padding:12px; }
+  .app{ border-radius:18px; }
+  .top{ padding:14px 14px 12px; }
+  .results-wrap{ padding:12px 14px 14px; }
+
+  .r-head{ padding:10px; gap:6px; }
+  .r-body{ padding:10px; gap:8px; }
+  .row{ padding:10px 8px; gap:6px; }
+
+  /* Keep 5 columns, but slightly rebalance to fit */
+  .r-head, .row{
+    grid-template-columns: 1.05fr .95fr 1.05fr .85fr .85fr;
+  }
+
+  .h-pill{ font-size:12px; padding:8px 6px; }
+  .course{ font-size:14px; }
+  .venue{ font-size:13px; }
+  .duration{ font-size:12px; }
+
+  .date-top, .t-top{ font-size:13px; }
+  .date-bot, .t-bot{ font-size:12px; }
+
+  .two{ gap:4px; }
+}
+
+/* ultra small phones: allow horizontal swipe instead of breaking the design */
+@media (max-width: 360px){
+  .results{ overflow-x:auto; -webkit-overflow-scrolling: touch; }
+  .r-head, .r-body{ min-width: 520px; }
+}
+
+  </style>
+</head>
+
+<body>
+  <main class="app">
+    <header class="top">
+      <h1 class="title">
+        جدول الاختبارات
+        <span class="badge"> FINAL 471</span>
+      </h1>
+
+      <div class="subtitle"></div>
+
+      <div class="controls">
+        <div class="search-wrapper" id="searchBox">
+          <input
+            id="studentId"
+            type="search"
+            inputmode="numeric"
+            autocomplete="off"
+            placeholder="أدخل الرقم الأكاديمي"
+          />
+          <button class="search-btn" id="searchBtn" type="button" aria-label="بحث">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <section class="results-wrap">
+      <div class="results">
+        <div class="r-head">
+          <div class="h-pill">رمز المقرر</div>
+          <div class="h-pill">التاريخ</div>
+          <div class="h-pill">الوقت</div>
+          <div class="h-pill">المدة</div>
+          <div class="h-pill">القاعة</div>
+        </div>
+
+        <div class="r-body" id="rows">
+          <div class="empty">ابدأ بإدخال الرقم الأكاديمي للبحث.</div>
+        </div>
+      </div>
+    </section>
+
+<footer class="footer">
+  <span>Designed by alrasasi</span>
+</footer>
+  </main>
+
+  <script>
+    // ✅ Cloudflare Worker API
+    const API_BASE = "https://eec.mohammed-rasasi.workers.dev";
+
+    // Elements
+    const elStudentId = document.getElementById('studentId');
+    const elSearchBtn = document.getElementById('searchBtn');
+    const elRows = document.getElementById('rows');
+    const searchBox = document.getElementById('searchBox');
+
+    // Helpers: Arabic digits -> English digits
+    function convertArabicToEnglishNumbers(str) {
+      const arabic = '٠١٢٣٤٥٦٧٨٩';
+      const english = '0123456789';
+      return String(str || '').split('').map(ch => {
+        const i = arabic.indexOf(ch);
+        return i !== -1 ? english[i] : ch;
+      }).join('');
+    }
+
+    // Translate short day names
+    function translateDayShort(dayShort) {
+      const map = {
+        'Sun':'الأحد','Mon':'الاثنين','Tue':'الثلاثاء','Wed':'الأربعاء',
+        'Thu':'الخميس','Fri':'الجمعة','Sat':'السبت'
+      };
+      return map[dayShort] || dayShort || '';
+    }
+
+    // Parse date in txt: "25-12-2025 (Thu)"
+    function parseTxtDate(dateStr) {
+      const m = String(dateStr || '').match(/(\d{2})-(\d{2})-(\d{4})\s*\((\w+)\)/);
+      if (!m) return null;
+      const dd = m[1], mm = m[2], yyyy = m[3], dayShort = m[4];
+      const ts = new Date(Number(yyyy), Number(mm) - 1, Number(dd)).getTime();
+      return { yyyy, mm, dd, dayShort, ts };
+    }
+
+    function escapeHtml(s){
+      return String(s ?? '')
+        .replace(/&/g,'&amp;')
+        .replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;')
+        .replace(/'/g,'&#039;');
+    }
+
+    function renderEmpty(msg) {
+      elRows.innerHTML = `<div class="empty">${escapeHtml(msg)}</div>`;
+    }
+
+    // ✅ Duration: 1H 30M / 3H / 45M
+    function formatDuration(raw) {
+      if (!raw) return "";
+      const h = String(raw).match(/(\d+)\s*H/i);
+      const m = String(raw).match(/(\d+)\s*M/i);
+
+      const hours = h ? Number(h[1]) : 0;
+      const minutes = m ? Number(m[1]) : 0;
+
+      if (hours && minutes) return `${hours}H ${minutes}M`;
+      if (hours && !minutes) return `${hours}H`;
+      if (!hours && minutes) return `${minutes}M`;
+      return String(raw);
+    }
+
+    // ✅ Time: split start/end
+    function formatTimeRange(raw) {
+      if (!raw) return { from: "", to: "" };
+      const parts = String(raw).split("-").map(p => p.trim());
+      return { from: parts[0] || "", to: parts[1] || "" };
+    }
+
+    function renderRows(records) {
+      if (!records || records.length === 0) {
+        renderEmpty('لم يتم العثور على بيانات لهذا الرقم الأكاديمي.');
+        return;
+      }
+
+      const html = records.map(r => {
+        const d = parseTxtDate(r.dateStr);
+        const mmdd = d ? `${d.mm}/${d.dd}` : (r.dateStr || '');
+        const dayAr = translateDayShort(d?.dayShort || r.dayShort);
+
+        const time = formatTimeRange(r.timeStr);
+        const t1 = time.from;
+        const t2 = time.to;
+
+        return `
+          <div class="row">
+            <div class="cell course" data-label="رمز المقرر">${escapeHtml(r.courseCode)}</div>
+
+            <div class="cell" data-label="التاريخ">
+              <div class="two">
+                <div class="date-top">${escapeHtml(mmdd)}</div>
+                <div class="date-bot">${escapeHtml(dayAr)}</div>
+              </div>
+            </div>
+
+            <div class="cell" data-label="الوقت">
+              <div class="two">
+                <div class="t-top">${escapeHtml(t1)}</div>
+                <div class="t-bot">${escapeHtml(t2)}</div>
+              </div>
+            </div>
+
+            <div class="cell duration" data-label="المدة">${escapeHtml(formatDuration(r.duration))}</div>
+            <div class="cell venue" data-label="القاعة">${escapeHtml(r.venue || '')}</div>
+          </div>
+        `;
+      }).join('');
+
+      elRows.innerHTML = html;
+    }
+
+    // ✅ Search via API
+    async function doSearch() {
+      const cleaned = convertArabicToEnglishNumbers(elStudentId.value).replace(/\D/g,'').trim();
+
+      if (!cleaned) {
+        renderEmpty('الرجاء إدخال الرقم الأكاديمي بشكل صحيح.');
+        return;
+      }
+
+      renderEmpty('جاري البحث...');
+
+      try {
+        const url = `${API_BASE}/exams?studentId=${encodeURIComponent(cleaned)}`;
+        const res = await fetch(url, { cache: 'no-store' });
+
+        const text = await res.text();
+        if (!res.ok) {
+          try {
+            const err = JSON.parse(text);
+            renderEmpty(err.error || text);
+          } catch {
+            renderEmpty(text);
+          }
+          return;
+        }
+
+        const data = JSON.parse(text);
+        renderRows(data.records || []);
+      } catch (err) {
+        console.error(err);
+        renderEmpty('تعذر جلب البيانات. تأكد من رابط الـ API وحاول.');
+      }
+    }
+
+    // Expand on hover
+    searchBox.addEventListener("mouseenter", () => {
+      if (document.activeElement !== elStudentId) {
+        searchBox.classList.add("active");
+      }
+    });
+
+    // Collapse on leave if not focused and empty
+    searchBox.addEventListener("mouseleave", () => {
+      if (document.activeElement !== elStudentId && !elStudentId.value.trim()) {
+        searchBox.classList.remove("active");
+      }
+    });
+
+    // Click expand + focus + search
+    elSearchBtn.addEventListener("click", () => {
+      searchBox.classList.add("active");
+      elStudentId.focus();
+      doSearch();
+    });
+
+    // Keep expanded while focused
+    elStudentId.addEventListener("focus", () => {
+      searchBox.classList.add("active");
+    });
+
+    // Collapse on blur if empty
+    elStudentId.addEventListener("blur", () => {
+      if (!elStudentId.value.trim()) {
+        searchBox.classList.remove("active");
+      }
+    });
+
+    // Enforce numeric input (Arabic -> English)
+    elStudentId.addEventListener('input', (e) => {
+      const v = convertArabicToEnglishNumbers(e.target.value).replace(/\D/g,'');
+      e.target.value = v;
+    });
+
+    // Enter to search
+    elStudentId.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        doSearch();
+      }
+    });
+
+    // Init
+    (function init(){
+      renderEmpty('ابدأ بإدخال الرقم الأكاديمي للبحث.');
+    })();
+  </script>
+</body>
+</html>

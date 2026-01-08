@@ -5,58 +5,259 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>جدول الاختبارات - قسم الهندسة الكهربائية</title>
 
-  <!-- Font (optional) -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" 기억rossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
 
-  <!-- Font Awesome (for search icon) -->
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
   <style>
-    :root{
-      /* Base */
-      --bg0:#060a16;
-      --bg1:#0b1330;
-
-      /* Panels */
-      --panel:#0d1738;
-      --panel2:#101f46;
-
-      /* Strokes */
-      --stroke:rgba(255,255,255,.08);
-      --soft:rgba(255,255,255,.06);
-
-      /* Text */
-      --text:#eaf0ff;
-      --muted:rgba(234,240,255,.65);
-
-      /* Brand-ish palette (Blue / Purple / Green + Gold highlight) */
-      --rc-blue:#0a2e7a;
-      --rc-royal:#2734fe;
-      --rc-purple:#8042ff;
-      --rc-green:#1fc47c;
-      --rc-gold:#dac6b5;
-
-      --shadow: 0 20px 60px rgba(0,0,0,.45);
-    }
-
-    *{box-sizing:border-box}
+    /* ==============================
+       ✅ Prevent unstyled flash
+       ============================== */
     body{
+      opacity:0;
+      transition: opacity .2s ease;
       margin:0;
-      font-family:"Tajawal", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background:
-        radial-gradient(1200px 600px at 70% 0%, rgba(39,52,254,.20), transparent 60%),
-        radial-gradient(900px 520px at 10% 20%, rgba(31,196,124,.10), transparent 55%),
-        linear-gradient(180deg, var(--bg0), #050816 60%, #040610);
-      color:var(--text);
       min-height:100vh;
       display:flex;
       align-items:center;
       justify-content:center;
       padding:18px;
+      background:#050816;
+    }
+    body.loaded{ opacity:1; }
+
+    *{ box-sizing:border-box; margin:0; padding:0; }
+
+    /* =========================================================
+       ✅ Your additions (kept)
+       ========================================================= */
+    .two-line-code{
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      row-gap:0;
+      line-height:.9;
+    }
+    .two-line-code span{
+      line-height:.7;
+      margin-top:-.3em;
+      margin-bottom:-.3em;
+    }
+    .bmc-btn-text{ text-align: justify !important; }
+
+    /* =========================================================
+       ✅ Theme wrapper + themes
+       ========================================================= */
+    .eec-app{
+      width:100%;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      direction:rtl;
+      text-align:right;
     }
 
+    /* =========================
+       THEME 1 (your original)
+       ========================= */
+    .eec-app.theme-1{
+      --bg0:#060a16;
+      --bg1:#0b1330;
+      --panel:#0d1738;
+      --panel2:#101f46;
+      --stroke:rgba(255,255,255,.08);
+      --soft:rgba(255,255,255,.06);
+      --text:#eaf0ff;
+      --muted:rgba(234,240,255,.65);
+      --rc-blue:#0a2e7a;
+      --rc-royal:#2734fe;
+      --rc-purple:#8042ff;
+      --rc-green:#1fc47c;
+      --rc-gold:#dac6b5;
+      --shadow: 0 20px 60px rgba(0,0,0,.45);
+
+      font-family:"Tajawal", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+
+      background:
+        radial-gradient(1200px 600px at 70% 0%, rgba(39,52,254,.20), transparent 60%),
+        radial-gradient(900px 520px at 10% 20%, rgba(31,196,124,.10), transparent 55%),
+        linear-gradient(180deg, var(--bg0), #050816 60%, #040610);
+    }
+
+    /* =========================
+       THEME 2 (Rubik dark)
+       ========================= */
+    .eec-app.theme-2{
+      --bg0:#000;
+      --bg1:#000;
+      --panel:#0f0f10;
+      --panel2:#17171a;
+      --stroke:rgba(255,255,255,.12);
+      --soft:rgba(255,255,255,.08);
+      --text:#ffffff;
+      --muted:rgba(255,255,255,.65);
+
+      --rc-blue:#007BFF;
+      --rc-royal:#007BFF;
+      --rc-purple:#7a46ff;
+      --rc-green:#1fc47c;
+      --rc-gold:#ffd166;
+
+      --shadow: 0 20px 60px rgba(0,0,0,.55);
+
+      font-family:"Rubik", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+
+      background:
+        radial-gradient(1000px 520px at 70% 0%, rgba(0,123,255,.18), transparent 60%),
+        radial-gradient(900px 520px at 15% 15%, rgba(122,70,255,.14), transparent 55%),
+        linear-gradient(180deg, #000, #050505 70%, #000);
+    }
+
+    /* =========================
+       ✅ THEME 3 (your new theme variables)
+       - This is a SAFE integration for your current page.
+       ========================= */
+    .eec-app.theme-3{
+      /* Your variables */
+      --bg-800: #081028;
+      --bg-700: #0a1330;
+      --bg-600: #0b1739;
+      --bg-500: #7e89ac;
+
+      --neutral--colors--400: #aeb9e1;
+      --neutral--colors--300: #d1dbf9;
+      --neutral--colors--200: #d9e1fa;
+      --neutral--colors--100: #ffffff;
+
+      --primary-color-1: #cb3cff;
+      --primary-color-2: #9a91fb;
+      --primary-color-3: #00c2ff;
+      --primary-color-4: #fdb52a;
+      --primary-color-5: #ffb016;
+      --primary-color-6: #ff5a65;
+      --primary-color-7: #05c168;
+
+      --border-color-4: #343b4f;
+      --border-cell-4: 52, 59, 79;
+
+      --gradient--pink: linear-gradient(to bottom right, #cb3cff 20%, #7f25fb 68%);
+
+      /* Map to site tokens */
+      --bg0: var(--bg-800);
+      --bg1: var(--bg-700);
+      --panel: var(--bg-700);
+      --panel2: var(--bg-600);
+      --stroke: rgba(var(--border-cell-4), .9);
+      --soft: rgba(var(--border-cell-4), .35);
+
+      --text: var(--neutral--colors--100);
+      --muted: var(--neutral--colors--400);
+
+      --rc-royal: var(--primary-color-2);
+      --rc-purple: var(--primary-color-1);
+      --rc-green: var(--primary-color-7);
+      --rc-gold: var(--primary-color-4);
+
+      --shadow: 0 20px 60px rgba(0,0,0,.50);
+
+      font-family: "Rubik", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+
+      background:
+        radial-gradient(1000px 520px at 70% 0%, rgba(203,60,255,.18), transparent 60%),
+        radial-gradient(900px 520px at 15% 15%, rgba(0,194,255,.14), transparent 55%),
+        linear-gradient(180deg, var(--bg-800), #060b18 70%, #050814);
+    }
+
+    /* ✅ Theme-3 Light Mode (optional toggle) */
+    .eec-app.theme-3.light-theme{
+      --bg-800: #ffffff;
+      --bg-700: #ffffff;
+      --bg-600: #f8f9fc;
+      --bg-500: #c2c7d6;
+
+      --neutral--colors--400: #4a4a4a;
+      --neutral--colors--300: #2f2f2f;
+      --neutral--colors--200: #1f1f1f;
+      --neutral--colors--100: #404040;
+
+      --primary-color-1: hsl(284, 100%, 75%);
+      --primary-color-2: #9a91fb;
+      --primary-color-3: #00a6d6;
+      --primary-color-4: #fdb52a;
+      --primary-color-5: #ffb016;
+      --primary-color-6: #e53946;
+      --primary-color-7: #05c168;
+
+      --border-color-4: #d0d4e1;
+      --border-cell-4: 208, 212, 225;
+
+      --shadow: 0 20px 60px rgba(10,10,10,.15);
+
+      background:
+        radial-gradient(1000px 520px at 70% 0%, rgba(203,60,255,.10), transparent 60%),
+        radial-gradient(900px 520px at 15% 15%, rgba(0,194,255,.08), transparent 55%),
+        linear-gradient(180deg, #ffffff, #f6f7fb 70%, #ffffff);
+    }
+
+    /* =========================================================
+       Font utility classes from your theme (safe to keep)
+       ========================================================= */
+    .f1{ font-size:24px; line-height:32px; letter-spacing:0 }
+    .f2{ font-size:20px; line-height:22px; letter-spacing:0 }
+    .f3{ font-size:14px; line-height:14px; letter-spacing:0 }
+    .f4{ font-size:12px; line-height:14px; letter-spacing:0 }
+    .f5{ font-size:10px; line-height:14px; letter-spacing:0 }
+
+    /* =========================================================
+       ✅ Theme switch button (your style)
+       ========================================================= */
+    .theme-switch{
+      background: linear-gradient(135deg, #3A57E8, #08B1BA);
+      color:white;
+      border:none;
+      border-radius:20px;
+      width:100%;
+      padding:15px;
+      margin-top:15px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      box-shadow:0 4px 10px rgba(0,0,0,.2);
+      transition: all .3s ease;
+      font-family: inherit;
+      font-weight:700;
+      font-size:1.1rem;
+      gap:10px;
+    }
+    .theme-switch i{ font-size:1.5rem; }
+    .theme-switch:hover{
+      transform:scale(1.06);
+      box-shadow:0 6px 15px rgba(0,0,0,.3);
+    }
+
+    /* Theme 3: give switch a pink glow */
+    .eec-app.theme-3 .theme-switch{
+      background: var(--gradient--pink);
+      box-shadow: 0 8px 18px rgba(203,60,255,.20);
+    }
+    .eec-app.theme-3 .theme-switch:hover{
+      box-shadow: 0 10px 26px rgba(203,60,255,.28);
+    }
+
+    /* =========================================================
+       Existing layout (your design) using vars
+       ========================================================= */
     .app{
       width:min(920px, 100%);
       background: linear-gradient(180deg, rgba(13,23,56,.82), rgba(13,23,56,.72));
@@ -67,14 +268,32 @@
       backdrop-filter: blur(10px);
       margin:0 auto;
     }
+    .eec-app.theme-2 .app{
+      background: linear-gradient(180deg, rgba(15,15,16,.88), rgba(23,23,26,.74));
+    }
+    .eec-app.theme-3 .app{
+      background: linear-gradient(180deg, rgba(11,23,57,.92), rgba(10,19,48,.82));
+      border-color: rgba(var(--border-cell-4), .9);
+    }
+    .eec-app.theme-3.light-theme .app{
+      background: linear-gradient(180deg, rgba(248,249,252,.92), rgba(255,255,255,.82));
+    }
 
     .top{
       padding:18px 18px 14px;
       border-bottom:1px solid var(--stroke);
       background: linear-gradient(180deg, rgba(16,31,70,.55), rgba(13,23,56,0));
     }
+    .eec-app.theme-2 .top{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,0));
+    }
+    .eec-app.theme-3 .top{
+      background: linear-gradient(180deg, rgba(10,19,48,.55), rgba(11,23,57,0));
+    }
+    .eec-app.theme-3.light-theme .top{
+      background: linear-gradient(180deg, rgba(248,249,252,.75), rgba(255,255,255,0));
+    }
 
-    /* سنترة العنوان */
     .title{
       margin:0 0 10px;
       font-weight:900;
@@ -89,17 +308,14 @@
       text-align:center;
     }
 
-    /* ✅ بادج سنتر + هوية (Blue→Purple + touch Green) */
     .badge{
       display:inline-flex;
       align-items:center;
       justify-content:center;
-
       font-size:12px;
       font-weight:900;
       padding:6px 12px;
       border-radius:999px;
-
       background: linear-gradient(135deg,
         rgba(39,52,254,.28),
         rgba(128,66,255,.22),
@@ -107,18 +323,22 @@
       );
       border:1px solid rgba(39,52,254,.35);
       color:rgba(234,240,255,.94);
-
       box-shadow:
         0 10px 24px rgba(39,52,254,.14),
         0 0 0 1px rgba(255,255,255,.04) inset;
-
       letter-spacing:.6px;
+    }
+    .eec-app.theme-3 .badge{
+      background: var(--gradient--pink);
+      border-color: rgba(203,60,255,.45);
+      box-shadow: 0 10px 24px rgba(203,60,255,.18), 0 0 0 1px rgba(255,255,255,.05) inset;
+      color: rgba(255,255,255,.95);
     }
 
     .subtitle{
       margin:0 0 12px;
       text-align:center;
-      color:rgba(234,240,255,.6);
+      color:var(--muted);
       font-weight:800;
     }
 
@@ -131,9 +351,7 @@
       margin: 0 auto;
     }
 
-    .results-wrap{
-      padding: 14px 18px 18px;
-    }
+    .results-wrap{ padding: 14px 18px 18px; }
 
     .results{
       background: radial-gradient(900px 200px at 50% 0%, rgba(255,255,255,.06), transparent 65%),
@@ -141,6 +359,15 @@
       border:1px solid var(--stroke);
       border-radius:18px;
       overflow:hidden;
+    }
+    .eec-app.theme-3 .results{
+      background: radial-gradient(900px 200px at 50% 0%, rgba(255,255,255,.08), transparent 65%),
+                  linear-gradient(180deg, rgba(10,19,48,.55), rgba(11,23,57,.35));
+      border-color: rgba(var(--border-cell-4), .8);
+    }
+    .eec-app.theme-3.light-theme .results{
+      background: radial-gradient(900px 200px at 50% 0%, rgba(0,0,0,.03), transparent 65%),
+                  linear-gradient(180deg, rgba(248,249,252,.75), rgba(255,255,255,.55));
     }
 
     .r-head{
@@ -164,6 +391,17 @@
       box-shadow: inset 0 0 0 1px rgba(0,0,0,.06);
     }
 
+    .eec-app.theme-3 .h-pill{
+      background: rgba(8,16,40,.70);
+      border-color: rgba(203,60,255,.45);
+      color: rgba(209,219,249,.95);
+    }
+    .eec-app.theme-3.light-theme .h-pill{
+      background: rgba(248,249,252,.85);
+      border-color: rgba(208,212,225,1);
+      color: rgba(47,47,47,.95);
+    }
+
     .r-body{
       padding: 10px 12px 14px;
       display:flex;
@@ -178,11 +416,9 @@
       align-items:center;
       padding:10px 10px;
       border-radius:16px;
-
       background:
         radial-gradient(600px 120px at 50% 0%, rgba(39,52,254,.06), transparent 60%),
         rgba(255,255,255,.04);
-
       border:1px solid rgba(255,255,255,.06);
       transition:.12s border-color ease, .12s background ease;
     }
@@ -193,23 +429,43 @@
         rgba(255,255,255,.045);
     }
 
+    .eec-app.theme-3 .row{
+      border-color: rgba(var(--border-cell-4), .85);
+      background:
+        radial-gradient(600px 120px at 50% 0%, rgba(203,60,255,.08), transparent 60%),
+        rgba(255,255,255,.035);
+    }
+    .eec-app.theme-3 .row:hover{
+      border-color: rgba(203,60,255,.30);
+      background:
+        radial-gradient(600px 120px at 50% 0%, rgba(0,194,255,.08), transparent 60%),
+        rgba(255,255,255,.05);
+    }
+    .eec-app.theme-3.light-theme .row{
+      background: rgba(255,255,255,.85);
+      border-color: rgba(var(--border-cell-4), 1);
+    }
+
     .cell{
       text-align:center;
       font-weight:1000;
       line-height:1.15;
     }
 
-    /* ألوان البيانات (EE + Brand) */
     .course{ color: var(--rc-gold); font-size:16px; letter-spacing:.35px }
-
     .date-top{ color: rgba(234,240,255,.92); font-size:15px; opacity:.95 }
     .date-bot{ color: rgba(31,196,124,.98); font-size:14px; font-weight:1000 }
-
     .t-top{ color: var(--rc-gold); font-size:15px; letter-spacing:.3px }
     .t-bot{ color: rgba(255,77,109,.95); font-size:15px; opacity:.95 }
-
     .duration{ color: rgba(234,240,255,.76); font-size:14px; font-weight:900 }
     .venue{ color: rgba(278,252,204,.92); font-size:15px }
+
+    /* Theme-3 typography tuning */
+    .eec-app.theme-3 .date-top{ color: var(--neutral--colors--300); }
+    .eec-app.theme-3 .duration{ color: var(--neutral--colors--400); }
+    .eec-app.theme-3 .venue{ color: var(--neutral--colors--200); }
+    .eec-app.theme-3 .t-top{ color: var(--primary-color-2); }
+    .eec-app.theme-3 .t-bot{ color: var(--primary-color-6); }
 
     .two{
       display:flex;
@@ -221,16 +477,15 @@
     .empty{
       padding:18px;
       text-align:center;
-      color:rgba(234,240,255,.75);
+      color:var(--muted);
       font-weight:900;
     }
 
-    /* ✅ Mobile: نفس شكل الصورة (5 أعمدة) + تصغير أحجام فقط */
+    /* ✅ Mobile: same look (5 columns) */
     @media (max-width: 560px){
-      body{ padding:12px; }
+      .eec-app{ padding:12px; }
       .top{ padding:14px 14px 12px; }
       .title{ font-size:16px; }
-      .controls{ grid-template-columns: 1fr; }
 
       .results-wrap{ padding: 12px 14px 14px; }
 
@@ -239,14 +494,8 @@
         grid-template-columns: 1.02fr .95fr 1.02fr .95fr .95fr;
       }
 
-      .h-pill{
-        padding:8px 6px;
-        font-size:12px;
-      }
-
-      .row{
-        padding:10px 8px;
-      }
+      .h-pill{ padding:8px 6px; font-size:12px; }
+      .row{ padding:10px 8px; }
 
       .course{ font-size:14px; }
       .venue{ font-size:13px; }
@@ -269,7 +518,7 @@
       .duration{ font-size:11px; }
     }
 
-    /* ==== Expanding Search Button (RTL + Dark Theme) ==== */
+    /* ==== Expanding Search Button ==== */
     .search-wrapper{
       width:52px;
       height:52px;
@@ -282,6 +531,13 @@
       transition: width .35s ease, background .2s ease;
       position:relative;
       margin: 0 auto;
+    }
+    .eec-app.theme-3 .search-wrapper{
+      background: rgba(255,255,255,.04);
+      border-color: rgba(var(--border-cell-4), .85);
+    }
+    .eec-app.theme-3.light-theme .search-wrapper{
+      background: rgba(248,249,252,.95);
     }
 
     .search-wrapper.active{
@@ -303,11 +559,11 @@
       font-size:15px;
       opacity:0;
       transition: opacity .2s ease;
+      direction: rtl;
+      text-align: right;
+      font-family: inherit;
     }
-
-    .search-wrapper.active input{
-      opacity:1;
-    }
+    .search-wrapper.active input{ opacity:1; }
 
     .search-btn{
       width:52px;
@@ -325,82 +581,97 @@
         inset 0 0 0 1px rgba(255,255,255,.15);
       z-index: 1;
     }
-
-    .search-btn i{
-      color:#071022;
-      font-size:15px;
+    .eec-app.theme-3 .search-btn{
+      background: var(--gradient--pink);
+      box-shadow:
+        0 12px 28px rgba(203,60,255,.22),
+        inset 0 0 0 1px rgba(255,255,255,.18);
     }
 
-    /* ==== Footer / Credit ==== */
+    .search-btn i{ color:#071022; font-size:15px; }
+    .eec-app.theme-3 .search-btn i{ color:#fff; }
+
+    /* Footer */
     .footer{
       padding:12px 18px 14px;
       text-align:center;
-      color:rgba(234,240,255,.55);
+      color:var(--muted);
       font-weight:900;
       font-size:12px;
       letter-spacing:.2px;
       border-top:1px solid var(--stroke);
       background: rgba(0,0,0,.08);
     }
-    .footer span{
-      color: rgba(234,240,255,.72);
-    }
+    .footer span{ color: rgba(234,240,255,.72); }
+    .eec-app.theme-3 .footer span{ color: var(--neutral--colors--300); }
+    .eec-app.theme-3.light-theme .footer span{ color: var(--neutral--colors--300); }
 
-    /* NOTE:
-       تم حذف بلوك "Mobile: card-style rows..." بالكامل
-       لأنه كان يخفي .r-head ويحوّل .row إلى 2 أعمدة ويغير الهوية في الجوال.
-    */
   </style>
 </head>
 
 <body>
-  <main class="app">
-    <header class="top">
-      <h1 class="title">
-        جدول الاختبارات
-        <span class="badge"> FINAL 471</span>
-      </h1>
+  <!-- ✅ Default theme -->
+  <div class="eec-app theme-1" id="appRoot">
+    <main class="app">
+      <header class="top">
+        <h1 class="title">
+          جدول الاختبارات
+          <span class="badge"> FINAL 471</span>
+        </h1>
 
-      <div class="subtitle"></div>
+        <div class="subtitle"></div>
 
-      <div class="controls">
-        <div class="search-wrapper" id="searchBox">
-          <input
-            id="studentId"
-            type="search"
-            inputmode="numeric"
-            autocomplete="off"
-            placeholder="أدخل الرقم الأكاديمي"
-          />
-          <button class="search-btn" id="searchBtn" type="button" aria-label="بحث">
-            <i class="fa-solid fa-magnifying-glass"></i>
+        <div class="controls">
+          <div class="search-wrapper" id="searchBox">
+            <input
+              id="studentId"
+              type="search"
+              inputmode="numeric"
+              autocomplete="off"
+              placeholder="أدخل الرقم الأكاديمي"
+            />
+            <button class="search-btn" id="searchBtn" type="button" aria-label="بحث">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+          </div>
+
+          <!-- ✅ Theme switch (cycles 1→2→3) -->
+          <button class="theme-switch" id="themeSwitch" type="button" aria-label="تغيير الثيم">
+            <i class="fa-solid fa-moon"></i>
+            <span id="themeLabel">تغيير الثيم</span>
           </button>
         </div>
-      </div>
-    </header>
+      </header>
 
-    <section class="results-wrap">
-      <div class="results">
-        <div class="r-head">
-          <div class="h-pill">رمز المقرر</div>
-          <div class="h-pill">التاريخ</div>
-          <div class="h-pill">الوقت</div>
-          <div class="h-pill">المدة</div>
-          <div class="h-pill">القاعة</div>
+      <section class="results-wrap">
+        <div class="results">
+          <div class="r-head">
+            <div class="h-pill">رمز المقرر</div>
+            <div class="h-pill">التاريخ</div>
+            <div class="h-pill">الوقت</div>
+            <div class="h-pill">المدة</div>
+            <div class="h-pill">القاعة</div>
+          </div>
+
+          <div class="r-body" id="rows">
+            <div class="empty">ابدأ بإدخال الرقم الأكاديمي للبحث.</div>
+          </div>
         </div>
+      </section>
 
-        <div class="r-body" id="rows">
-          <div class="empty">ابدأ بإدخال الرقم الأكاديمي للبحث.</div>
-        </div>
-      </div>
-    </section>
-
-    <footer class="footer">
-      <span>Designed by alrasasi</span>
-    </footer>
-  </main>
+      <footer class="footer">
+        <span>Designed by alrasasi</span>
+      </footer>
+    </main>
+  </div>
 
   <script>
+    // ✅ Mark as loaded to prevent flash
+    window.addEventListener('DOMContentLoaded', () => {
+      document.body.classList.add('loaded');
+      applySavedTheme();
+    });
+
     // ✅ Cloudflare Worker API
     const API_BASE = "https://eec.mohammed-rasasi.workers.dev";
 
@@ -409,6 +680,89 @@
     const elSearchBtn = document.getElementById('searchBtn');
     const elRows = document.getElementById('rows');
     const searchBox = document.getElementById('searchBox');
+
+    // Theme elements
+    const appRoot = document.getElementById('appRoot');
+    const themeSwitch = document.getElementById('themeSwitch');
+    const themeIcon = themeSwitch.querySelector('i');
+    const themeLabel = document.getElementById('themeLabel');
+
+    const THEMES = ['theme-1', 'theme-2', 'theme-3'];
+
+    function getCurrentTheme(){
+      return THEMES.find(t => appRoot.classList.contains(t)) || 'theme-1';
+    }
+
+    function setTheme(themeName){
+      THEMES.forEach(t => appRoot.classList.remove(t));
+      appRoot.classList.add(themeName);
+
+      // Reset theme-3 light mode unless explicitly enabled
+      if (themeName !== 'theme-3') appRoot.classList.remove('light-theme');
+
+      // Icon + label
+      if (themeName === 'theme-1'){
+        themeIcon.className = 'fa-solid fa-moon';
+        themeLabel.textContent = 'ثيم 1 (الأصلي)';
+      } else if (themeName === 'theme-2'){
+        themeIcon.className = 'fa-solid fa-sun';
+        themeLabel.textContent = 'ثيم 2 (Rubik)';
+      } else {
+        themeIcon.className = 'fa-solid fa-wand-magic-sparkles';
+        themeLabel.textContent = appRoot.classList.contains('light-theme')
+          ? 'ثيم 3 (فاتح)'
+          : 'ثيم 3 (داكن)';
+      }
+
+      // Save
+      localStorage.setItem('eec_theme', themeName);
+      localStorage.setItem('eec_theme3_light', appRoot.classList.contains('light-theme') ? '1' : '0');
+    }
+
+    function toggleThemeCycle(){
+      const cur = getCurrentTheme();
+      const idx = THEMES.indexOf(cur);
+      const next = THEMES[(idx + 1) % THEMES.length];
+      setTheme(next);
+    }
+
+    // Long press toggles light mode INSIDE theme-3
+    let pressTimer = null;
+    themeSwitch.addEventListener('pointerdown', () => {
+      pressTimer = setTimeout(() => {
+        if (getCurrentTheme() === 'theme-3') {
+          appRoot.classList.toggle('light-theme');
+          // update label only
+          setTheme('theme-3');
+        }
+      }, 550);
+    });
+    themeSwitch.addEventListener('pointerup', () => {
+      if (pressTimer) clearTimeout(pressTimer);
+    });
+    themeSwitch.addEventListener('pointercancel', () => {
+      if (pressTimer) clearTimeout(pressTimer);
+    });
+
+    // Normal click cycles themes
+    themeSwitch.addEventListener('click', () => {
+      toggleThemeCycle();
+    });
+
+    function applySavedTheme(){
+      const saved = localStorage.getItem('eec_theme');
+      const light3 = localStorage.getItem('eec_theme3_light') === '1';
+
+      if (saved && THEMES.includes(saved)){
+        setTheme(saved);
+        if (saved === 'theme-3' && light3){
+          appRoot.classList.add('light-theme');
+          setTheme('theme-3');
+        }
+      } else {
+        setTheme('theme-1');
+      }
+    }
 
     // Helpers: Arabic digits -> English digits
     function convertArabicToEnglishNumbers(str) {

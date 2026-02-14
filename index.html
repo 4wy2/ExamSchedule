@@ -3,126 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YIC Exam Planner - مخطط الاختبارات</title>
+    <title>YIC Exam Planner | مخطط الاختبارات</title>
     <style>
         :root {
-            --primary: #4f46e5;
-            --bg: #0f172a;
-            --card-bg: #1e293b;
-            --text: #f8fafc;
-            --accent: #22c55e;
-            --danger: #ef4444;
+            --bg-deep: #050b18;
+            --card-bg: rgba(21, 32, 54, 0.8);
+            --accent-cyan: #00f2ff;
+            --accent-yellow: #ffcc00;
+            --accent-pink: #ff2d55;
+            --text-main: #e2e8f0;
         }
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background-color: var(--bg); 
-            color: var(--text);
+
+        body {
+            background: radial-gradient(circle at top right, #1e293b, #050b18);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
             padding: 20px;
-        }
-        .container { max-width: 900px; margin: auto; }
-        
-        header { text-align: center; margin-bottom: 40px; }
-        header h1 { color: var(--primary); font-size: 2rem; }
-
-        .search-box {
-            position: sticky;
-            top: 10px;
-            z-index: 100;
-            background: var(--bg);
-            padding: 10px 0;
+            min-height: 100vh;
         }
 
-        input { 
-            width: 100%; 
-            padding: 15px; 
-            border-radius: 12px;
-            border: 2px solid var(--card-bg);
-            background: var(--card-bg);
-            color: white;
+        .container { max-width: 1000px; margin: auto; }
+
+        header { text-align: center; margin-bottom: 30px; }
+        header h1 { 
+            font-size: 2.5rem; 
+            margin-bottom: 10px;
+            background: linear-gradient(to left, var(--accent-cyan), #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .search-container { margin-bottom: 30px; }
+        input {
+            width: 100%;
+            padding: 18px;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.05);
+            color: #fff;
             font-size: 1.1rem;
+            backdrop-filter: blur(10px);
             outline: none;
             transition: 0.3s;
+            box-sizing: border-box;
         }
-        input:focus { border-color: var(--primary); }
+        input:focus { border-color: var(--accent-cyan); box-shadow: 0 0 15px rgba(0, 242, 255, 0.2); }
 
-        .section-title { margin-top: 40px; border-right: 4px solid var(--primary); padding-right: 15px; }
-
-        /* ستايل الكروت للمواد */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 20px; }
-        .card { 
-            background: var(--card-bg); 
-            padding: 20px; 
-            border-radius: 15px; 
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-            position: relative;
-            transition: transform 0.2s;
-        }
-        .card:hover { transform: translateY(-5px); }
-        .card h3 { margin: 0 0 10px 0; color: var(--primary); }
-        .card p { margin: 5px 0; font-size: 0.9rem; opacity: 0.8; }
-        .card .badge { 
-            display: inline-block; 
-            padding: 4px 8px; 
-            background: #334155; 
-            border-radius: 6px; 
-            font-size: 0.8rem; 
-            margin-top: 10px;
-        }
-
-        button { 
-            width: 100%;
-            margin-top: 15px;
-            cursor: pointer; 
-            background: var(--primary); 
-            color: white; 
-            border: none; 
-            padding: 10px; 
-            border-radius: 8px; 
+        /* تنسيق الجدول مثل الصورة */
+        .table-header {
+            display: grid;
+            grid-template-columns: 2fr 2fr 2fr 1.5fr 2fr;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 50px;
+            margin-bottom: 15px;
+            text-align: center;
             font-weight: bold;
+            color: var(--accent-cyan);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .exam-row {
+            display: grid;
+            grid-template-columns: 2fr 2fr 2fr 1.5fr 2fr;
+            background: var(--card-bg);
+            margin-bottom: 12px;
+            padding: 20px 10px;
+            border-radius: 20px;
+            text-align: center;
+            align-items: center;
+            transition: 0.3s;
+            border: 1px solid rgba(255,255,255,0.05);
+            cursor: pointer;
+        }
+
+        .exam-row:hover {
+            background: rgba(30, 41, 59, 0.9);
+            transform: scale(1.01);
+            border-color: var(--accent-cyan);
+        }
+
+        .code-cell { color: var(--accent-yellow); font-weight: bold; font-size: 1.2rem; }
+        .date-cell { color: var(--accent-cyan); line-height: 1.4; }
+        .time-cell { color: var(--accent-yellow); font-size: 0.95rem; }
+        .duration-cell { font-weight: 500; }
+        .action-cell button {
+            background: transparent;
+            border: 1px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+            padding: 8px 15px;
+            border-radius: 10px;
+            cursor: pointer;
             transition: 0.3s;
         }
-        button:hover { opacity: 0.8; }
-        .remove-btn { background: var(--danger); }
+        .action-cell button:hover { background: var(--accent-cyan); color: #000; }
+        
+        .remove-btn { border-color: var(--accent-pink) !important; color: var(--accent-pink) !important; }
+        .remove-btn:hover { background: var(--accent-pink) !important; color: #fff !important; }
 
-        .empty-state { text-align: center; padding: 40px; opacity: 0.5; }
+        .section-label {
+            margin: 40px 0 20px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-label::after { content: ""; height: 2px; flex: 1; background: rgba(255,255,255,0.1); }
+
+        @media (max-width: 768px) {
+            .table-header { display: none; }
+            .exam-row { 
+                grid-template-columns: 1fr 1fr; 
+                gap: 10px; 
+                text-align: right; 
+                padding: 20px;
+            }
+            .action-cell { grid-column: span 2; }
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <header>
-        <h1>🎓 YIC Exam Planner</h1>
-        <p>ابحث عن موادك ونسق جدول اختباراتك بسهولة</p>
+        <h1>YIC EXAM PLANNER</h1>
     </header>
 
-    <div class="search-box">
-        <input type="text" id="searchInput" placeholder="🔍 ابحث بالرمز أو اسم المادة...">
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="ابحث عن رمز المادة أو اسمها...">
+    </div>
+
+    <div class="table-header">
+        <div>رمز المقرر</div>
+        <div>التاريخ</div>
+        <div>الوقت</div>
+        <div>المدة</div>
+        <div>الإجراء</div>
     </div>
     
-    <div id="searchResults" class="grid"></div>
+    <div id="searchResults"></div>
 
-    <h2 class="section-title">📅 جدولي المختار</h2>
-    <div id="mySchedule" class="grid"></div>
-    <div id="emptyMsg" class="empty-state">لم يتم إضافة مواد بعد..</div>
+    <div class="section-label">📅 جدولي الخاص</div>
+    <div id="mySchedule"></div>
 </div>
 
 <script>
     let allExams = [];
-    let mySchedule = JSON.parse(localStorage.getItem('myExams')) || [];
+    let mySchedule = JSON.parse(localStorage.getItem('myExams_YIC')) || [];
 
-    // 1. جلب البيانات
+    // جلب البيانات
     fetch('exams_data.json')
         .then(res => res.json())
         .then(data => {
-            allExams = data.exams || data; // دعم كلا التنسيقين
+            allExams = data.exams || data;
             renderMySchedule();
         });
 
-    // 2. محرك البحث
+    // محرك البحث
     document.getElementById('searchInput').addEventListener('input', function(e) {
         const term = e.target.value.toUpperCase();
-        if(term.length < 2) {
+        if(term.length < 1) {
             document.getElementById('searchResults').innerHTML = '';
             return;
         }
@@ -131,23 +172,36 @@
             String(ex.Code).toUpperCase().includes(term) || 
             String(ex["Course Name"]).toUpperCase().includes(term)
         );
-        renderResults(filtered.slice(0, 6));
+        renderResults(filtered.slice(0, 8));
     });
+
+    function createRow(ex, isSearch = true) {
+        // تنسيق التاريخ واليوم بشكل منفصل
+        const dateParts = ex["Date (Day)"].split(' ');
+        const dateOnly = dateParts[0];
+        const dayOnly = dateParts[1] || "";
+
+        return `
+            <div class="exam-row">
+                <div class="code-cell">${ex.Code}</div>
+                <div class="date-cell">${dateOnly}<br><small>${dayOnly}</small></div>
+                <div class="time-cell">${ex.Time.replace(' - ', '<br>')}</div>
+                <div class="duration-cell">${ex.Duration || '1H'}</div>
+                <div class="action-cell">
+                    ${isSearch ? 
+                        `<button onclick="addToSchedule('${ex.Code}')">إضافة</button>` : 
+                        `<button class="remove-btn" onclick="removeFromSchedule('${ex.Code}')">حذف</button>`
+                    }
+                </div>
+            </div>
+        `;
+    }
 
     function renderResults(exams) {
         const container = document.getElementById('searchResults');
-        container.innerHTML = exams.map(ex => `
-            <div class="card">
-                <h3>${ex.Code}</h3>
-                <p><strong>${ex["Course Name"]}</strong></p>
-                <p>📅 ${ex["Date (Day)"]}</p>
-                <p>⏰ ${ex.Time}</p>
-                <button onclick="addToSchedule('${ex.Code}')">➕ إضافة للجدول</button>
-            </div>
-        `).join('');
+        container.innerHTML = exams.map(ex => createRow(ex, true)).join('');
     }
 
-    // 3. إدارة الجدول
     window.addToSchedule = function(code) {
         const exam = allExams.find(ex => ex.Code === code);
         if (!mySchedule.find(s => s.Code === code)) {
@@ -162,31 +216,17 @@
     };
 
     function saveAndRender() {
-        localStorage.setItem('myExams', JSON.stringify(mySchedule));
+        localStorage.setItem('myExams_YIC', JSON.stringify(mySchedule));
         renderMySchedule();
     }
 
     function renderMySchedule() {
         const container = document.getElementById('mySchedule');
-        const emptyMsg = document.getElementById('emptyMsg');
-        
         if (mySchedule.length === 0) {
-            emptyMsg.style.display = 'block';
-            container.innerHTML = '';
+            container.innerHTML = '<div style="text-align:center; opacity:0.5;">لا توجد مواد مضافة..</div>';
             return;
         }
-        
-        emptyMsg.style.display = 'none';
-        container.innerHTML = mySchedule.map(ex => `
-            <div class="card" style="border-right: 4px solid var(--accent)">
-                <h3>${ex.Code}</h3>
-                <p><strong>${ex["Course Name"]}</strong></p>
-                <p>📅 ${ex["Date (Day)"]}</p>
-                <p>⏰ ${ex.Time}</p>
-                <div class="badge">⏳ المدة: ${ex.Duration || '1 H'}</div>
-                <button class="remove-btn" onclick="removeFromSchedule('${ex.Code}')">❌ حذف</button>
-            </div>
-        `).join('');
+        container.innerHTML = mySchedule.map(ex => createRow(ex, false)).join('');
     }
 </script>
 

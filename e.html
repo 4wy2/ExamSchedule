@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>مخطط الاختبارات - YIC</title>
+    <style>
+        body { font-family: sans-serif; background-color: #f4f4f9; padding: 20px; }
+        .container { max-width: 800px; margin: auto; }
+        input { width: 100%; padding: 10px; margin-bottom: 20px; box-sizing: border-box; }
+        table { width: 100%; border-collapse: collapse; background: white; margin-bottom: 40px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: right; }
+        th { background-color: #004a99; color: white; }
+        .my-schedule { background-color: #e7f3ff; border: 2px solid #004a99; }
+        button { cursor: pointer; background: #28a745; color: white; border: none; padding: 5px 10px; border-radius: 3px; }
+        .remove-btn { background: #dc3545; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>🔎 ابحث عن موادك</h2>
+    <input type="text" id="searchInput" placeholder="اكتب رمز المادة أو اسمها (مثلاً: GSMA101)...">
+    
+    <table id="resultsTable">
+        <thead>
+            <tr>
+                <th>الرمز</th>
+                <th>المادة</th>
+                <th>التاريخ والوقت</th>
+                <th>إجراء</th>
+            </tr>
+        </thead>
+        <tbody id="resultsBody"></tbody>
+    </table>
+
+    <h2>📅 جدولي الخاص</h2>
+    <table class="my-schedule">
+        <thead>
+            <tr>
+                <th>الرمز</th>
+                <th>المادة</th>
+                <th>التاريخ والوقت</th>
+                <th>حذف</th>
+            </tr>
+        </thead>
+        <tbody id="myScheduleBody"></tbody>
+    </table>
+</div>
+
+<script>
+    let allExams = [];
+    let mySchedule = [];
+
+    // 1. تحميل البيانات من ملف JSON
+    fetch('exams_data.json')
+        .then(response => response.json())
+        .then(data => {
+            allExams = data.exams;
+        });
+
+    // 2. وظيفة البحث والفلترة
+    document.getElementById('searchInput').addEventListener('input', function(e) {
+        const term = e.target.value.toUpperCase();
+        const filtered = allExams.filter(ex => 
+            ex.Code.toUpperCase().includes(term) || 
+            ex["Course Name"].toUpperCase().includes(term)
+        );
+        renderResults(filtered.slice(0, 10)); // عرض أول 10 نتائج فقط للسرعة
+    });
+
+    function renderResults(exams) {
+        const body = document.getElementById('resultsBody');
+        body.innerHTML = exams.map(ex => `
+            <tr>
+                <td>${ex.Code}</td>
+                <td>${ex["Course Name"]}</td>
+                <td>${ex["Date (Day)"]} <br> ${ex.Time}</td>
+                <td><button onclick="addToSchedule('${ex.Code}')">إضافة</button></td>
+            </tr>
+        `).join('');
+    }
+
+    // 3. إدارة الجدول الخاص
+    window.addToSchedule = function(code) {
+        const exam = allExams.find(ex => ex.Code === code);
+        if (!mySchedule.find(s => s.Code === code)) {
+            mySchedule.push(exam);
+            renderMySchedule();
+        }
+    };
+
+    window.removeFromSchedule = function(code) {
+        mySchedule = mySchedule.filter(s => s.Code !== code);
+        renderMySchedule();
+    };
+
+    function renderMySchedule() {
+        const body = document.getElementById('myScheduleBody');
+        body.innerHTML = mySchedule.map(ex => `
+            <tr>
+                <td>${ex.Code}</td>
+                <td>${ex["Course Name"]}</td>
+                <td>${ex["Date (Day)"]} <br> ${ex.Time}</td>
+                <td><button class="remove-btn" onclick="removeFromSchedule('${ex.Code}')">حذف</button></td>
+            </tr>
+        `).join('');
+    }
+</script>
+
+</body>
+</html>

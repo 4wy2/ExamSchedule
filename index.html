@@ -2,107 +2,190 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>مخطط الاختبارات - YIC</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YIC Exam Planner - مخطط الاختبارات</title>
     <style>
-        body { font-family: sans-serif; background-color: #f4f4f9; padding: 20px; }
-        .container { max-width: 800px; margin: auto; }
-        input { width: 100%; padding: 10px; margin-bottom: 20px; box-sizing: border-box; }
-        table { width: 100%; border-collapse: collapse; background: white; margin-bottom: 40px; }
-        th, td { border: 1px solid #ddd; padding: 12px; text-align: right; }
-        th { background-color: #004a99; color: white; }
-        .my-schedule { background-color: #e7f3ff; border: 2px solid #004a99; }
-        button { cursor: pointer; background: #28a745; color: white; border: none; padding: 5px 10px; border-radius: 3px; }
-        .remove-btn { background: #dc3545; }
+        :root {
+            --primary: #4f46e5;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text: #f8fafc;
+            --accent: #22c55e;
+            --danger: #ef4444;
+        }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+        }
+        .container { max-width: 900px; margin: auto; }
+        
+        header { text-align: center; margin-bottom: 40px; }
+        header h1 { color: var(--primary); font-size: 2rem; }
+
+        .search-box {
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+            background: var(--bg);
+            padding: 10px 0;
+        }
+
+        input { 
+            width: 100%; 
+            padding: 15px; 
+            border-radius: 12px;
+            border: 2px solid var(--card-bg);
+            background: var(--card-bg);
+            color: white;
+            font-size: 1.1rem;
+            outline: none;
+            transition: 0.3s;
+        }
+        input:focus { border-color: var(--primary); }
+
+        .section-title { margin-top: 40px; border-right: 4px solid var(--primary); padding-right: 15px; }
+
+        /* ستايل الكروت للمواد */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 20px; }
+        .card { 
+            background: var(--card-bg); 
+            padding: 20px; 
+            border-radius: 15px; 
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            position: relative;
+            transition: transform 0.2s;
+        }
+        .card:hover { transform: translateY(-5px); }
+        .card h3 { margin: 0 0 10px 0; color: var(--primary); }
+        .card p { margin: 5px 0; font-size: 0.9rem; opacity: 0.8; }
+        .card .badge { 
+            display: inline-block; 
+            padding: 4px 8px; 
+            background: #334155; 
+            border-radius: 6px; 
+            font-size: 0.8rem; 
+            margin-top: 10px;
+        }
+
+        button { 
+            width: 100%;
+            margin-top: 15px;
+            cursor: pointer; 
+            background: var(--primary); 
+            color: white; 
+            border: none; 
+            padding: 10px; 
+            border-radius: 8px; 
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        button:hover { opacity: 0.8; }
+        .remove-btn { background: var(--danger); }
+
+        .empty-state { text-align: center; padding: 40px; opacity: 0.5; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>🔎 ابحث عن موادك</h2>
-    <input type="text" id="searchInput" placeholder="اكتب رمز المادة أو اسمها (مثلاً: GSMA101)...">
-    
-    <table id="resultsTable">
-        <thead>
-            <tr>
-                <th>الرمز</th>
-                <th>المادة</th>
-                <th>التاريخ والوقت</th>
-                <th>إجراء</th>
-            </tr>
-        </thead>
-        <tbody id="resultsBody"></tbody>
-    </table>
+    <header>
+        <h1>🎓 YIC Exam Planner</h1>
+        <p>ابحث عن موادك ونسق جدول اختباراتك بسهولة</p>
+    </header>
 
-    <h2>📅 جدولي الخاص</h2>
-    <table class="my-schedule">
-        <thead>
-            <tr>
-                <th>الرمز</th>
-                <th>المادة</th>
-                <th>التاريخ والوقت</th>
-                <th>حذف</th>
-            </tr>
-        </thead>
-        <tbody id="myScheduleBody"></tbody>
-    </table>
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="🔍 ابحث بالرمز أو اسم المادة...">
+    </div>
+    
+    <div id="searchResults" class="grid"></div>
+
+    <h2 class="section-title">📅 جدولي المختار</h2>
+    <div id="mySchedule" class="grid"></div>
+    <div id="emptyMsg" class="empty-state">لم يتم إضافة مواد بعد..</div>
 </div>
 
 <script>
     let allExams = [];
-    let mySchedule = [];
+    let mySchedule = JSON.parse(localStorage.getItem('myExams')) || [];
 
-    // 1. تحميل البيانات من ملف JSON
+    // 1. جلب البيانات
     fetch('exams_data.json')
-        .then(response => response.json())
+        .then(res => res.json())
         .then(data => {
-            allExams = data.exams;
+            allExams = data.exams || data; // دعم كلا التنسيقين
+            renderMySchedule();
         });
 
-    // 2. وظيفة البحث والفلترة
+    // 2. محرك البحث
     document.getElementById('searchInput').addEventListener('input', function(e) {
         const term = e.target.value.toUpperCase();
+        if(term.length < 2) {
+            document.getElementById('searchResults').innerHTML = '';
+            return;
+        }
+
         const filtered = allExams.filter(ex => 
-            ex.Code.toUpperCase().includes(term) || 
-            ex["Course Name"].toUpperCase().includes(term)
+            String(ex.Code).toUpperCase().includes(term) || 
+            String(ex["Course Name"]).toUpperCase().includes(term)
         );
-        renderResults(filtered.slice(0, 10)); // عرض أول 10 نتائج فقط للسرعة
+        renderResults(filtered.slice(0, 6));
     });
 
     function renderResults(exams) {
-        const body = document.getElementById('resultsBody');
-        body.innerHTML = exams.map(ex => `
-            <tr>
-                <td>${ex.Code}</td>
-                <td>${ex["Course Name"]}</td>
-                <td>${ex["Date (Day)"]} <br> ${ex.Time}</td>
-                <td><button onclick="addToSchedule('${ex.Code}')">إضافة</button></td>
-            </tr>
+        const container = document.getElementById('searchResults');
+        container.innerHTML = exams.map(ex => `
+            <div class="card">
+                <h3>${ex.Code}</h3>
+                <p><strong>${ex["Course Name"]}</strong></p>
+                <p>📅 ${ex["Date (Day)"]}</p>
+                <p>⏰ ${ex.Time}</p>
+                <button onclick="addToSchedule('${ex.Code}')">➕ إضافة للجدول</button>
+            </div>
         `).join('');
     }
 
-    // 3. إدارة الجدول الخاص
+    // 3. إدارة الجدول
     window.addToSchedule = function(code) {
         const exam = allExams.find(ex => ex.Code === code);
         if (!mySchedule.find(s => s.Code === code)) {
             mySchedule.push(exam);
-            renderMySchedule();
+            saveAndRender();
         }
     };
 
     window.removeFromSchedule = function(code) {
         mySchedule = mySchedule.filter(s => s.Code !== code);
-        renderMySchedule();
+        saveAndRender();
     };
 
+    function saveAndRender() {
+        localStorage.setItem('myExams', JSON.stringify(mySchedule));
+        renderMySchedule();
+    }
+
     function renderMySchedule() {
-        const body = document.getElementById('myScheduleBody');
-        body.innerHTML = mySchedule.map(ex => `
-            <tr>
-                <td>${ex.Code}</td>
-                <td>${ex["Course Name"]}</td>
-                <td>${ex["Date (Day)"]} <br> ${ex.Time}</td>
-                <td><button class="remove-btn" onclick="removeFromSchedule('${ex.Code}')">حذف</button></td>
-            </tr>
+        const container = document.getElementById('mySchedule');
+        const emptyMsg = document.getElementById('emptyMsg');
+        
+        if (mySchedule.length === 0) {
+            emptyMsg.style.display = 'block';
+            container.innerHTML = '';
+            return;
+        }
+        
+        emptyMsg.style.display = 'none';
+        container.innerHTML = mySchedule.map(ex => `
+            <div class="card" style="border-right: 4px solid var(--accent)">
+                <h3>${ex.Code}</h3>
+                <p><strong>${ex["Course Name"]}</strong></p>
+                <p>📅 ${ex["Date (Day)"]}</p>
+                <p>⏰ ${ex.Time}</p>
+                <div class="badge">⏳ المدة: ${ex.Duration || '1 H'}</div>
+                <button class="remove-btn" onclick="removeFromSchedule('${ex.Code}')">❌ حذف</button>
+            </div>
         `).join('');
     }
 </script>

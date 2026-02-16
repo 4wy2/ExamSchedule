@@ -7,178 +7,170 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;500;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.7/dayjs.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.7/plugin/customParseFormat.min.js"></script>
 
     <style>
-        :root { --primary: #8042ff; --accent: #1fc47c; --danger: #ff4d6d; --bg: #050816; }
-        body { margin: 0; background: var(--bg); font-family: 'Tajawal', sans-serif; color: white; overflow-x: hidden; }
+        :root { 
+            --primary: #8042ff; 
+            --accent: #1fc47c; 
+            --danger: #ff4d6d; 
+            --bg: #050816; 
+            --card-bg: #0d1738; /* لون البطاقة من تصميمك */
+        }
         
-        .bg-blobs { position: fixed; width: 100vw; height: 100vh; z-index: -1; overflow: hidden; }
-        .blob { position: absolute; filter: blur(80px); border-radius: 50%; opacity: 0.1; animation: move 20s infinite alternate; }
-        @keyframes move { from { transform: translate(0, 0); } to { transform: translate(100px, 100px); } }
+        body { 
+            margin: 0; 
+            background: var(--bg); 
+            font-family: 'Tajawal', sans-serif; 
+            color: white; 
+            padding: 10px;
+        }
 
-        .app { width: min(1000px, 98%); margin: 15px auto; background: rgba(13, 23, 56, 0.7); backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.1); border-radius: 25px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.6); }
+        .app { 
+            max-width: 1000px; 
+            margin: auto; 
+        }
 
-        .search-wrapper { padding: 30px 15px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .search-wrapper h2 { font-weight: 900; font-size: 24px; margin-bottom: 15px; }
-        .search-wrapper input { width: 100%; max-width: 500px; padding: 14px 20px; border-radius: 50px; border: 2px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.4); color: white; outline: none; font-family: inherit; font-size: 15px; transition: 0.3s; box-sizing: border-box; }
+        .section-title { 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            padding: 15px 5px; 
+            font-size: 18px; 
+            font-weight: 900; 
+            color: #b794ff;
+        }
 
-        .section-title { padding: 20px 15px 10px; font-size: 14px; color: var(--primary); font-weight: 900; display: flex; align-items: center; gap: 10px; }
-        .section-title::after { content: ""; flex: 1; height: 1px; background: rgba(255,255,255,0.1); }
-
-        /* حاوية الصف - مرنة جداً */
+        /* حاوية الصف - مصممة لتكون "جدول مرن" في الجوال */
         .row { 
             display: flex; 
             flex-direction: row; 
-            justify-content: space-between; 
             align-items: center; 
-            padding: 15px; 
-            margin: 8px 10px; 
-            background: rgba(255,255,255,0.03); 
-            border-radius: 15px; 
-            border: 1px solid rgba(255,255,255,0.05); 
-            gap: 10px;
-            transition: 0.3s;
+            justify-content: space-between;
+            background: var(--card-bg); 
+            border-radius: 20px; 
+            padding: 12px 8px; 
+            margin-bottom: 12px; 
+            border: 1px solid rgba(255,255,255,0.05);
+            gap: 5px; /* تقليل المسافات ليناسب الشاشة */
         }
 
-        /* تنسيق المجموعة (العنوان الصغير + القيمة) */
-        .data-item { display: flex; flex-direction: column; align-items: center; text-align: center; flex: 1; }
-        .data-item .caption { font-size: 9px; opacity: 0.5; font-weight: bold; margin-bottom: 4px; color: var(--primary); text-transform: uppercase; }
+        /* كل عمود بيانات */
+        .data-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            flex: 1; /* توزيع متساوي */
+            min-width: 0; /* لمنع خروج النص */
+        }
+
+        /* العناوين التوضيحية (الزرقاء في صورتك) */
+        .caption {
+            font-size: 10px;
+            color: #5d78ff; /* لون العناوين التوضيحية */
+            font-weight: bold;
+            margin-bottom: 6px;
+            white-space: nowrap;
+        }
+
+        /* القيم الأساسية */
+        .value {
+            font-size: 13px;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.2;
+        }
+
+        /* تمييز المادة باللون الأصفر */
+        .course-code { color: #ffd166; font-size: 14px; }
         
-        .info-group { flex: 1.5; align-items: flex-start; text-align: right; } /* اسم المادة والرمز دائماً لليمين */
-        .info-group .label { font-weight: 900; color: #ffd166; font-size: clamp(13px, 4vw, 16px); }
-        .info-group .sub { font-size: 10px; opacity: 0.6; }
+        /* تمييز الوقت باللون الأحمر/الوردي */
+        .time-value { color: var(--danger); font-size: 12px; }
 
-        .val-text { font-weight: 800; font-size: clamp(11px, 3.5vw, 14px); white-space: nowrap; }
-        .day-text { font-size: 9px; color: var(--accent); }
+        /* عمود الأزرار */
+        .actions {
+            display: flex;
+            gap: 5px;
+            padding-right: 5px;
+        }
 
-        .actions { display: flex; gap: 6px; flex: 0.8; justify-content: flex-end; }
-        .btn-action { border: none; width: 34px; height: 34px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; }
-        .btn-save { background: rgba(255, 77, 109, 0.15); color: var(--danger); }
-        .btn-save.saved { background: var(--danger); color: white; }
-        .btn-cal { background: rgba(31, 196, 124, 0.1); color: var(--accent); }
+        .btn-action {
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            cursor: pointer;
+        }
 
-        @media (max-width: 600px) {
-            .row { padding: 12px 8px; gap: 5px; }
-            .actions { flex-direction: column; gap: 4px; flex: 0.3; }
-            .btn-action { width: 30px; height: 30px; font-size: 12px; }
-            .data-item .caption { font-size: 8px; }
+        .btn-del { background: #ff4d6d; color: white; }
+        .btn-cal { background: #1a2c38; color: #1fc47c; border: 1px solid #1fc47c; }
+
+        /* لمسة إضافية للشاشات الصغيرة جداً */
+        @media (max-width: 400px) {
+            .value { font-size: 11px; }
+            .caption { font-size: 9px; }
+            .btn-action { width: 30px; height: 30px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-blobs">
-        <div class="blob" style="width:400px; height:400px; background:var(--primary); top:-100px; right:-100px;"></div>
-    </div>
-
     <main class="app">
-        <div class="search-wrapper">
-            <h2>جداول YIC الذكية</h2>
-            <input id="studentId" type="text" placeholder="ابحث عن مادة..." autocomplete="off">
+        <div class="section-title">
+             <i class="fa fa-star" style="color:#ffd166"></i> جدولي الشخصي
         </div>
 
-        <div id="myScheduleSection" style="display:none;">
-            <div class="section-title"><i class="fa fa-star" style="color:#ffd166"></i> جدولي الشخصي</div>
-            <div id="myRows"></div>
-        </div>
-
-        <div class="section-title"><i class="fa fa-search"></i> نتائج البحث</div>
-        <div id="searchRows"></div>
-    </main>
-
-    <script>
-        dayjs.extend(window.dayjs_plugin_customParseFormat);
-        let allExams = [];
-        let myExams = JSON.parse(localStorage.getItem('yic_saved_exams')) || [];
-
-        async function init() {
-            try {
-                const res = await fetch('exams_data.json?v=' + Date.now());
-                const data = await res.json();
-                allExams = data.exams_list;
-                syncMyExams();
-                renderMySchedule();
-            } catch(e) { console.error("Load Error"); }
-        }
-
-        function syncMyExams() {
-            myExams = myExams.map(old => allExams.find(n => n.code === old.code) || old);
-            localStorage.setItem('yic_saved_exams', JSON.stringify(myExams));
-        }
-
-        function createRow(ex, isSaved) {
-            const dateParts = ex.date.split(' ');
-            const row = document.createElement('div');
-            row.className = 'row';
-            row.innerHTML = `
-                <div class="data-item info-group">
-                    <span class="caption">المادة</span>
-                    <span class="label">${ex.code}</span>
-                    <span class="sub">${ex.course_name}</span>
+        <div id="scheduleContainer">
+            <div class="row">
+                <div class="data-column" style="flex: 1.2;">
+                    <div class="caption">المادة</div>
+                    <div class="value course-code">EE 301</div>
                 </div>
 
-                <div class="data-item">
-                    <span class="caption">التاريخ</span>
-                    <span class="val-text">${dateParts[0]}</span>
-                    <span class="day-text">(${dateParts[1] || ''})</span>
+                <div class="data-column">
+                    <div class="caption">التاريخ</div>
+                    <div class="value">17-02-2026</div>
+                    <div class="value" style="font-size: 9px; color: var(--accent);">(Sun)</div>
                 </div>
 
-                <div class="data-item">
-                    <span class="caption">الوقت</span>
-                    <span class="val-text" style="color:var(--danger)">${ex.time}</span>
+                <div class="data-column" style="flex: 1.5;">
+                    <div class="caption">الوقت</div>
+                    <div class="value time-value">09:40 AM</div>
+                    <div class="value time-value" style="font-size: 9px; opacity: 0.7;">10:40 AM</div>
                 </div>
 
-                <div class="data-item">
-                    <span class="caption">المدة</span>
-                    <span class="val-text">${ex.duration}</span>
+                <div class="data-column">
+                    <div class="caption">المدة</div>
+                    <div class="value">1 H 30 M</div>
                 </div>
 
                 <div class="actions">
-                    <button class="btn-action btn-cal" onclick="addToCal('${ex.code}','${ex.date}')"><i class="fa fa-calendar-plus"></i></button>
-                    <button class="btn-action btn-save ${isSaved ? 'saved' : ''}" onclick="toggleSave('${ex.code}')">
-                        <i class="fa ${isSaved ? 'fa-trash-can' : 'fa-bookmark'}"></i>
-                    </button>
+                    <button class="btn-action btn-cal"><i class="fa fa-calendar-plus"></i></button>
+                    <button class="btn-action btn-del"><i class="fa fa-trash"></i></button>
                 </div>
-            `;
-            return row;
-        }
+            </div>
+            
+            <div class="row">
+                <div class="data-column" style="flex: 1.2;"><div class="caption">المادة</div><div class="value course-code">GSMA101</div></div>
+                <div class="data-column">
+                    <div class="caption">التاريخ</div>
+                    <div class="value">29-03-2026</div>
+                    <div class="value" style="font-size: 9px; color: var(--accent);">(Sun)</div>
+                </div>
+                <div class="data-column" style="flex: 1.5;"><div class="caption">الوقت</div><div class="value time-value">09:40 AM</div><div class="value time-value" style="font-size: 9px; opacity: 0.7;">10:40 AM</div></div>
+                <div class="data-column"><div class="caption">المدة</div><div class="value">1 H 30 M</div></div>
+                <div class="actions">
+                    <button class="btn-action btn-cal"><i class="fa fa-calendar-plus"></i></button>
+                    <button class="btn-action btn-del"><i class="fa fa-trash"></i></button>
+                </div>
+            </div>
 
-        function renderMySchedule() {
-            const container = document.getElementById('myRows');
-            const section = document.getElementById('myScheduleSection');
-            if (myExams.length === 0) { section.style.display = 'none'; return; }
-            section.style.display = 'block';
-            container.innerHTML = '';
-            myExams.sort((a,b) => dayjs(a.date.split(' ')[0], 'DD-MM-YYYY') - dayjs(b.date.split(' ')[0], 'DD-MM-YYYY'))
-                   .forEach(ex => container.appendChild(createRow(ex, true)));
-        }
+        </div>
+    </main>
 
-        function toggleSave(code) {
-            const index = myExams.findIndex(e => e.code === code);
-            if (index > -1) myExams.splice(index, 1);
-            else myExams.push(allExams.find(e => e.code === code));
-            localStorage.setItem('yic_saved_exams', JSON.stringify(myExams));
-            renderMySchedule();
-            doSearch();
-        }
-
-        function doSearch() {
-            const q = document.getElementById('studentId').value.trim().toUpperCase();
-            const container = document.getElementById('searchRows');
-            if (!q) { container.innerHTML = ''; return; }
-            const filtered = allExams.filter(e => e.code.includes(q) || e.course_name.toUpperCase().includes(q));
-            container.innerHTML = '';
-            filtered.forEach(ex => container.appendChild(createRow(ex, myExams.some(s => s.code === ex.code))));
-        }
-
-        function addToCal(code, dateStr) {
-            const d = dateStr.split(' ')[0].split('-').reverse().join('');
-            window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=اختبار ${code}&dates=${d}/${d}`, '_blank');
-        }
-
-        document.getElementById('studentId').addEventListener('input', doSearch);
-        init();
-    </script>
 </body>
 </html>

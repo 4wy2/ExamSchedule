@@ -28,21 +28,31 @@
         
         /* تصميم رأس الجدول */
         .table-header { 
-            display: grid; 
-            grid-template-columns: 1.5fr 1fr 1fr 0.6fr 0.4fr; 
-            gap: 10px; 
-            padding: 12px 35px; 
-            background: rgba(255,255,255,0.05);
-            margin: 0 15px;
-            border-radius: 10px;
-            font-size: 11px;
-            font-weight: bold;
-            color: #aaa;
-            text-transform: uppercase;
-        }
+    display: grid; 
+    grid-template-columns: 1.5fr 1fr 1fr 0.6fr 0.4fr; 
+    gap: 10px; 
+    padding: 12px 35px; 
+    background: rgba(255,255,255,0.05);
+    margin: 0 15px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 800;
+    color: rgba(255,255,255,0.4);
+    text-align: center; /* لضمان توسط العناوين */
+}
 
-        .row { display: grid; grid-template-columns: 1.5fr 1fr 1fr 0.6fr 0.4fr; gap: 10px; padding: 20px; margin: 8px 15px; background: rgba(255,255,255,0.03); border-radius: 18px; align-items: center; border: 1px solid rgba(255,255,255,0.05); }
-        .info-group .label { font-weight: 900; color: #ffd166; font-size: 16px; }
+/* لتعديل محاذاة أول عنوان "المادة" وآخر عنوان "حفظ" */
+.table-header div:first-child { text-align: right; }
+.table-header div:last-child { text-align: left; }
+
+.row {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 0.6fr 0.4fr;
+    align-items: center; /* سنترة العناصر عمودياً */
+    text-align: center;  /* سنترة النصوص */
+    padding: 15px 25px;
+    /* ... بقية التنسيقات ... */
+}        .info-group .label { font-weight: 900; color: #ffd166; font-size: 16px; }
         .time-badge { color: var(--danger); font-weight: 800; font-size: 13px; }
         .actions { display: flex; justify-content: flex-end; }
         .btn-action { border: none; width: 38px; height: 38px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
@@ -64,29 +74,39 @@
         <div class="blob" style="width:400px; height:400px; background:var(--accent); bottom:-100px; left:-50px;"></div>
     </div>
 
-    <main class="app">
-        <div id="countdown" class="countdown-bar"></div>
-        <div class="search-wrapper">
-            <h2>جداول YIC الذكية <span style="font-size: 12px; background: var(--primary); padding: 2px 8px; border-radius: 6px;">PRO</span></h2>
-            <input id="searchInput" type="text" placeholder="ابحث مثلاً: MATH 101 أو Calculus...">
-        </div>
+   <main class="app">
+    <div id="countdown" class="countdown-bar"></div>
+    
+    <div class="search-wrapper">
+        <h2 style="letter-spacing: -1px;">جداول YIC الذكية <span style="font-size: 10px; background: var(--primary); padding: 3px 10px; border-radius: 8px; vertical-align: middle;">PRO</span></h2>
+        <input id="searchInput" type="text" placeholder="ابحث برمز المادة أو اسمها (مثلاً: MATH)...">
+    </div>
 
-        <div id="myScheduleSection" style="display:none;">
-            <div class="section-title"><i class="fa fa-star" style="color:#ffd166"></i> جدولك الشخصي</div>
-            <div class="table-header">
-                <div>المادة</div><div>التاريخ</div><div>الوقت</div><div>المدة</div><div style="text-align:left">حفظ</div>
-            </div>
-            <div id="myRows"></div>
+    <div id="myScheduleSection" style="display:none; margin-bottom: 20px;">
+        <div class="section-title">
+            <i class="fa-solid fa-star-half-stroke" style="color:#ffd166"></i> 
+            جدولك الشخصي
         </div>
+        <div class="table-header">
+            <div>المادة</div><div>التاريخ</div><div>الوقت</div><div>المدة</div><div>حفظ</div>
+        </div>
+        <div id="myRows"></div>
+    </div>
 
-        <div class="section-title"><i class="fa fa-search"></i> نتائج البحث</div>
-        <div id="searchHeader" class="table-header" style="display:none;">
-            <div>المادة</div><div>التاريخ</div><div>الوقت</div><div>المدة</div><div style="text-align:left">حفظ</div>
+    <div class="section-title">
+        <i class="fa-solid fa-magnifying-glass"></i> 
+        نتائج البحث
+    </div>
+    <div id="searchHeader" class="table-header" style="display:none;">
+        <div>المادة</div><div>التاريخ</div><div>الوقت</div><div>المدة</div><div>حفظ</div>
+    </div>
+    <div id="searchRows">
+        <div style="text-align: center; padding: 60px; opacity: 0.3;">
+            <i class="fa-solid fa-keyboard" style="display: block; font-size: 30px; margin-bottom: 10px;"></i>
+            ابدأ البحث الآن عن اختبارك
         </div>
-        <div id="searchRows">
-            <div style="text-align: center; padding: 60px; opacity: 0.3;">جاري تحميل البيانات...</div>
-        </div>
-    </main>
+    </div>
+</main>
 
     <script>
         let allExams = [];
@@ -113,8 +133,6 @@
     const dateNum = dateParts[0];
     const dayName = dateParts[1] ? dateParts[1].replace(/[()]/g, '') : '';
 
-    // معالجة الوقت لفصل البداية عن النهاية
-    // نفترض أن الوقت يأتي بتنسيق مثل: 08:00 AM - 10:00 AM
     const timeParts = ex.time.split('-');
     const startTime = timeParts[0] ? timeParts[0].trim() : ex.time;
     const endTime = timeParts[1] ? timeParts[1].trim() : '';
@@ -123,49 +141,39 @@
     const timeColor = isPM ? '#ff9f43' : '#00d2d3';
 
     row.innerHTML = `
-        <div class="info-group">
-            <span class="label" style="color: #ffd166; font-size: 17px; font-weight: 900;">${ex.code}</span>
-            <span class="sub" style="display:block; font-size:11px; opacity:0.5; margin-top:2px;">
-                ${ex.course_name}
+        <div class="info-group" style="text-align: right;">
+            <span class="label" style="color: #ffd166; font-size: 17px; font-weight: 900; display: block;">${ex.code}</span>
+            <span class="sub" style="font-size: 10px; opacity: 0.5; font-weight: 300;">${ex.course_name}</span>
+        </div>
+
+        <div class="date-box">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+                <div style="text-align: left;">
+                    <b style="display: block; font-size: 14px; letter-spacing: 0.5px;">${dateNum}</b>
+                    <small style="font-size: 10px; color: var(--accent); font-weight: 800; display: block; text-align: right;">${dayName}</small>
+                </div>
+                <div style="width: 3px; height: 28px; background: var(--accent); border-radius: 2px;"></div>
+            </div>
+        </div>
+
+        <div class="time-box">
+            <div style="display: inline-block; text-align: center; background: rgba(255,255,255,0.02); padding: 4px 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.05);">
+                <div style="font-size: 13px; font-weight: 800; color: ${timeColor};">${startTime}</div>
+                ${endTime ? `<div style="font-size: 9px; opacity: 0.3; margin-top: -1px; font-weight: 400;">${endTime}</div>` : ''}
+            </div>
+        </div>
+
+        <div class="duration-box" style="text-align: center;">
+            <span style="font-size: 12px; font-weight: 600; display: block;">
+                ${ex.duration.replace(' H ', 'س ').replace(' M', 'د')}
+            </span>
+            <span style="font-size: 9px; opacity: 0.4; display: flex; align-items: center; justify-content: center; gap: 3px;">
+                <i class="fa-solid fa-users" style="font-size: 7px;"></i> ${ex.actual_size}
             </span>
         </div>
 
-        <div class="date-box" style="display: flex; align-items: center;">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <div style="width: 3px; height: 30px; background: var(--accent); border-radius: 4px;"></div>
-                <div>
-                    <b style="display: block; font-size: 14px;">${dateNum}</b>
-                    <small style="font-size: 10px; color: var(--accent); font-weight: 800;">${dayName}</small>
-                </div>
-            </div>
-        </div>
-
-        <div class="time-box" style="display: flex; align-items: center; justify-content: center;">
-            <div style="text-align: center; background: rgba(255,255,255,0.03); padding: 5px 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); min-width: 80px;">
-                <div style="font-size: 14px; font-weight: 900; color: ${timeColor}; letter-spacing: 0.5px;">
-                    ${startTime}
-                </div>
-                ${endTime ? `
-                <div style="font-size: 10px; opacity: 0.4; margin-top: -2px; font-weight: 500; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 2px;">
-                    إلى ${endTime}
-                </div>` : ''}
-            </div>
-        </div>
-
-        <div class="duration-box" style="display: flex; align-items: center; justify-content: center;">
-            <div style="text-align: center;">
-                <span style="font-size: 12px; color: #fff; font-weight: 500; display: block;">
-                    ${ex.duration.replace(' H ', 'س ').replace(' M', 'د')}
-                </span>
-                <span style="font-size: 9px; opacity: 0.4;">
-                    <i class="fa-solid fa-users" style="font-size: 8px;"></i> ${ex.actual_size}
-                </span>
-            </div>
-        </div>
-
-        <div class="actions" style="display: flex; align-items: center; justify-content: flex-end;">
-            <button class="btn-action btn-save ${isSaved ? 'saved' : ''}" 
-                    onclick="toggleSave('${ex.code}')">
+        <div class="actions">
+            <button class="btn-action btn-save ${isSaved ? 'saved' : ''}" onclick="toggleSave('${ex.code}')">
                 <i class="fa-solid ${isSaved ? 'fa-xmark' : 'fa-plus'}"></i>
             </button>
         </div>

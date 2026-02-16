@@ -7,20 +7,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;500;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.7/dayjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <style>
         :root { --primary: #8042ff; --accent: #1fc47c; --danger: #ff4d6d; }
-        body { margin: 0; background: #050816; font-family: 'Tajawal', sans-serif; color: white; }
+        body { margin: 0; background: #050816; font-family: 'Tajawal', sans-serif; color: white; min-height: 100vh; }
         
         .bg-blobs { position: fixed; width: 100vw; height: 100vh; z-index: -1; overflow: hidden; }
         .blob { position: absolute; filter: blur(80px); border-radius: 50%; opacity: 0.1; animation: move 20s infinite alternate; }
         @keyframes move { from { transform: translate(0, 0); } to { transform: translate(100px, 100px); } }
 
-        .app { width: min(920px, 95%); margin: 20px auto; background: rgba(13, 23, 56, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 25px; overflow: hidden; }
+        .app { width: min(920px, 95%); margin: 20px auto; background: rgba(13, 23, 56, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 25px; overflow: hidden; padding-bottom: 20px; }
 
-        .countdown-bar { background: linear-gradient(90deg, var(--danger), var(--primary)); padding: 12px; text-align: center; font-weight: bold; display: none; }
+        .countdown-bar { background: linear-gradient(90deg, var(--danger), var(--primary)); padding: 12px; text-align: center; font-weight: bold; display: none; font-size: 14px; }
 
-        /* الأقسام الجديدة */
         .section-title { padding: 15px 20px 5px; font-size: 14px; color: var(--primary); font-weight: 800; display: flex; align-items: center; gap: 10px; }
         .section-title::after { content: ""; flex: 1; height: 1px; background: rgba(255,255,255,0.1); }
 
@@ -31,11 +31,12 @@
         .btn-save { background: rgba(128, 66, 255, 0.2); color: #b794ff; }
         .btn-save.saved { background: var(--primary); color: white; }
         .btn-cal { background: rgba(31, 196, 124, 0.2); color: var(--accent); }
+        .btn-download { background: #ffffff10; color: white; border: 1px solid #ffffff20; margin-right: auto; padding: 5px 15px; }
 
         .search-wrapper { padding: 20px; text-align: center; }
-        .search-wrapper input { width: 100%; max-width: 400px; padding: 12px 20px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.2); color: white; outline: none; }
+        .search-wrapper input { width: 100%; max-width: 400px; padding: 12px 20px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.2); color: white; outline: none; font-family: inherit; }
 
-        .badge { font-size: 10px; padding: 2px 8px; border-radius: 5px; background: rgba(255,255,255,0.1); }
+        .badge { font-size: 10px; padding: 2px 8px; border-radius: 5px; background: rgba(255,255,255,0.1); white-space: nowrap; }
         
         @media (max-width: 600px) {
             .row { grid-template-columns: 1.2fr 1fr 0.5fr; }
@@ -54,18 +55,24 @@
         <div id="countdown" class="countdown-bar"></div>
 
         <div class="search-wrapper">
-            <h2 style="margin-bottom: 15px; font-weight: 900;">جداول YIC الذكية <span class="badge">PRO</span></h2>
+            <h2 style="margin-bottom: 5px; font-weight: 900;">جداول YIC الذكية</h2>
+            <p style="font-size: 11px; opacity: 0.5; margin-bottom: 20px;">ابحث عن موادك وخصص جدولك بضغطة زر</p>
             <input id="studentId" type="text" placeholder="ابحث برمز المادة أو اسمها...">
         </div>
 
         <div id="myScheduleSection" style="display:none;">
-            <div class="section-title"><i class="fa fa-star"></i> جدولي الشخصي</div>
+            <div class="section-title">
+                <i class="fa fa-star"></i> جدولي الشخصي
+                <button class="btn-action btn-download" onclick="downloadSchedule()">
+                    <i class="fa fa-camera"></i> حفظ كصورة
+                </button>
+            </div>
             <div id="myRows"></div>
         </div>
 
         <div class="section-title"><i class="fa fa-search"></i> نتائج البحث</div>
         <div id="searchRows">
-            <div style="text-align: center; padding: 40px; opacity: 0.4;">ابحث لعرض النتائج...</div>
+            <div style="text-align: center; padding: 40px; opacity: 0.4;">ابدأ الكتابة للبحث في 117 مادة...</div>
         </div>
     </main>
 
@@ -74,10 +81,12 @@
         let myExams = JSON.parse(localStorage.getItem('yic_saved_exams')) || [];
 
         async function init() {
-            const res = await fetch('exams_data.json');
-            const data = await res.json();
-            allExams = data.exams_list;
-            renderMySchedule();
+            try {
+                const res = await fetch('exams_data.json');
+                const data = await res.json();
+                allExams = data.exams_list;
+                renderMySchedule();
+            } catch (err) { console.error("Data error"); }
         }
 
         function renderMySchedule() {
@@ -91,10 +100,16 @@
 
             section.style.display = 'block';
             container.innerHTML = '';
-            myExams.forEach(ex => container.appendChild(createRow(ex, true)));
             
-            // تحديث العداد لأقرب اختبار في جدولي
-            if(myExams.length > 0) updateCountdown(myExams[0].date);
+            // ترتيب الجدول الشخصي حسب التاريخ
+            myExams.sort((a, b) => {
+                const dA = a.date.split(' ')[0].split('-').reverse().join('');
+                const dB = b.date.split(' ')[0].split('-').reverse().join('');
+                return dA.localeCompare(dB);
+            });
+
+            myExams.forEach(ex => container.appendChild(createRow(ex, true)));
+            updateCountdown(myExams[0].date);
         }
 
         function createRow(ex, isSaved) {
@@ -103,7 +118,7 @@
             row.innerHTML = `
                 <div>
                     <div style="font-weight:800; color:#ffd166">${ex.code}</div>
-                    <div style="font-size:11px; opacity:0.6">${ex.course_name}</div>
+                    <div style="font-size:11px; opacity:0.6; line-height:1.2">${ex.course_name}</div>
                 </div>
                 <div style="text-align:center">
                     <div style="font-size:13px">${ex.date.split(' ')[0]}</div>
@@ -114,9 +129,9 @@
                 </div>
                 <div class="hide-mobile badge" style="text-align:center">${ex.duration}</div>
                 <div style="display:flex; gap:5px; justify-content:flex-end">
-                    <button class="btn-action btn-cal" onclick="addToCal('${ex.code}','${ex.date}')"><i class="fa fa-calendar-plus"></i></button>
+                    <button class="btn-action btn-cal" title="إضافة للتقويم" onclick="addToCal('${ex.code}','${ex.date}','${ex.time}')"><i class="fa fa-calendar-plus"></i></button>
                     <button class="btn-action btn-save ${isSaved ? 'saved' : ''}" onclick="toggleSave('${ex.code}')">
-                        <i class="fa ${isSaved ? 'fa-check' : 'fa-bookmark'}"></i>
+                        <i class="fa ${isSaved ? 'fa-trash' : 'fa-plus'}"></i>
                     </button>
                 </div>
             `;
@@ -133,14 +148,14 @@
             }
             localStorage.setItem('yic_saved_exams', JSON.stringify(myExams));
             renderMySchedule();
-            doSearch(); // لتحديث أيقونة الحفظ في نتائج البحث
+            doSearch();
         }
 
         function doSearch() {
             const q = document.getElementById('studentId').value.trim().toUpperCase();
             const container = document.getElementById('searchRows');
             if (!q) { 
-                container.innerHTML = '<div style="text-align: center; padding: 40px; opacity: 0.4;">ابحث لعرض النتائج...</div>';
+                container.innerHTML = '<div style="text-align: center; padding: 40px; opacity: 0.4;">ابدأ الكتابة للبحث في 117 مادة...</div>';
                 return; 
             }
 
@@ -152,18 +167,45 @@
             });
         }
 
+        function addToCal(code, dateStr, timeStr) {
+            // معالجة التاريخ: 29-03-2026 -> 20260329
+            const datePart = dateStr.split(' ')[0].split('-').reverse().join('');
+            
+            // معالجة الوقت: "09:40 AM - 10:40 AM" -> بدايه 094000
+            const times = timeStr.split(' - ');
+            const formatTime = (t) => {
+                let [h, m] = t.split(':');
+                m = m.substring(0,2);
+                if(t.includes('PM') && h !== '12') h = parseInt(h) + 12;
+                if(t.includes('AM') && h === '12') h = '00';
+                return h.toString().padStart(2, '0') + m + '00';
+            };
+
+            const start = datePart + 'T' + formatTime(times[0]);
+            const end = datePart + 'T' + formatTime(times[1]);
+            
+            const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=اختبار ${code}&dates=${start}/${end}&details=مع تمنياتنا لكم بالتوفيق - نظام YIC`;
+            window.open(url, '_blank');
+        }
+
         function updateCountdown(dateStr) {
             const datePart = dateStr.split(' ')[0];
             const [d, m, y] = datePart.split('-');
             const diff = dayjs(`${y}-${m}-${d}`).diff(dayjs().startOf('day'), 'day');
             const el = document.getElementById('countdown');
             el.style.display = 'block';
-            el.innerHTML = diff >= 0 ? `🚀 متبقي ${diff} أيام على اختبارك القادم (${datePart})` : `✅ انتهت الاختبارات المحددة`;
+            el.innerHTML = diff > 0 ? `⏳ متبقي ${diff} أيام على أول اختبار لك (${datePart})` : 
+                           diff === 0 ? `🔥 اختبارك اليوم! بالتوفيق` : `✅ انتهت اختباراتك`;
         }
 
-        function addToCal(code, date) {
-            const d = date.split(' ')[0].split('-').reverse().join('');
-            window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=اختبار ${code}&dates=${d}/${d}`, '_blank');
+        function downloadSchedule() {
+            const element = document.getElementById('myScheduleSection');
+            html2canvas(element, { backgroundColor: '#050816', scale: 2 }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'my-schedule-yic.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            });
         }
 
         document.getElementById('studentId').addEventListener('input', doSearch);

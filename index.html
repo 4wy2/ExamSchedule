@@ -90,12 +90,24 @@
     }
 
     /* النظام الشبكي الموحد (Grid) */
-    .table-header, .row { 
-        display: grid; 
-        grid-template-columns: 1.6fr 1fr 1.1fr 0.8fr 0.4fr; /* زيادة مساحة المادة والوقت */
-        gap: 12px; 
-        align-items: center; 
-    }
+    .table-header, .row {
+    display: grid;
+    /* المادة تأخذ المساحة المتبقية (1fr) والباقي ثابت (100px و 80px وهكذا) */
+    grid-template-columns: 1fr 110px 110px 80px 50px; 
+    gap: 12px;
+    align-items: center;
+}
+
+/* سنترة المحتوى للأعمدة الثابتة */
+.table-header div, .row > div {
+    text-align: center;
+}
+
+/* استثناء المادة: محاذاة لليمين فقط */
+.table-header div:first-child, .row .info-group {
+    text-align: right;
+    padding-right: 15px;
+}
 
     .table-header { 
         padding: 12px 20px; 

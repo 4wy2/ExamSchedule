@@ -9,77 +9,80 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.7/dayjs.min.js"></script>
 
     <style>
-        :root { --primary: #8042ff; --accent: #1fc47c; --danger: #ff4d6d; --card-bg: rgba(13, 23, 56, 0.7); }
-        body { margin: 0; background: #050816; font-family: 'Tajawal', sans-serif; color: white; overflow-x: hidden; }
+        :root { --primary: #8042ff; --accent: #1fc47c; --danger: #ff4d6d; --bg: #050816; }
+        body { margin: 0; background: var(--bg); font-family: 'Tajawal', sans-serif; color: white; overflow-x: hidden; }
         
         .bg-blobs { position: fixed; width: 100vw; height: 100vh; z-index: -1; overflow: hidden; }
         .blob { position: absolute; filter: blur(80px); border-radius: 50%; opacity: 0.1; animation: move 20s infinite alternate; }
         @keyframes move { from { transform: translate(0, 0); } to { transform: translate(100px, 100px); } }
 
-        .app { width: min(920px, 98%); margin: 15px auto; background: var(--card-bg); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 25px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        .app { width: min(920px, 96%); margin: 15px auto; background: rgba(13, 23, 56, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,0.5); }
 
-        .countdown-bar { background: linear-gradient(90deg, var(--danger), var(--primary)); padding: 10px; text-align: center; font-weight: bold; display: none; font-size: 12px; }
+        .countdown-bar { background: linear-gradient(90deg, var(--danger), var(--primary)); padding: 8px; text-align: center; font-weight: bold; display: none; font-size: 11px; }
 
-        .section-title { padding: 15px 15px 5px; font-size: 14px; color: var(--primary); font-weight: 800; display: flex; align-items: center; gap: 8px; }
+        .section-title { padding: 12px 15px 5px; font-size: 13px; color: var(--primary); font-weight: 800; display: flex; align-items: center; gap: 8px; }
         .section-title::after { content: ""; flex: 1; height: 1px; background: rgba(255,255,255,0.1); }
 
-        /* حاوية الصف - توزيع أفقي احترافي */
+        /* حاوية الجدول (الملموم) */
+        .schedule-container { padding: 5px 10px 15px; }
+
+        /* تصميم الصف الأفقي - ملموم */
         .row { 
             display: flex; 
             flex-direction: row; 
             align-items: center; 
-            padding: 12px 10px; 
-            margin: 8px 10px; 
-            background: rgba(255,255,255,0.03); 
-            border-radius: 15px; 
+            padding: 10px 8px; 
+            margin-bottom: 8px; 
+            background: rgba(255,255,255,0.04); 
+            border-radius: 12px; 
             border: 1px solid rgba(255,255,255,0.05); 
-            gap: 5px;
-            transition: 0.3s;
+            gap: 4px;
         }
 
-        /* أعمدة البيانات */
-        .data-item { 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            text-align: center; 
-            flex: 1; 
-            min-width: 0; /* يمنع التداخل */
+        /* أعمدة البيانات بنسب محددة لضمان عدم التداخل */
+        .col { display: flex; flex-direction: column; align-items: center; text-align: center; min-width: 0; }
+        
+        .col-code { flex: 1.2; align-items: flex-start; text-align: right; } /* عمود الرمز */
+        .col-date { flex: 1.1; } /* عمود التاريخ */
+        .col-time { flex: 1.4; } /* عمود الوقت */
+        .col-actions { flex: 0.7; flex-direction: row; gap: 4px; justify-content: flex-end; } /* الأزرار */
+
+        .caption { font-size: 8px; color: #5d78ff; font-weight: bold; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .val-main { font-weight: 800; font-size: 11px; white-space: nowrap; }
+        .val-sub { font-size: 8px; opacity: 0.6; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+
+        /* ألوان القيم */
+        .code-text { color: #ffd166; }
+        .time-text { color: var(--danger); }
+        .date-sub { color: var(--accent); }
+
+        /* الأزرار الصغيرة */
+        .btn-action { 
+            border: none; width: 28px; height: 28px; border-radius: 8px; 
+            display: flex; align-items: center; justify-content: center; 
+            font-size: 11px; cursor: pointer; transition: 0.2s; 
         }
-
-        .info-group { flex: 1.4; align-items: flex-start; text-align: right; }
-
-        .caption { font-size: 9px; color: #5d78ff; font-weight: bold; margin-bottom: 4px; opacity: 0.9; }
-        .course-code { font-weight: 800; color: #ffd166; font-size: 13px; }
-        .val-text { font-weight: 700; font-size: 11px; white-space: nowrap; }
-
-        .actions-cell { display: flex; gap: 5px; flex: 0.5; justify-content: flex-end; }
-        .btn-action { border: none; width: 30px; height: 30px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; transition: 0.2s; }
         .btn-save { background: rgba(255, 77, 109, 0.1); color: var(--danger); border: 1px solid rgba(255, 77, 109, 0.2); }
         .btn-save.saved { background: var(--danger); color: white; border: none; }
         .btn-cal { background: rgba(31, 196, 124, 0.1); color: var(--accent); border: 1px solid rgba(31, 196, 124, 0.2); }
 
-        .search-wrapper { padding: 25px 15px; text-align: center; }
+        .search-wrapper { padding: 20px 15px; text-align: center; }
+        .search-wrapper h2 { font-size: 20px; margin-bottom: 15px; font-weight: 900; }
         .search-wrapper input { width: 100%; max-width: 400px; padding: 12px 20px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.3); color: white; outline: none; font-size: 14px; }
 
-        /* تنبيه التحديث */
         .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--primary); color: white; padding: 10px 20px; border-radius: 50px; z-index: 9999; font-weight: bold; font-size: 12px; display: none; box-shadow: 0 5px 20px rgba(0,0,0,0.4); }
 
-        @media (max-width: 500px) {
-            .row { padding: 10px 6px; margin: 6px 8px; }
-            .info-group { flex: 1.2; }
-            .course-code { font-size: 11px; }
-            .val-text { font-size: 9px; }
-            .caption { font-size: 8px; }
-            .actions-cell { flex-direction: column; flex: 0.3; align-items: center; }
-            .btn-action { width: 26px; height: 26px; font-size: 10px; }
-            .hide-mobile { display: none; }
+        /* تعديلات الجوال الصغير جداً */
+        @media (max-width: 370px) {
+            .val-main { font-size: 10px; }
+            .row { padding: 8px 5px; }
+            .btn-action { width: 24px; height: 24px; font-size: 10px; }
         }
     </style>
 </head>
 <body>
 
-    <div id="updateToast" class="toast"></div>
+    <div id="updateToast" class="toast">🔔 تم تحديث جدولك</div>
 
     <div class="bg-blobs">
         <div class="blob" style="width:300px; height:300px; background:var(--primary); top:-50px; right:-50px;"></div>
@@ -90,18 +93,17 @@
         <div id="countdown" class="countdown-bar"></div>
 
         <div class="search-wrapper">
-            <h2 style="margin-bottom: 5px; font-weight: 900;">جداول YIC الذكية</h2>
-            <p style="font-size: 11px; opacity: 0.6; margin-bottom: 15px;">سيتم تحديث جدولك تلقائياً عند تغيير المواعيد</p>
+            <h2>جداول YIC الذكية</h2>
             <input id="studentId" type="text" placeholder="ابحث بالرمز أو الاسم...">
         </div>
 
         <div id="myScheduleSection" style="display:none;">
             <div class="section-title"><i class="fa fa-star" style="color: #ffd166;"></i> جدولي الشخصي</div>
-            <div id="myRows"></div>
+            <div id="myRows" class="schedule-container"></div>
         </div>
 
         <div class="section-title"><i class="fa fa-search"></i> نتائج البحث</div>
-        <div id="searchRows"></div>
+        <div id="searchRows" class="schedule-container"></div>
     </main>
 
     <script>
@@ -110,11 +112,10 @@
 
         async function init() {
             try {
-                // إضافة متغير الوقت لضمان تحميل أحدث نسخة من السيرفر دائماً
                 const res = await fetch('exams_data.json?v=' + Date.now());
                 const data = await res.json();
                 allExams = data.exams_list;
-                syncExams(); // تحديث المواعيد المحفوظة تلقائياً
+                syncExams();
                 renderMySchedule();
             } catch(e) { console.error("Error:", e); }
         }
@@ -124,46 +125,37 @@
             myExams = myExams.map(saved => {
                 const latest = allExams.find(e => e.code === saved.code);
                 if (latest && (latest.date !== saved.date || latest.time !== saved.time)) {
-                    updated = true;
-                    return latest;
+                    updated = true; return latest;
                 }
                 return saved;
             });
             if (updated) {
                 localStorage.setItem('yic_saved_exams', JSON.stringify(myExams));
-                showToast("🔔 تم تحديث المواعيد في جدولك الشخصي");
+                const t = document.getElementById('updateToast');
+                t.style.display = 'block'; setTimeout(() => t.style.display = 'none', 4000);
             }
-        }
-
-        function showToast(msg) {
-            const t = document.getElementById('updateToast');
-            t.innerText = msg; t.style.display = 'block';
-            setTimeout(() => t.style.display = 'none', 4000);
         }
 
         function createRow(ex, isSaved) {
             const row = document.createElement('div');
             row.className = 'row';
             row.innerHTML = `
-                <div class="data-item info-group">
+                <div class="col col-code">
                     <span class="caption">المادة</span>
-                    <span class="course-code">${ex.code}</span>
-                    <span style="font-size:8px; opacity:0.5; white-space:nowrap; overflow:hidden;">${ex.course_name}</span>
+                    <span class="val-main code-text">${ex.code}</span>
+                    <span class="val-sub">${ex.course_name}</span>
                 </div>
-                <div class="data-item">
+                <div class="col col-date">
                     <span class="caption">التاريخ</span>
-                    <span class="val-text">${ex.date.split(' ')[0]}</span>
-                    <span style="font-size:8px; color:var(--accent)">${ex.date.split(' ')[1] || ''}</span>
+                    <span class="val-main">${ex.date.split(' ')[0]}</span>
+                    <span class="val-sub date-sub">${ex.date.split(' ')[1] || ''}</span>
                 </div>
-                <div class="data-item">
+                <div class="col col-time">
                     <span class="caption">الوقت</span>
-                    <span class="val-text" style="color:var(--danger)">${ex.time}</span>
+                    <span class="val-main time-text">${ex.time}</span>
+                    <span class="val-sub">Duration: ${ex.duration || '1.5H'}</span>
                 </div>
-                <div class="data-item hide-mobile">
-                    <span class="caption">المدة</span>
-                    <span style="font-size:9px; background:rgba(255,255,255,0.1); padding:2px 4px; border-radius:4px;">${ex.duration}</span>
-                </div>
-                <div class="actions-cell">
+                <div class="col col-actions">
                     <button class="btn-action btn-cal" onclick="addToCal('${ex.code}','${ex.date}','${ex.time}')"><i class="fa fa-calendar-plus"></i></button>
                     <button class="btn-action btn-save ${isSaved ? 'saved' : ''}" onclick="toggleSave('${ex.code}')"><i class="fa ${isSaved ? 'fa-trash-can' : 'fa-bookmark'}"></i></button>
                 </div>
@@ -175,8 +167,7 @@
             const container = document.getElementById('myRows');
             const section = document.getElementById('myScheduleSection');
             if (myExams.length === 0) { section.style.display = 'none'; return; }
-            section.style.display = 'block';
-            container.innerHTML = '';
+            section.style.display = 'block'; container.innerHTML = '';
             myExams.sort((a,b) => a.date.localeCompare(b.date)).forEach(ex => container.appendChild(createRow(ex, true)));
             updateCountdown(myExams[0].date);
         }
@@ -203,10 +194,10 @@
             const [d, m, y] = datePart.split('-');
             const diff = dayjs(`${y}-${m}-${d}`).diff(dayjs().startOf('day'), 'day');
             const el = document.getElementById('countdown');
-            el.style.display = 'block';
-            if (diff > 0) el.innerHTML = `🚀 متبقي ${diff} أيام على اختبارك القادم (${datePart})`;
-            else if (diff === 0) el.innerHTML = `🔥 اختبارك اليوم! كل التوفيق (${datePart})`;
-            else el.style.display = 'none';
+            if (diff >= 0) {
+                el.style.display = 'block';
+                el.innerHTML = `🚀 متبقي ${diff} أيام على اختبارك القادم (${datePart})`;
+            } else el.style.display = 'none';
         }
 
         function addToCal(code, dateStr, timeStr) {

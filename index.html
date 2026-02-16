@@ -142,11 +142,11 @@
             }
         }
 
-       function createRow(ex, isSaved) {
+      function createRow(ex, isSaved) {
     const row = document.createElement('div');
     row.className = 'row';
     
-    // --- منطق الألوان الذكي ---
+    // 1. منطق الألوان (شغال 100%)
     const testDate = dayjs(ex.date.split(' ')[0], 'DD-MM-YYYY');
     const today = dayjs().startOf('day');
     const diffDays = testDate.diff(today, 'day');
@@ -155,8 +155,12 @@
     if (diffDays === 0) statusColor = 'var(--danger)'; 
     else if (diffDays > 0 && diffDays <= 3) statusColor = '#ff9f43';
 
-    // --- معالجة الوقت بدقة أعلى ---
-    // نستخدم regex لضمان الفصل سواء كانت الشرطة صغيرة أو كبيرة
+    // 2. تعريف أجزاء التاريخ (هنا كان الخطأ)
+    const dateParts = ex.date.split(' ');
+    const dateNum = dateParts[0] || '';
+    const dayName = dateParts[1] ? dateParts[1].replace(/[()]/g, '') : '';
+
+    // 3. معالجة الوقت بدقة
     const timeParts = ex.time.split(/[-–—]/); 
     const startTime = timeParts[0] ? timeParts[0].trim() : ex.time;
     const endTime = timeParts[1] ? timeParts[1].trim() : '';

@@ -1,234 +1,235 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YIC Exam Planner | مخطط الاختبارات</title>
-    <style>
-        :root {
-            --bg-deep: #050b18;
-            --card-bg: rgba(21, 32, 54, 0.8);
-            --accent-cyan: #00f2ff;
-            --accent-yellow: #ffcc00;
-            --accent-pink: #ff2d55;
-            --text-main: #e2e8f0;
-        }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+  <title>YIC Smart Exams - نظام الجداول الذكي</title>
 
-        body {
-            background: radial-gradient(circle at top right, #1e293b, #050b18);
-            color: var(--text-main);
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            min-height: 100vh;
-        }
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;500;800;900&family=Rubik:wght@300;500;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.7/dayjs.min.js"></script>
 
-        .container { max-width: 1000px; margin: auto; }
+  <style>
+    :root { --anim-speed: 0.4s; }
 
-        header { text-align: center; margin-bottom: 30px; }
-        header h1 { 
-            font-size: 2.5rem; 
-            margin-bottom: 10px;
-            background: linear-gradient(to left, var(--accent-cyan), #fff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+    body {
+      margin: 0; background: #050816; min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Tajawal', sans-serif; transition: background 0.5s ease;
+      overflow-x: hidden;
+    }
 
-        .search-container { margin-bottom: 30px; }
-        input {
-            width: 100%;
-            padding: 18px;
-            border-radius: 15px;
-            border: 1px solid rgba(255,255,255,0.1);
-            background: rgba(255,255,255,0.05);
-            color: #fff;
-            font-size: 1.1rem;
-            backdrop-filter: blur(10px);
-            outline: none;
-            transition: 0.3s;
-            box-sizing: border-box;
-        }
-        input:focus { border-color: var(--accent-cyan); box-shadow: 0 0 15px rgba(0, 242, 255, 0.2); }
+    /* تأثير الخلفية المتطور */
+    .bg-blobs { position: fixed; width: 100vw; height: 100vh; z-index: -1; overflow: hidden; }
+    .blob { position: absolute; filter: blur(80px); border-radius: 50%; opacity: 0.15; animation: move 20s infinite alternate; }
+    @keyframes move { from { transform: translate(0, 0); } to { transform: translate(100px, 100px); } }
 
-        /* تنسيق الجدول مثل الصورة */
-        .table-header {
-            display: grid;
-            grid-template-columns: 2fr 2fr 2fr 1.5fr 2fr;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 50px;
-            margin-bottom: 15px;
-            text-align: center;
-            font-weight: bold;
-            color: var(--accent-cyan);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
+    /* الكارد الرئيسي */
+    .app {
+      width: min(920px, 95%);
+      background: rgba(13, 23, 56, 0.7);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 30px;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+      overflow: hidden; animation: fadeIn 0.8s ease-out;
+      margin: 20px 0;
+    }
 
-        .exam-row {
-            display: grid;
-            grid-template-columns: 2fr 2fr 2fr 1.5fr 2fr;
-            background: var(--card-bg);
-            margin-bottom: 12px;
-            padding: 20px 10px;
-            border-radius: 20px;
-            text-align: center;
-            align-items: center;
-            transition: 0.3s;
-            border: 1px solid rgba(255,255,255,0.05);
-            cursor: pointer;
-        }
+    /* نظام العداد التنازلي */
+    .countdown-bar {
+      background: linear-gradient(90deg, #ff4d6d, #8042ff);
+      color: white; padding: 10px; text-align: center;
+      font-size: 13px; font-weight: bold; display: none;
+    }
 
-        .exam-row:hover {
-            background: rgba(30, 41, 59, 0.9);
-            transform: scale(1.01);
-            border-color: var(--accent-cyan);
-        }
+    /* شكل الصفوف */
+    .row {
+      display: grid; grid-template-columns: 1.2fr 1fr 1fr 0.8fr 0.8fr;
+      gap: 12px; padding: 15px; margin-bottom: 10px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 20px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid transparent;
+      color: white; align-items: center;
+    }
+    .row:hover {
+      transform: scale(1.02) translateY(-5px);
+      background: rgba(255,255,255,0.08);
+      border-color: #8042ff;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
 
-        .code-cell { color: var(--accent-yellow); font-weight: bold; font-size: 1.2rem; }
-        .date-cell { color: var(--accent-cyan); line-height: 1.4; }
-        .time-cell { color: var(--accent-yellow); font-size: 0.95rem; }
-        .duration-cell { font-weight: 500; }
-        .action-cell button {
-            background: transparent;
-            border: 1px solid var(--accent-cyan);
-            color: var(--accent-cyan);
-            padding: 8px 15px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .action-cell button:hover { background: var(--accent-cyan); color: #000; }
-        
-        .remove-btn { border-color: var(--accent-pink) !important; color: var(--accent-pink) !important; }
-        .remove-btn:hover { background: var(--accent-pink) !important; color: #fff !important; }
+    .btn-cal {
+      background: rgba(31, 196, 124, 0.15); color: #1fc47c; border: 1px solid #1fc47c;
+      padding: 5px 10px; border-radius: 10px; font-size: 11px; cursor: pointer; transition: 0.2s;
+    }
+    .btn-cal:hover { background: #1fc47c; color: white; }
 
-        .section-label {
-            margin: 40px 0 20px;
-            font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .section-label::after { content: ""; height: 2px; flex: 1; background: rgba(255,255,255,0.1); }
+    .theme-1 { --primary: #2734fe; --accent: #1fc47c; }
+    .theme-2 { --primary: #007BFF; --accent: #ffd166; }
+    .theme-3 { --primary: #cb3cff; --accent: #00c2ff; }
 
-        @media (max-width: 768px) {
-            .table-header { display: none; }
-            .exam-row { 
-                grid-template-columns: 1fr 1fr; 
-                gap: 10px; 
-                text-align: right; 
-                padding: 20px;
-            }
-            .action-cell { grid-column: span 2; }
-        }
-    </style>
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 600px) {
+      .row { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .cell.venue, .cell.cal-btn { display: none; }
+      .app { border-radius: 0; width: 100%; margin: 0; min-height: 100vh; }
+    }
+  </style>
 </head>
-<body>
+<body class="theme-1" id="appRoot">
 
-<div class="container">
-    <header>
-        <h1>YIC EXAM PLANNER</h1>
+  <div class="bg-blobs">
+    <div id="blob1" class="blob" style="width:400px; height:400px; background:#2734fe; top:-100px; right:-100px;"></div>
+    <div id="blob2" class="blob" style="width:300px; height:300px; background:#1fc47c; bottom:-50px; left:-50px;"></div>
+  </div>
+
+  <main class="app">
+    <div id="countdown" class="countdown-bar"></div>
+    
+    <header class="top" style="padding: 30px; text-align: center;">
+      <h1 style="font-size: 28px; font-weight: 900; color: #fff; margin-bottom: 10px;">
+        جداول الكلية الذكية
+        <span style="font-size: 12px; background: #8042ff; padding: 4px 12px; border-radius: 20px;">V2.0 PRO</span>
+      </h1>
+
+      <div class="controls" style="display: flex; flex-direction: column; gap: 15px; align-items: center;">
+        <div class="search-wrapper" style="width: 100%; max-width: 400px; position: relative;">
+          <input id="studentId" type="text" placeholder="ابحث برمز المادة أو اسمها..." 
+                 style="width: 100%; padding: 15px 25px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: white; outline: none;">
+          <button id="searchBtn" style="position: absolute; left: 5px; top: 5px; bottom: 5px; width: 50px; border-radius: 50px; background: #8042ff; border: none; color: white; cursor: pointer;">
+            <i class="fa fa-search"></i>
+          </button>
+        </div>
+        
+        <button id="themeSwitch" style="background: transparent; color: #aaa; border: none; cursor: pointer; font-size: 12px;">
+           <i class="fa fa-magic"></i> تبديل مظهر النظام
+        </button>
+      </div>
     </header>
 
-    <div class="search-container">
-        <input type="text" id="searchInput" placeholder="ابحث عن رمز المادة أو اسمها...">
-    </div>
+    <section class="results-wrap" style="padding: 20px;">
+      <div id="rows" class="r-body">
+        <div class="empty" style="text-align: center; color: #666; padding: 40px;">
+          <i class="fa fa-calendar-alt" style="font-size: 50px; margin-bottom: 20px; display: block;"></i>
+          جاري تجهيز الاتصال بملف البيانات...
+        </div>
+      </div>
+    </section>
 
-    <div class="table-header">
-        <div>رمز المقرر</div>
-        <div>التاريخ</div>
-        <div>الوقت</div>
-        <div>المدة</div>
-        <div>الإجراء</div>
-    </div>
-    
-    <div id="searchResults"></div>
+    <footer style="padding: 20px; text-align: center; font-size: 11px; color: #444; border-top: 1px solid rgba(255,255,255,0.05);">
+      Designed with Intelligence for YIC Students
+    </footer>
+  </main>
 
-    <div class="section-label">📅 جدولي الخاص</div>
-    <div id="mySchedule"></div>
-</div>
+  <script>
+    let examsData = []; // هنا سيتم تخزين البيانات من ملف JSON
+    const elRows = document.getElementById('rows');
+    const studentInput = document.getElementById('studentId');
 
-<script>
-    let allExams = [];
-    let mySchedule = JSON.parse(localStorage.getItem('myExams_YIC')) || [];
-
-    // جلب البيانات
-    fetch('exams_data.json')
-        .then(res => res.json())
-        .then(data => {
-            allExams = data.exams || data;
-            renderMySchedule();
-        });
-
-    // محرك البحث
-    document.getElementById('searchInput').addEventListener('input', function(e) {
-        const term = e.target.value.toUpperCase();
-        if(term.length < 1) {
-            document.getElementById('searchResults').innerHTML = '';
-            return;
+    // 1. جلب البيانات من ملف JSON
+    async function loadExamsData() {
+        try {
+            const response = await fetch('exams_data.json');
+            if (!response.ok) throw new Error();
+            examsData = await response.json();
+            elRows.innerHTML = `
+                <div class="empty" style="text-align: center; color: #666; padding: 40px;">
+                    <i class="fa fa-check-circle" style="font-size: 50px; color: #1fc47c; margin-bottom: 20px; display: block;"></i>
+                    تم تحميل البيانات بنجاح! ابحث الآن عن موادك.
+                </div>`;
+        } catch (e) {
+            elRows.innerHTML = '<div class="empty" style="color:#ff4d6d;">فشل الاتصال بملف exams_data.json</div>';
         }
+    }
 
-        const filtered = allExams.filter(ex => 
-            String(ex.Code).toUpperCase().includes(term) || 
-            String(ex["Course Name"]).toUpperCase().includes(term)
-        );
-        renderResults(filtered.slice(0, 8));
-    });
+    // 2. منطق البحث
+    function doSearch() {
+      const query = studentInput.value.trim().toUpperCase();
+      if (!query) return;
 
-    function createRow(ex, isSearch = true) {
-        // تنسيق التاريخ واليوم بشكل منفصل
-        const dateParts = ex["Date (Day)"].split(' ');
-        const dateOnly = dateParts[0];
-        const dayOnly = dateParts[1] || "";
+      const filtered = examsData.filter(ex => 
+        ex.code.toUpperCase().includes(query) || 
+        ex.name.toUpperCase().includes(query)
+      );
 
-        return `
-            <div class="exam-row">
-                <div class="code-cell">${ex.Code}</div>
-                <div class="date-cell">${dateOnly}<br><small>${dayOnly}</small></div>
-                <div class="time-cell">${ex.Time.replace(' - ', '<br>')}</div>
-                <div class="duration-cell">${ex.Duration || '1H'}</div>
-                <div class="action-cell">
-                    ${isSearch ? 
-                        `<button onclick="addToSchedule('${ex.Code}')">إضافة</button>` : 
-                        `<button class="remove-btn" onclick="removeFromSchedule('${ex.Code}')">حذف</button>`
-                    }
-                </div>
-            </div>
+      renderAdvancedRows(filtered);
+    }
+
+    // 3. عرض الصفوف بالتصميم الرهيب
+    function renderAdvancedRows(exams) {
+      if (exams.length === 0) {
+        elRows.innerHTML = '<div class="empty">لا توجد نتائج مطابقة لبحثك.</div>';
+        return;
+      }
+
+      elRows.innerHTML = '';
+      exams.forEach((ex) => {
+        const row = document.createElement('div');
+        row.className = 'row';
+
+        row.innerHTML = `
+          <div class="cell">
+            <div style="color: #ffd166; font-weight: 900;">${ex.code}</div>
+            <div style="font-size: 11px; opacity: 0.7;">${ex.name}</div>
+          </div>
+          <div class="cell" style="text-align: center;">
+            <div style="font-size: 14px;">${ex.date}</div>
+            <div style="color: #1fc47c; font-size: 12px;">Exam Day</div>
+          </div>
+          <div class="cell">
+            <div style="color: #ff4d6d; font-size: 13px;">${ex.time}</div>
+          </div>
+          <div class="cell venue">القاعة: 102</div>
+          <div class="cell cal-btn" style="text-align: left;">
+            <button class="btn-cal" onclick='addToGoogleCalendar(${JSON.stringify(ex)})'>
+              <i class="fa fa-plus"></i> تقويم
+            </button>
+          </div>
         `;
+        elRows.appendChild(row);
+      });
+
+      // تحديث العداد لأول نتيجة تظهر
+      if(exams[0].date) updateCountdown(exams[0].date);
     }
 
-    function renderResults(exams) {
-        const container = document.getElementById('searchResults');
-        container.innerHTML = exams.map(ex => createRow(ex, true)).join('');
+    function addToGoogleCalendar(exam) {
+      const title = `اختبار: ${exam.code}`;
+      const d = exam.date.split('-').reverse().join(''); // YYYYMMDD
+      const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${d}/${d}`;
+      window.open(url, '_blank');
     }
 
-    window.addToSchedule = function(code) {
-        const exam = allExams.find(ex => ex.Code === code);
-        if (!mySchedule.find(s => s.Code === code)) {
-            mySchedule.push(exam);
-            saveAndRender();
-        }
+    function updateCountdown(dateStr) {
+      const countdownEl = document.getElementById('countdown');
+      // تحويل DD-MM-YYYY إلى format يفهمه dayjs
+      const parts = dateStr.split('-');
+      const target = dayjs(`${parts[2]}-${parts[1]}-${parts[0]}`);
+      const diff = target.diff(dayjs(), 'day');
+
+      if (diff >= 0) {
+        countdownEl.style.display = 'block';
+        countdownEl.innerHTML = `🚀 متبقي ${diff} أيام على اختبار ${dateStr} ! شد حيلك.`;
+      }
+    }
+
+    // الأزرار والـ Theme Switcher
+    studentInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') doSearch(); });
+    document.getElementById('searchBtn').onclick = doSearch;
+
+    let currentTheme = 1;
+    document.getElementById('themeSwitch').onclick = () => {
+      currentTheme = currentTheme >= 3 ? 1 : currentTheme + 1;
+      document.body.className = `theme-${currentTheme}`;
+      const colors = ['#2734fe', '#007BFF', '#cb3cff'];
+      document.getElementById('blob1').style.background = colors[currentTheme-1];
     };
 
-    window.removeFromSchedule = function(code) {
-        mySchedule = mySchedule.filter(s => s.Code !== code);
-        saveAndRender();
-    };
+    // تشغيل جلب البيانات عند البداية
+    loadExamsData();
 
-    function saveAndRender() {
-        localStorage.setItem('myExams_YIC', JSON.stringify(mySchedule));
-        renderMySchedule();
-    }
-
-    function renderMySchedule() {
-        const container = document.getElementById('mySchedule');
-        if (mySchedule.length === 0) {
-            container.innerHTML = '<div style="text-align:center; opacity:0.5;">لا توجد مواد مضافة..</div>';
-            return;
-        }
-        container.innerHTML = mySchedule.map(ex => createRow(ex, false)).join('');
-    }
-</script>
-
+  </script>
 </body>
 </html>

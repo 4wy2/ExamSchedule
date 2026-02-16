@@ -156,39 +156,46 @@
     const timeColor = isPM ? '#ff9f43' : '#00d2d3';
 
     row.innerHTML = `
-        <div class="info-group" style="text-align: right;">
-            <span class="label" style="color: #ffd166; font-size: 14px; font-weight: 800; display: block; line-height: 1;">${ex.code}</span>
-            <span class="sub" style="font-size: 9px; opacity: 0.5; display: block; white-space: nowrap; overflow: hidden;">${ex.course_name}</span>
+        <div class="info-group" style="text-align: right; padding-right: 5px; overflow: hidden; display: flex; flex-direction: column; justify-content: center;">
+            <span class="label" style="color: #ffd166; font-size: 14px; font-weight: 900; display: block; line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                ${ex.code}
+            </span>
+            <span class="sub" style="font-size: 9px; opacity: 0.6; font-weight: 500; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px;">
+                ${ex.course_name}
+            </span>
         </div>
 
-        <div class="date-box" style="display: flex; justify-content: center; align-items: center; gap: 4px;">
+        <div class="date-box" style="display: flex; justify-content: center; align-items: center; gap: 6px; border-right: 1px solid rgba(255,255,255,0.05);">
             <div style="text-align: left;">
-                <b style="display: block; font-size: 12px; color: #fff;">${dateNum}</b>
+                <b style="display: block; font-size: 12px; color: #fff; line-height: 1;">${dateNum}</b>
                 <small style="font-size: 9px; color: var(--accent); font-weight: 800; display: block; text-align: right;">${dayName}</small>
             </div>
-            <div style="width: 2px; height: 18px; background: var(--accent); opacity: 0.5;"></div>
+            <div style="width: 2px; height: 16px; background: var(--accent); opacity: 0.4; border-radius: 10px;"></div>
         </div>
 
-        <div class="time-box">
-            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 3px; border-radius: 6px;">
-                <div style="font-size: 11px; font-weight: 800; color: ${timeColor};">${startTime}</div>
-                ${endTime ? `<div style="font-size: 8px; opacity: 0.3;">${endTime}</div>` : ''}
+        <div class="time-box" style="display: flex; justify-content: center; align-items: center;">
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 4px 6px; border-radius: 8px; min-width: 75px; text-align: center;">
+                <div style="font-size: 11px; font-weight: 800; color: ${timeColor}; line-height: 1;">${startTime}</div>
+                ${endTime ? `<div style="font-size: 8px; opacity: 0.3; margin-top: 1px;">${endTime}</div>` : ''}
             </div>
         </div>
 
-        <div class="duration-box">
-            <span style="font-size: 10px; font-weight: 600; display: block;">${ex.duration.replace(' H ', 'س ').replace(' M', 'د')}</span>
-            <span style="font-size: 8px; opacity: 0.3;">${ex.actual_size} ط</span>
+        <div class="duration-box" style="text-align: center; display: flex; flex-direction: column; justify-content: center;">
+            <span style="font-size: 11px; font-weight: 700; color: #eee; display: block;">
+                ${ex.duration.replace(' H ', 'س ').replace(' M', 'د')}
+            </span>
+            <span style="font-size: 8px; opacity: 0.3; display: block;">${ex.actual_size} ط</span>
         </div>
 
-        <div class="actions">
-            <button class="btn-action btn-save ${isSaved ? 'saved' : ''}" onclick="toggleSave('${ex.code}')">
+        <div class="actions" style="display: flex; justify-content: center; align-items: center;">
+            <button class="btn-action btn-save ${isSaved ? 'saved' : ''}" onclick="toggleSave('${ex.code}')" style="box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
                 <i class="fa-solid ${isSaved ? 'fa-xmark' : 'fa-plus'}"></i>
             </button>
         </div>
     `;
     return row;
 }
+        
         function renderMySchedule() {
             const container = document.getElementById('myRows');
             const section = document.getElementById('myScheduleSection');

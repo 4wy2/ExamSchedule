@@ -1,944 +1,946 @@
 {
-    "summary": {
-        "total_courses": 117,
-        "total_days": 10
+    "statistics": {
+        "total_materials": 117,
+        "total_exam_days": 10,
+        "start_date": "29-03-2026 (Sun)",
+        "end_date": "09-04-2026 (Thu)"
     },
-    "exams": [
-        {
-            "Date (Day)": "29-03-2026 (Sun)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "CE 402",
-            "Course Name": "Plant Design and Economics",
-            "Actual Size": "1",
-            "Duration": "01 H 00 M"
+    "exams_list": [
+        {
+            "date": "29-03-2026 (Sun)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "CE 402",
+            "course_name": "Plant Design and Economics",
+            "actual_size": "1",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "29-03-2026 (Sun)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "EE 301",
-            "Course Name": "Electronics II",
-            "Actual Size": "16",
-            "Duration": "01 H 00 M"
+        {
+            "date": "29-03-2026 (Sun)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "EE 301",
+            "course_name": "Electronics II",
+            "actual_size": "16",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "29-03-2026 (Sun)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "EE 307",
-            "Course Name": "Communications Engineering",
-            "Actual Size": "39",
-            "Duration": "01 H 00 M"
+        {
+            "date": "29-03-2026 (Sun)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "EE 307",
+            "course_name": "Communications Engineering",
+            "actual_size": "39",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "29-03-2026 (Sun)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "ELET 223",
-            "Course Name": "Electrical Motor Control",
-            "Actual Size": "29",
-            "Duration": "01 H 00 M"
+        {
+            "date": "29-03-2026 (Sun)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "ELET 223",
+            "course_name": "Electrical Motor Control",
+            "actual_size": "29",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "29-03-2026 (Sun)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "ELET242",
-            "Course Name": "Process Control Systems",
-            "Actual Size": "28",
-            "Duration": "01 H 00 M"
+        {
+            "date": "29-03-2026 (Sun)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "ELET242",
+            "course_name": "Process Control Systems",
+            "actual_size": "28",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "29-03-2026 (Sun)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "GSMA101",
-            "Course Name": "Calculus I",
-            "Actual Size": "135",
-            "Duration": "01 H 00 M"
+        {
+            "date": "29-03-2026 (Sun)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "GSMA101",
+            "course_name": "Calculus I",
+            "actual_size": "135",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "29-03-2026 (Sun)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "MA 101",
-            "Course Name": "Calculus I",
-            "Actual Size": "8",
-            "Duration": "01 H 00 M"
+        {
+            "date": "29-03-2026 (Sun)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "MA 101",
+            "course_name": "Calculus I",
+            "actual_size": "8",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "29-03-2026 (Sun)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "MA 102",
-            "Course Name": "Calculus II",
-            "Actual Size": "201",
-            "Duration": "01 H 00 M"
+        {
+            "date": "29-03-2026 (Sun)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "MA 102",
+            "course_name": "Calculus II",
+            "actual_size": "201",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "29-03-2026 (Sun)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "MA 203",
-            "Course Name": "Elements of Differential Equations",
-            "Actual Size": "226",
-            "Duration": "01 H 00 M"
+        {
+            "date": "29-03-2026 (Sun)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "MA 203",
+            "course_name": "Elements of Differential Equations",
+            "actual_size": "226",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "29-03-2026 (Sun)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "MCET213",
-            "Course Name": "Equipment Maintenance",
-            "Actual Size": "59",
-            "Duration": "01 H 00 M"
+        {
+            "date": "29-03-2026 (Sun)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "MCET213",
+            "course_name": "Equipment Maintenance",
+            "actual_size": "59",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "29-03-2026 (Sun)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "MCET221",
-            "Course Name": "Machining Processes II",
-            "Actual Size": "8",
-            "Duration": "01 H 00 M"
+        {
+            "date": "29-03-2026 (Sun)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "MCET221",
+            "course_name": "Machining Processes II",
+            "actual_size": "8",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "29-03-2026 (Sun)",
-            "Time": "CAD-CAM Technology",
-            "Code": "MCET223",
-            "Course Name": null,
-            "Actual Size": "28",
-            "Duration": "01 H 00 M"
+        {
+            "date": "29-03-2026 (Sun)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "MCET223",
+            "course_name": "CAD-CAM Technology",
+            "actual_size": "28",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "29-03-2026 (Sun)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "ME 305",
-            "Course Name": "Machine Design",
-            "Actual Size": "34",
-            "Duration": "01 H 00 M"
+        {
+            "date": "29-03-2026 (Sun)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "ME 305",
+            "course_name": "Machine Design",
+            "actual_size": "34",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "29-03-2026 (Sun)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "CE 301",
-            "Course Name": "Chemical Engineering Thermodynamics",
-            "Actual Size": "18",
-            "Duration": "01 H 00 M"
+        {
+            "date": "29-03-2026 (Sun)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "CE 301",
+            "course_name": "Chemical Engineering Thermodynamics",
+            "actual_size": "18",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "29-03-2026 (Sun)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "CE 304",
-            "Course Name": "Separation Processes",
-            "Actual Size": "21",
-            "Duration": "01 H 00 M"
+        {
+            "date": "29-03-2026 (Sun)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "CE 304",
+            "course_name": "Separation Processes",
+            "actual_size": "21",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "29-03-2026 (Sun)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "ELET203",
-            "Course Name": "Control System Components",
-            "Actual Size": "59",
-            "Duration": "01 H 00 M"
+        {
+            "date": "29-03-2026 (Sun)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "ELET203",
+            "course_name": "Control System Components",
+            "actual_size": "59",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "29-03-2026 (Sun)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "GSMA102",
-            "Course Name": "Calculus II",
-            "Actual Size": "393",
-            "Duration": "01 H 00 M"
+        {
+            "date": "29-03-2026 (Sun)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "GSMA102",
+            "course_name": "Calculus II",
+            "actual_size": "393",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "29-03-2026 (Sun)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "MA 201",
-            "Course Name": "Calculus III",
-            "Actual Size": "36",
-            "Duration": "01 H 00 M"
+        {
+            "date": "29-03-2026 (Sun)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "MA 201",
+            "course_name": "Calculus III",
+            "actual_size": "36",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "30-03-2026 (Mon)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "EE 331",
-            "Course Name": "Electrical Engineering Principles and Applications",
-            "Actual Size": "32",
-            "Duration": "01 H 00 M"
+        {
+            "date": "30-03-2026 (Mon)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "EE 331",
+            "course_name": "Electrical Engineering Principles and Applications",
+            "actual_size": "32",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "30-03-2026 (Mon)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "ELET103",
-            "Course Name": "Electrical Machines  I",
-            "Actual Size": "152",
-            "Duration": "01 H 00 M"
+        {
+            "date": "30-03-2026 (Mon)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "ELET103",
+            "course_name": "Electrical Machines I",
+            "actual_size": "152",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "30-03-2026 (Mon)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "ELET204",
-            "Course Name": "Industrial Electricity",
-            "Actual Size": "61",
-            "Duration": "01 H 00 M"
+        {
+            "date": "30-03-2026 (Mon)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "ELET204",
+            "course_name": "Industrial Electricity",
+            "actual_size": "61",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "30-03-2026 (Mon)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "ISL101",
-            "Course Name": "Belief and Its Consequences",
-            "Actual Size": "173",
-            "Duration": "01 H 00 M"
+        {
+            "date": "30-03-2026 (Mon)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "ISL101",
+            "course_name": "Belief and Its Consequences",
+            "actual_size": "173",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "30-03-2026 (Mon)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "ISL201",
-            "Course Name": "Professional Ethics",
-            "Actual Size": "83",
-            "Duration": "01 H 00 M"
+        {
+            "date": "30-03-2026 (Mon)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "ISL201",
+            "course_name": "Professional Ethics",
+            "actual_size": "83",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "30-03-2026 (Mon)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "ISL301",
-            "Course Name": "Human Right in Islam",
-            "Actual Size": "89",
-            "Duration": "01 H 00 M"
+        {
+            "date": "30-03-2026 (Mon)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "ISL301",
+            "course_name": "Human Right in Islam",
+            "actual_size": "89",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "31-03-2026 (Tue)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "CE202",
-            "Course Name": "Materials Science",
-            "Actual Size": "55",
-            "Duration": "01 H 00 M"
+        {
+            "date": "31-03-2026 (Tue)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "CE202",
+            "course_name": "Materials Science",
+            "actual_size": "55",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "31-03-2026 (Tue)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "EE 202",
-            "Course Name": "Electronics I",
-            "Actual Size": "80",
-            "Duration": "01 H 00 M"
+        {
+            "date": "31-03-2026 (Tue)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "EE 202",
+            "course_name": "Electronics I",
+            "actual_size": "80",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "31-03-2026 (Tue)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "EE 309",
-            "Course Name": "Digital Systems Engineering",
-            "Actual Size": "28",
-            "Duration": "01 H 00 M"
+        {
+            "date": "31-03-2026 (Tue)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "EE 309",
+            "course_name": "Digital Systems Engineering",
+            "actual_size": "28",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "31-03-2026 (Tue)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "ELET 202",
-            "Course Name": "Digital Electronics I",
-            "Actual Size": "70",
-            "Duration": "01 H 00 M"
+        {
+            "date": "31-03-2026 (Tue)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "ELET 202",
+            "course_name": "Digital Electronics I",
+            "actual_size": "70",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "31-03-2026 (Tue)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "MCET101",
-            "Course Name": "Plant Maintenance",
-            "Actual Size": "39",
-            "Duration": "01 H 00 M"
+        {
+            "date": "31-03-2026 (Tue)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "MCET101",
+            "course_name": "Plant Maintenance",
+            "actual_size": "39",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "31-03-2026 (Tue)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "ME201",
-            "Course Name": "Mechanical Engineering Drawing and Graphics",
-            "Actual Size": "9",
-            "Duration": "01 H 00 M"
+        {
+            "date": "31-03-2026 (Tue)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "ME201",
+            "course_name": "Mechanical Engineering Drawing and Graphics",
+            "actual_size": "9",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "31-03-2026 (Tue)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "ME301",
-            "Course Name": "Mechanics of Materials",
-            "Actual Size": "27",
-            "Duration": "01 H 00 M"
+        {
+            "date": "31-03-2026 (Tue)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "ME301",
+            "course_name": "Mechanics of Materials",
+            "actual_size": "27",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "31-03-2026 (Tue)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "CE 401",
-            "Course Name": "Process Dynamics and Control",
-            "Actual Size": "1",
-            "Duration": "01 H 00 M"
+        {
+            "date": "31-03-2026 (Tue)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "CE 401",
+            "course_name": "Process Dynamics and Control",
+            "actual_size": "1",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "31-03-2026 (Tue)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "GSIS101",
-            "Course Name": "Islamic Ideology and Thoughts",
-            "Actual Size": "176",
-            "Duration": "01 H 00 M"
+        {
+            "date": "31-03-2026 (Tue)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "GSIS101",
+            "course_name": "Islamic Ideology and Thoughts",
+            "actual_size": "176",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "31-03-2026 (Tue)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "ME205",
-            "Course Name": "Materials Science and Engineering",
-            "Actual Size": "75",
-            "Duration": "01 H 00 M"
+        {
+            "date": "31-03-2026 (Tue)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "ME205",
+            "course_name": "Materials Science and Engineering",
+            "actual_size": "75",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "01-04-2026 (Wed)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "CSE221",
-            "Course Name": "Digital Logical Design",
-            "Actual Size": "25",
-            "Duration": "01 H 00 M"
+        {
+            "date": "01-04-2026 (Wed)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "CSE221",
+            "course_name": "Digital Logical Design",
+            "actual_size": "25",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "01-04-2026 (Wed)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "ENGT202",
-            "Course Name": "Industrial Supervision",
-            "Actual Size": "192",
-            "Duration": "01 H 00 M"
+        {
+            "date": "01-04-2026 (Wed)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "ENGT202",
+            "course_name": "Industrial Supervision",
+            "actual_size": "192",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "01-04-2026 (Wed)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "GSPH101",
-            "Course Name": "General Physics",
-            "Actual Size": "184",
-            "Duration": "01 H 00 M"
+        {
+            "date": "01-04-2026 (Wed)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "GSPH101",
+            "course_name": "General Physics",
+            "actual_size": "184",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "01-04-2026 (Wed)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "ME 207",
-            "Course Name": "Dynamics",
-            "Actual Size": "59",
-            "Duration": "01 H 00 M"
+        {
+            "date": "01-04-2026 (Wed)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "ME 207",
+            "course_name": "Dynamics",
+            "actual_size": "59",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "01-04-2026 (Wed)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "ME 302",
-            "Course Name": "Fluid Mechanics",
-            "Actual Size": "20",
-            "Duration": "01 H 00 M"
+        {
+            "date": "01-04-2026 (Wed)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "ME 302",
+            "course_name": "Fluid Mechanics",
+            "actual_size": "20",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "01-04-2026 (Wed)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "ME204",
-            "Course Name": "Thermodynamics I",
-            "Actual Size": "13",
-            "Duration": "01 H 00 M"
+        {
+            "date": "01-04-2026 (Wed)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "ME204",
+            "course_name": "Thermodynamics I",
+            "actual_size": "13",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "01-04-2026 (Wed)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "PHY101",
-            "Course Name": "General Physics I",
-            "Actual Size": "13",
-            "Duration": "01 H 00 M"
+        {
+            "date": "01-04-2026 (Wed)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "PHY101",
+            "course_name": "General Physics I",
+            "actual_size": "13",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "01-04-2026 (Wed)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "PHY102",
-            "Course Name": "General Physics II",
-            "Actual Size": "193",
-            "Duration": "01 H 00 M"
+        {
+            "date": "01-04-2026 (Wed)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "PHY102",
+            "course_name": "General Physics II",
+            "actual_size": "193",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "01-04-2026 (Wed)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "PHY321",
-            "Course Name": "Electricity and Magnetism",
-            "Actual Size": "29",
-            "Duration": "01 H 00 M"
+        {
+            "date": "01-04-2026 (Wed)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "PHY321",
+            "course_name": "Electricity and Magnetism",
+            "actual_size": "29",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "01-04-2026 (Wed)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "CE 203",
-            "Course Name": "Introduction to Chemical Engineering Computing",
-            "Actual Size": "42",
-            "Duration": "01 H 00 M"
+        {
+            "date": "01-04-2026 (Wed)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "CE 203",
+            "course_name": "Introduction to Chemical Engineering Computing",
+            "actual_size": "42",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "01-04-2026 (Wed)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "CE201",
-            "Course Name": "Principles of Chemical Engineering",
-            "Actual Size": "24",
-            "Duration": "01 H 00 M"
+        {
+            "date": "01-04-2026 (Wed)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "CE201",
+            "course_name": "Principles of Chemical Engineering",
+            "actual_size": "24",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "02-04-2026 (Thu)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "CHEM101",
-            "Course Name": "General Chemistry I",
-            "Actual Size": "24",
-            "Duration": "01 H 00 M"
+        {
+            "date": "02-04-2026 (Thu)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "CHEM101",
+            "course_name": "General Chemistry I",
+            "actual_size": "24",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "02-04-2026 (Thu)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "CHEM211",
-            "Course Name": "General Chemistry II",
-            "Actual Size": "3",
-            "Duration": "01 H 00 M"
+        {
+            "date": "02-04-2026 (Thu)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "CHEM211",
+            "course_name": "General Chemistry II",
+            "actual_size": "3",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "02-04-2026 (Thu)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "CSE201",
-            "Course Name": "Introduction to Data Science",
-            "Actual Size": "214",
-            "Duration": "01 H 00 M"
+        {
+            "date": "02-04-2026 (Thu)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "CSE201",
+            "course_name": "Introduction to Data Science",
+            "actual_size": "214",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "02-04-2026 (Thu)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "CSE301",
-            "Course Name": "Introduction to Artificial Intelligence",
-            "Actual Size": "61",
-            "Duration": "01 H 00 M"
+        {
+            "date": "02-04-2026 (Thu)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "CSE301",
+            "course_name": "Introduction to Artificial Intelligence",
+            "actual_size": "61",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "02-04-2026 (Thu)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "ELET 221",
-            "Course Name": "Electrical Installations",
-            "Actual Size": "30",
-            "Duration": "01 H 00 M"
+        {
+            "date": "02-04-2026 (Thu)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "ELET 221",
+            "course_name": "Electrical Installations",
+            "actual_size": "30",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "02-04-2026 (Thu)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "ELET212",
-            "Course Name": "Microcontroller",
-            "Actual Size": "41",
-            "Duration": "01 H 00 M"
+        {
+            "date": "02-04-2026 (Thu)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "ELET212",
+            "course_name": "Microcontroller",
+            "actual_size": "41",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "02-04-2026 (Thu)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "GSCH101",
-            "Course Name": "General Chemistry",
-            "Actual Size": "306",
-            "Duration": "01 H 00 M"
+        {
+            "date": "02-04-2026 (Thu)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "GSCH101",
+            "course_name": "General Chemistry",
+            "actual_size": "306",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "02-04-2026 (Thu)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "MCET224",
-            "Course Name": "Inspection and Quality Control",
-            "Actual Size": "23",
-            "Duration": "01 H 00 M"
+        {
+            "date": "02-04-2026 (Thu)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "MCET224",
+            "course_name": "Inspection and Quality Control",
+            "actual_size": "23",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "02-04-2026 (Thu)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "CMET106",
-            "Course Name": "Process Heat Transfer",
-            "Actual Size": "51",
-            "Duration": "01 H 00 M"
+        {
+            "date": "02-04-2026 (Thu)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "CMET106",
+            "course_name": "Process Heat Transfer",
+            "actual_size": "51",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "02-04-2026 (Thu)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "CMET203",
-            "Course Name": "Environmental Pollution",
-            "Actual Size": "43",
-            "Duration": "01 H 00 M"
+        {
+            "date": "02-04-2026 (Thu)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "CMET203",
+            "course_name": "Environmental Pollution",
+            "actual_size": "43",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "02-04-2026 (Thu)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "CMET205",
-            "Course Name": "Mass Transfer Operations",
-            "Actual Size": "11",
-            "Duration": "01 H 00 M"
+        {
+            "date": "02-04-2026 (Thu)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "CMET205",
+            "course_name": "Mass Transfer Operations",
+            "actual_size": "11",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "02-04-2026 (Thu)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "MCET212",
-            "Course Name": "Fluid Machines",
-            "Actual Size": "43",
-            "Duration": "01 H 00 M"
+        {
+            "date": "02-04-2026 (Thu)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "MCET212",
+            "course_name": "Fluid Machines",
+            "actual_size": "43",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "05-04-2026 (Sun)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "CE 305",
-            "Course Name": "Kinetics and Reactor Design",
-            "Actual Size": "22",
-            "Duration": "01 H 00 M"
+        {
+            "date": "05-04-2026 (Sun)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "CE 305",
+            "course_name": "Kinetics and Reactor Design",
+            "actual_size": "22",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "05-04-2026 (Sun)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "CE 404",
-            "Course Name": "Polymer Technology",
-            "Actual Size": "1",
-            "Duration": "01 H 00 M"
+        {
+            "date": "05-04-2026 (Sun)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "CE 404",
+            "course_name": "Polymer Technology",
+            "actual_size": "1",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "05-04-2026 (Sun)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "CMET221",
-            "Course Name": "Analytical Instrumentation",
-            "Actual Size": "26",
-            "Duration": "01 H 00 M"
+        {
+            "date": "05-04-2026 (Sun)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "CMET221",
+            "course_name": "Analytical Instrumentation",
+            "actual_size": "26",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "05-04-2026 (Sun)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "EE205",
-            "Course Name": "Electric Circuits II",
-            "Actual Size": "88",
-            "Duration": "01 H 00 M"
+        {
+            "date": "05-04-2026 (Sun)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "EE205",
+            "course_name": "Electric Circuits II",
+            "actual_size": "88",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "05-04-2026 (Sun)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "ELET235",
-            "Course Name": "Telecommunication Systems",
-            "Actual Size": "7",
-            "Duration": "01 H 00 M"
+        {
+            "date": "05-04-2026 (Sun)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "ELET235",
+            "course_name": "Telecommunication Systems",
+            "actual_size": "7",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "05-04-2026 (Sun)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "GSST201",
-            "Course Name": "Applied Statistics",
-            "Actual Size": "103",
-            "Duration": "01 H 00 M"
+        {
+            "date": "05-04-2026 (Sun)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "GSST201",
+            "course_name": "Applied Statistics",
+            "actual_size": "103",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "05-04-2026 (Sun)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "MA 202",
-            "Course Name": "Probability and Statistics for Engineers",
-            "Actual Size": "40",
-            "Duration": "01 H 00 M"
+        {
+            "date": "05-04-2026 (Sun)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "MA 202",
+            "course_name": "Probability and Statistics for Engineers",
+            "actual_size": "40",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "05-04-2026 (Sun)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "MA 301",
-            "Course Name": "Numerical Methods for Engineers",
-            "Actual Size": "99",
-            "Duration": "01 H 00 M"
+        {
+            "date": "05-04-2026 (Sun)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "MA 301",
+            "course_name": "Numerical Methods for Engineers",
+            "actual_size": "99",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "05-04-2026 (Sun)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "MCET102",
-            "Course Name": "Mechanical Measurements",
-            "Actual Size": "56",
-            "Duration": "01 H 00 M"
+        {
+            "date": "05-04-2026 (Sun)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "MCET102",
+            "course_name": "Mechanical Measurements",
+            "actual_size": "56",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "05-04-2026 (Sun)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "ME208",
-            "Course Name": "Thermodynamics II",
-            "Actual Size": "73",
-            "Duration": "01 H 00 M"
+        {
+            "date": "05-04-2026 (Sun)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "ME208",
+            "course_name": "Thermodynamics II",
+            "actual_size": "73",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "06-04-2026 (Mon)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "CMET105",
-            "Course Name": "Fluid Mechanics",
-            "Actual Size": "16",
-            "Duration": "01 H 00 M"
+        {
+            "date": "06-04-2026 (Mon)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "CMET105",
+            "course_name": "Fluid Mechanics",
+            "actual_size": "16",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "06-04-2026 (Mon)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "ELET201",
-            "Course Name": "Basic Industrial Electronics",
-            "Actual Size": "67",
-            "Duration": "01 H 00 M"
+        {
+            "date": "06-04-2026 (Mon)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "ELET201",
+            "course_name": "Basic Industrial Electronics",
+            "actual_size": "67",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "06-04-2026 (Mon)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "MCET219",
-            "Course Name": "Hydraulics & Pneumatics Tech",
-            "Actual Size": "31",
-            "Duration": "01 H 00 M"
+        {
+            "date": "06-04-2026 (Mon)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "MCET219",
+            "course_name": "Hydraulics & Pneumatics Tech",
+            "actual_size": "31",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "06-04-2026 (Mon)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "MCET222",
-            "Course Name": "Applied Strength of Materials",
-            "Actual Size": "14",
-            "Duration": "01 H 00 M"
+        {
+            "date": "06-04-2026 (Mon)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "MCET222",
+            "course_name": "Applied Strength of Materials",
+            "actual_size": "14",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "06-04-2026 (Mon)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "MS 301",
-            "Course Name": "Business and Entrepreneurship",
-            "Actual Size": "126",
-            "Duration": "01 H 00 M"
+        {
+            "date": "06-04-2026 (Mon)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "MS 301",
+            "course_name": "Business and Entrepreneurship",
+            "actual_size": "126",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "06-04-2026 (Mon)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "CE206",
-            "Course Name": "Organic Chemistry",
-            "Actual Size": "60",
-            "Duration": "01 H 00 M"
+        {
+            "date": "06-04-2026 (Mon)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "CE206",
+            "course_name": "Organic Chemistry",
+            "actual_size": "60",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "06-04-2026 (Mon)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "CMET204",
-            "Course Name": "Proc Inst. & Control",
-            "Actual Size": "42",
-            "Duration": "01 H 00 M"
+        {
+            "date": "06-04-2026 (Mon)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "CMET204",
+            "course_name": "Proc Inst. & Control",
+            "actual_size": "42",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "07-04-2026 (Tue)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "EE 302",
-            "Course Name": "Electrical Energy Engineering",
-            "Actual Size": "32",
-            "Duration": "01 H 00 M"
+        {
+            "date": "07-04-2026 (Tue)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "EE 302",
+            "course_name": "Electrical Energy Engineering",
+            "actual_size": "32",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "07-04-2026 (Tue)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "ELET101",
-            "Course Name": "Electric Circuit I",
-            "Actual Size": "100",
-            "Duration": "01 H 00 M"
+        {
+            "date": "07-04-2026 (Tue)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "ELET101",
+            "course_name": "Electric Circuit I",
+            "actual_size": "100",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "07-04-2026 (Tue)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "ELET102",
-            "Course Name": "Electrical Circuits II",
-            "Actual Size": "200",
-            "Duration": "01 H 00 M"
+        {
+            "date": "07-04-2026 (Tue)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "ELET102",
+            "course_name": "Electrical Circuits II",
+            "actual_size": "200",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "07-04-2026 (Tue)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "ELET232",
-            "Course Name": "Digital Electronics II",
-            "Actual Size": "10",
-            "Duration": "01 H 00 M"
+        {
+            "date": "07-04-2026 (Tue)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "ELET232",
+            "course_name": "Digital Electronics II",
+            "actual_size": "10",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "07-04-2026 (Tue)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "ESP101",
-            "Course Name": "Introduction to Academic Discourse",
-            "Actual Size": "26",
-            "Duration": "01 H 00 M"
+        {
+            "date": "07-04-2026 (Tue)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "ESP101",
+            "course_name": "Introduction to Academic Discourse",
+            "actual_size": "26",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "07-04-2026 (Tue)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "ESP102",
-            "Course Name": "Introduction to Report Writing",
-            "Actual Size": "185",
-            "Duration": "01 H 00 M"
+        {
+            "date": "07-04-2026 (Tue)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "ESP102",
+            "course_name": "Introduction to Report Writing",
+            "actual_size": "185",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "07-04-2026 (Tue)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "ESP201",
-            "Course Name": "Academic and Professional Communication",
-            "Actual Size": "56",
-            "Duration": "01 H 00 M"
+        {
+            "date": "07-04-2026 (Tue)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "ESP201",
+            "course_name": "Academic and Professional Communication",
+            "actual_size": "56",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "07-04-2026 (Tue)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "MCET103",
-            "Course Name": "Machining Processes I",
-            "Actual Size": "122",
-            "Duration": "01 H 00 M"
+        {
+            "date": "07-04-2026 (Tue)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "MCET103",
+            "course_name": "Machining Processes I",
+            "actual_size": "122",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "07-04-2026 (Tue)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "MCET214",
-            "Course Name": "Heat Exchangers",
-            "Actual Size": "60",
-            "Duration": "01 H 00 M"
+        {
+            "date": "07-04-2026 (Tue)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "MCET214",
+            "course_name": "Heat Exchangers",
+            "actual_size": "60",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "07-04-2026 (Tue)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "MCET226",
-            "Course Name": "Welding Technology",
-            "Actual Size": "25",
-            "Duration": "01 H 00 M"
+        {
+            "date": "07-04-2026 (Tue)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "MCET226",
+            "course_name": "Welding Technology",
+            "actual_size": "25",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "07-04-2026 (Tue)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "ME307",
-            "Course Name": "Heat Transfer",
-            "Actual Size": "32",
-            "Duration": "01 H 00 M"
+        {
+            "date": "07-04-2026 (Tue)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "ME307",
+            "course_name": "Heat Transfer",
+            "actual_size": "32",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "07-04-2026 (Tue)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "CE 302",
-            "Course Name": "Heat Transfer",
-            "Actual Size": "20",
-            "Duration": "01 H 00 M"
+        {
+            "date": "07-04-2026 (Tue)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "CE 302",
+            "course_name": "Heat Transfer",
+            "actual_size": "20",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "07-04-2026 (Tue)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "CMET103",
-            "Course Name": "Applied Organic Chemistry",
-            "Actual Size": "68",
-            "Duration": "01 H 00 M"
+        {
+            "date": "07-04-2026 (Tue)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "CMET103",
+            "course_name": "Applied Organic Chemistry",
+            "actual_size": "68",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "07-04-2026 (Tue)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "CMET231",
-            "Course Name": "Petroleum Refining and Testing",
-            "Actual Size": "9",
-            "Duration": "01 H 00 M"
+        {
+            "date": "07-04-2026 (Tue)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "CMET231",
+            "course_name": "Petroleum Refining and Testing",
+            "actual_size": "9",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "08-04-2026 (Wed)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "CE 307",
-            "Course Name": "Physical Chemistry",
-            "Actual Size": "18",
-            "Duration": "01 H 00 M"
+        {
+            "date": "08-04-2026 (Wed)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "CE 307",
+            "course_name": "Physical Chemistry",
+            "actual_size": "18",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "08-04-2026 (Wed)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "EE 201",
-            "Course Name": "Electrical Circuits I",
-            "Actual Size": "25",
-            "Duration": "01 H 00 M"
+        {
+            "date": "08-04-2026 (Wed)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "EE 201",
+            "course_name": "Electrical Circuits I",
+            "actual_size": "25",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "08-04-2026 (Wed)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "EE 204",
-            "Course Name": "Signals and Systems",
-            "Actual Size": "82",
-            "Duration": "01 H 00 M"
+        {
+            "date": "08-04-2026 (Wed)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "EE 204",
+            "course_name": "Signals and Systems",
+            "actual_size": "82",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "08-04-2026 (Wed)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "ELET222",
-            "Course Name": "Electrical Machines  II",
-            "Actual Size": "23",
-            "Duration": "01 H 00 M"
+        {
+            "date": "08-04-2026 (Wed)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "ELET222",
+            "course_name": "Electrical Machines II",
+            "actual_size": "23",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "08-04-2026 (Wed)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "ELET224",
-            "Course Name": "Electrical Power Systems",
-            "Actual Size": "35",
-            "Duration": "01 H 00 M"
+        {
+            "date": "08-04-2026 (Wed)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "ELET224",
+            "course_name": "Electrical Power Systems",
+            "actual_size": "35",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "08-04-2026 (Wed)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "ELET241",
-            "Course Name": "Process Instrumentation",
-            "Actual Size": "22",
-            "Duration": "01 H 00 M"
+        {
+            "date": "08-04-2026 (Wed)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "ELET241",
+            "course_name": "Process Instrumentation",
+            "actual_size": "22",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "08-04-2026 (Wed)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "ELET243",
-            "Course Name": "Inst T-Shooting & Maint",
-            "Actual Size": "26",
-            "Duration": "01 H 00 M"
+        {
+            "date": "08-04-2026 (Wed)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "ELET243",
+            "course_name": "Inst T-Shooting & Maint",
+            "actual_size": "26",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "08-04-2026 (Wed)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "ME 303",
-            "Course Name": "Manufacturing Processes",
-            "Actual Size": "24",
-            "Duration": "01 H 00 M"
+        {
+            "date": "08-04-2026 (Wed)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "ME 303",
+            "course_name": "Manufacturing Processes",
+            "actual_size": "24",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "08-04-2026 (Wed)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "ME203",
-            "Course Name": "Statics",
-            "Actual Size": "25",
-            "Duration": "01 H 00 M"
+        {
+            "date": "08-04-2026 (Wed)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "ME203",
+            "course_name": "Statics",
+            "actual_size": "25",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "08-04-2026 (Wed)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "CE 303",
-            "Course Name": "Mass Transfer",
-            "Actual Size": "14",
-            "Duration": "01 H 00 M"
+        {
+            "date": "08-04-2026 (Wed)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "CE 303",
+            "course_name": "Mass Transfer",
+            "actual_size": "14",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "08-04-2026 (Wed)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "CE205",
-            "Course Name": "Fluid Mechanics",
-            "Actual Size": "65",
-            "Duration": "01 H 00 M"
+        {
+            "date": "08-04-2026 (Wed)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "CE205",
+            "course_name": "Fluid Mechanics",
+            "actual_size": "65",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "08-04-2026 (Wed)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "ELET104",
-            "Course Name": "Computer Programming",
-            "Actual Size": "128",
-            "Duration": "01 H 00 M"
+        {
+            "date": "08-04-2026 (Wed)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "ELET104",
+            "course_name": "Computer Programming",
+            "actual_size": "128",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "09-04-2026 (Thu)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "CE 405",
-            "Course Name": "Desalination",
-            "Actual Size": "1",
-            "Duration": "01 H 00 M"
+        {
+            "date": "09-04-2026 (Thu)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "CE 405",
+            "course_name": "Desalination",
+            "actual_size": "1",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "09-04-2026 (Thu)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "EE 304",
-            "Course Name": "Control Engineering",
-            "Actual Size": "11",
-            "Duration": "01 H 00 M"
+        {
+            "date": "09-04-2026 (Thu)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "EE 304",
+            "course_name": "Control Engineering",
+            "actual_size": "11",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "09-04-2026 (Thu)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "EE 306",
-            "Course Name": "Fundamentals of Electrical Engineering Design",
-            "Actual Size": "39",
-            "Duration": "01 H 00 M"
+        {
+            "date": "09-04-2026 (Thu)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "EE 306",
+            "course_name": "Fundamentals of Electrical Engineering Design",
+            "actual_size": "39",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "09-04-2026 (Thu)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "ELET105",
-            "Course Name": "Electronics  I",
-            "Actual Size": "158",
-            "Duration": "01 H 00 M"
+        {
+            "date": "09-04-2026 (Thu)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "ELET105",
+            "course_name": "Electronics I",
+            "actual_size": "158",
+            "duration": "01 H 00 M"
         },
-        {
-            "Date (Day)": "09-04-2026 (Thu)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "ELET211",
-            "Course Name": "Instrumentation Electronics",
-            "Actual Size": "25",
-            "Duration": "01 H 00 M"
-        },
-        {
-            "Date (Day)": "09-04-2026 (Thu)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "ELET231",
-            "Course Name": "Electronics II",
-            "Actual Size": "16",
-            "Duration": "01 H 00 M"
-        },
-        {
-            "Date (Day)": "09-04-2026 (Thu)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "MCET104",
-            "Course Name": "Materials Technology",
-            "Actual Size": "122",
-            "Duration": "01 H 00 M"
-        },
-        {
-            "Date (Day)": "09-04-2026 (Thu)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "MCET211",
-            "Course Name": "Applied Thermodynamics",
-            "Actual Size": "80",
-            "Duration": "01 H 00 M"
-        },
-        {
-            "Date (Day)": "09-04-2026 (Thu)",
-            "Time": "09:40 AM - 10:40 AM",
-            "Code": "MCET217",
-            "Course Name": "Ref & Air-Con Tech",
-            "Actual Size": "25",
-            "Duration": "01 H 00 M"
-        },
-        {
-            "Date (Day)": "09-04-2026 (Thu)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "ARB101",
-            "Course Name": "Practical Grammar",
-            "Actual Size": "22",
-            "Duration": "01 H 00 M"
-        },
-        {
-            "Date (Day)": "09-04-2026 (Thu)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "ARB102",
-            "Course Name": "Objective Writing",
-            "Actual Size": "190",
-            "Duration": "01 H 00 M"
-        },
-        {
-            "Date (Day)": "09-04-2026 (Thu)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "ARB201",
-            "Course Name": "Literary Styles",
-            "Actual Size": "106",
-            "Duration": "01 H 00 M"
-        },
-        {
-            "Date (Day)": "09-04-2026 (Thu)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "CMET102",
-            "Course Name": "Methods of Chem. Analysis",
-            "Actual Size": "58",
-            "Duration": "01 H 00 M"
-        },
-        {
-            "Date (Day)": "09-04-2026 (Thu)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "CMET202",
-            "Course Name": "Chem Engg Tdynamics",
-            "Actual Size": "8",
-            "Duration": "01 H 00 M"
-        },
-        {
-            "Date (Day)": "09-04-2026 (Thu)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "CMET232",
-            "Course Name": "Petrochemicals",
-            "Actual Size": "47",
-            "Duration": "01 H 00 M"
-        },
-        {
-            "Date (Day)": "09-04-2026 (Thu)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "ELET 233",
-            "Course Name": "Analog & Digital Comm",
-            "Actual Size": "6",
-            "Duration": "01 H 00 M"
-        },
-        {
-            "Date (Day)": "09-04-2026 (Thu)",
-            "Time": "01:20 PM - 02:20 PM",
-            "Code": "ELET225",
-            "Course Name": "Electrical Trbl Shtg & Maint",
-            "Actual Size": "22",
-            "Duration": "01 H 00 M"
+        {
+            "date": "09-04-2026 (Thu)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "ELET211",
+            "course_name": "Instrumentation Electronics",
+            "actual_size": "25",
+            "duration": "01 H 00 M"
+        },
+        {
+            "date": "09-04-2026 (Thu)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "ELET231",
+            "course_name": "Electronics II",
+            "actual_size": "16",
+            "duration": "01 H 00 M"
+        },
+        {
+            "date": "09-04-2026 (Thu)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "MCET104",
+            "course_name": "Materials Technology",
+            "actual_size": "122",
+            "duration": "01 H 00 M"
+        },
+        {
+            "date": "09-04-2026 (Thu)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "MCET211",
+            "course_name": "Applied Thermodynamics",
+            "actual_size": "80",
+            "duration": "01 H 00 M"
+        },
+        {
+            "date": "09-04-2026 (Thu)",
+            "time": "09:40 AM - 10:40 AM",
+            "code": "MCET217",
+            "course_name": "Ref & Air-Con Tech",
+            "actual_size": "25",
+            "duration": "01 H 00 M"
+        },
+        {
+            "date": "09-04-2026 (Thu)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "ARB101",
+            "course_name": "Practical Grammar",
+            "actual_size": "22",
+            "duration": "01 H 00 M"
+        },
+        {
+            "date": "09-04-2026 (Thu)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "ARB102",
+            "course_name": "Objective Writing",
+            "actual_size": "190",
+            "duration": "01 H 00 M"
+        },
+        {
+            "date": "09-04-2026 (Thu)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "ARB201",
+            "course_name": "Literary Styles",
+            "actual_size": "106",
+            "duration": "01 H 00 M"
+        },
+        {
+            "date": "09-04-2026 (Thu)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "CMET102",
+            "course_name": "Methods of Chem. Analysis",
+            "actual_size": "58",
+            "duration": "01 H 00 M"
+        },
+        {
+            "date": "09-04-2026 (Thu)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "CMET202",
+            "course_name": "Chem Engg Tdynamics",
+            "actual_size": "8",
+            "duration": "01 H 00 M"
+        },
+        {
+            "date": "09-04-2026 (Thu)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "CMET232",
+            "course_name": "Petrochemicals",
+            "actual_size": "47",
+            "duration": "01 H 00 M"
+        },
+        {
+            "date": "09-04-2026 (Thu)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "ELET 233",
+            "course_name": "Analog & Digital Comm",
+            "actual_size": "6",
+            "duration": "01 H 00 M"
+        },
+        {
+            "date": "09-04-2026 (Thu)",
+            "time": "01:20 PM - 02:20 PM",
+            "code": "ELET225",
+            "course_name": "Electrical Trbl Shtg & Maint",
+            "actual_size": "22",
+            "duration": "01 H 00 M"
         }
     ]
 }

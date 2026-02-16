@@ -28,16 +28,16 @@
         font-family: 'Tajawal', sans-serif; 
         color: white; 
         overflow-x: hidden; 
-        direction: rtl; /* ضمان الاتجاه العربي */
+        direction: rtl; 
     }
 
-    /* 2. الخلفية السينمائية */
+    /* 2. الخلفية السينمائية المتداخلة */
     .bg-blobs { position: fixed; width: 100vw; height: 100vh; z-index: -1; overflow: hidden; }
     .blob { 
         position: absolute; 
         filter: blur(100px); 
         border-radius: 50%; 
-        opacity: 0.2; 
+        opacity: 0.15; 
         animation: move 20s infinite alternate ease-in-out; 
     }
     @keyframes move {
@@ -64,102 +64,85 @@
         text-align: center; 
         font-weight: 900; 
         font-size: 14px; 
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
 
     /* 4. البحث */
     .search-wrapper { padding: 40px 20px; text-align: center; }
-    .search-wrapper h2 { margin-bottom: 25px; font-weight: 900; }
-    .search-wrapper .input-group { position: relative; max-width: 500px; margin: 0 auto; }
+    .search-wrapper h2 { margin-bottom: 25px; font-weight: 900; font-size: 24px; }
     .search-wrapper input { 
-        width: 100%; 
-        padding: 16px 20px; 
-        border-radius: 20px; 
-        border: 1px solid rgba(255,255,255,0.1); 
-        background: rgba(0,0,0,0.4); 
-        color: white; 
-        outline: none; 
-        font-size: 16px; 
-        transition: 0.3s;
+        width: 100%; max-width: 500px; padding: 16px 20px; border-radius: 20px; 
+        border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.4); 
+        color: white; outline: none; font-size: 16px; transition: 0.3s;
     }
     .search-wrapper input:focus { border-color: var(--primary); box-shadow: 0 0 20px rgba(128, 66, 255, 0.2); }
 
-    /* 5. النظام الشبكي (هنا السر في الترتيب) */
+    /* 5. نظام الجريد الموحد (المسطرة) */
     .table-header, .row { 
         display: grid; 
-        /* المادة مرنة (1fr) والبقية مسافات ثابتة لضمان التنصيف */
-        grid-template-columns: 1fr 110px 100px 80px 50px; 
+        /* المادة مرنة (1fr) والبقية مسافات ثابتة لضمان التنصيف المطلق */
+        grid-template-columns: 1fr 115px 110px 85px 55px; 
         gap: 12px; 
         align-items: center; 
-        padding: 15px 20px;
+        padding: 15px 25px;
         margin: 8px 15px;
     }
 
     .table-header { 
         background: rgba(255,255,255,0.03); 
         border-radius: 12px; 
-        font-size: 11px; 
-        font-weight: 800;
+        font-size: 11px; font-weight: 800;
         color: rgba(255,255,255,0.3); 
         text-align: center;
-        padding: 12px 20px;
     }
 
-    /* محاذاة خاصة لخانة المادة فقط */
-    .table-header div:first-child, .row .info-group {
-        text-align: right !important;
-        padding-right: 10px;
-    }
+    /* محاذاة خاصة للمادة (يمين) والباقي (سنتر) */
+    .table-header div, .row > div { text-align: center; }
+    .table-header div:first-child, .row .info-group { text-align: right !important; padding-right: 10px; }
 
     .row { 
-        background: var(--row-bg); 
-        border-radius: 16px; 
-        border: 1px solid rgba(255,255,255,0.05); 
-        transition: 0.2s;
+        background: var(--row-bg); border-radius: 16px; 
+        border: 1px solid rgba(255,255,255,0.05); transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    .row:hover { background: rgba(255,255,255,0.05); transform: translateY(-2px); }
+    .row:hover { background: rgba(255,255,255,0.06); transform: translateY(-3px); border-color: rgba(255,255,255,0.15); }
 
     /* 6. الأزرار */
     .btn-action { 
-        border: none; 
-        width: 32px; 
-        height: 32px; 
-        border-radius: 10px; 
-        cursor: pointer; 
-        display: flex; 
-        align-items: center; 
-        justify-content: center; 
-        background: rgba(128, 66, 255, 0.15); 
-        color: #b794ff; 
-        transition: 0.3s;
-        margin: 0 auto;
+        border: none; width: 34px; height: 34px; border-radius: 10px; 
+        cursor: pointer; display: flex; align-items: center; justify-content: center; 
+        background: rgba(128, 66, 255, 0.2); color: #b794ff; transition: 0.3s; margin: 0 auto;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
-    .btn-save.saved { 
-        background: var(--danger); 
-        color: white; 
-        transform: rotate(90deg); 
+    .btn-action:active { transform: scale(0.9); }
+    .btn-save.saved { background: var(--danger); color: white; transform: rotate(90deg); }
+
+    .section-title { 
+        padding: 25px 25px 10px; font-size: 15px; color: var(--primary); 
+        font-weight: 900; display: flex; align-items: center; gap: 10px; 
     }
 
-    /* 7. تحسينات الجوال (Responsive) */
+    /* 7. التنسيق الرهيب للجوال (سينمائي) */
     @media (max-width: 600px) {
-        .app { width: 98%; margin: 10px auto; border-radius: 20px; }
+        .app { width: 100%; margin: 0; border-radius: 0; border: none; }
         
         .table-header, .row { 
-            /* تصغير المسافات الثابتة لتناسب شاشة الجوال */
-            grid-template-columns: 1fr 85px 80px 65px 40px; 
-            gap: 5px; 
-            padding: 12px 8px; 
-            margin: 6px 8px; 
+            /* تقليص الأعمدة الجانبية لأقصى حد لترك مساحة للمادة */
+            grid-template-columns: 1fr 75px 72px 60px 45px; 
+            gap: 5px; padding: 15px 8px; margin: 5px 0; 
+            border-radius: 0; border-left: none; border-right: none;
         }
 
-        .section-title { font-size: 12px; padding: 15px 15px 5px; }
+        .row .label { font-size: 14px !important; font-weight: 800; color: #ffd166; }
+        .row .sub { 
+            font-size: 10px !important; white-space: normal; line-height: 1.2;
+            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+        }
         
-        /* ضبط أحجام النصوص داخل الصفوف للجوال */
-        .row .label { font-size: 13px !important; }
-        .row .sub { font-size: 8px !important; }
-        .date-box b { font-size: 10px !important; }
-        .time-box div { min-width: 65px !important; padding: 3px !important; }
+        .date-box b { font-size: 11px !important; }
+        .time-box div { min-width: 68px !important; padding: 5px 2px !important; font-size: 9px !important; }
         
-        .btn-action { width: 28px; height: 28px; }
+        .btn-action { width: 30px; height: 30px; }
+        .section-title { padding: 20px 15px 5px; font-size: 14px; }
     }
 </style>
 </head>

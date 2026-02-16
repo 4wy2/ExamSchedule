@@ -11,50 +11,30 @@
     <script>dayjs.extend(window.dayjs_plugin_customParseFormat);</script>
 
     <style>
+        /* نفس التنسيقات الرائعة التي وضعتها أنت */
         :root { --primary: #8042ff; --accent: #1fc47c; --danger: #ff4d6d; --bg: #050816; }
         body { margin: 0; background: var(--bg); font-family: 'Tajawal', sans-serif; color: white; overflow-x: hidden; }
-        
         .bg-blobs { position: fixed; width: 100vw; height: 100vh; z-index: -1; overflow: hidden; }
         .blob { position: absolute; filter: blur(80px); border-radius: 50%; opacity: 0.1; animation: move 20s infinite alternate; }
         @keyframes move { from { transform: translate(0, 0); } to { transform: translate(100px, 100px); } }
-
-        .app { width: min(950px, 95%); margin: 30px auto; background: rgba(13, 23, 56, 0.7); backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.1); border-radius: 30px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.6); }
-
-        .countdown-bar { background: linear-gradient(90deg, var(--danger), var(--primary)); padding: 15px; text-align: center; font-weight: 800; display: none; font-size: 15px; }
-
+        .app { width: min(950px, 95%); margin: 30px auto; background: rgba(13, 23, 56, 0.7); backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.1); border-radius: 30px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.6); min-height: 500px; }
+        .countdown-bar { background: linear-gradient(90deg, var(--danger), var(--primary)); padding: 15px; text-align: center; font-weight: 800; display: none; }
         .search-wrapper { padding: 40px 20px; text-align: center; }
-        .search-wrapper input { width: 100%; max-width: 500px; padding: 18px 30px; border-radius: 50px; border: 2px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.4); color: white; outline: none; font-family: inherit; font-size: 16px; transition: 0.3s; }
-        .search-wrapper input:focus { border-color: var(--primary); box-shadow: 0 0 20px rgba(128, 66, 255, 0.4); }
-
+        .search-wrapper input { width: 100%; max-width: 500px; padding: 18px 30px; border-radius: 50px; border: 2px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.4); color: white; outline: none; font-size: 16px; }
         .section-title { padding: 25px 25px 10px; font-size: 14px; color: var(--primary); font-weight: 900; display: flex; align-items: center; gap: 12px; }
-        .section-title::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, rgba(128,66,255,0.3), transparent); }
-
-        .table-header { display: grid; grid-template-columns: 1.5fr 1fr 1fr 0.6fr 0.8fr; gap: 10px; padding: 10px 30px; opacity: 0.4; font-size: 12px; font-weight: bold; }
-
-        .row { display: grid; grid-template-columns: 1.5fr 1fr 1fr 0.6fr 0.8fr; gap: 10px; padding: 20px; margin: 8px 15px; background: rgba(255,255,255,0.03); border-radius: 18px; align-items: center; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s ease; }
-        .row:hover { background: rgba(255,255,255,0.08); border-color: var(--primary); }
-
-        .pulse-border { border: 1.5px solid var(--danger); animation: pulse 2s infinite; background: rgba(255, 77, 109, 0.05); }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 77, 109, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(255, 77, 109, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 77, 109, 0); } }
-
+        .table-header { display: grid; grid-template-columns: 1.5fr 1fr 1fr 0.6fr 0.8fr; gap: 10px; padding: 10px 30px; opacity: 0.4; font-size: 12px; }
+        .row { display: grid; grid-template-columns: 1.5fr 1fr 1fr 0.6fr 0.8fr; gap: 10px; padding: 20px; margin: 8px 15px; background: rgba(255,255,255,0.03); border-radius: 18px; align-items: center; border: 1px solid rgba(255,255,255,0.05); }
         .info-group .label { font-weight: 900; color: #ffd166; font-size: 16px; }
-        .info-group .sub { font-size: 11px; opacity: 0.6; display: block; }
-
         .time-badge { color: var(--danger); font-weight: 800; }
-        .duration-badge { background: rgba(255,255,255,0.1); padding: 4px 8px; border-radius: 8px; font-size: 11px; }
-
         .actions { display: flex; gap: 10px; justify-content: flex-end; }
-        .btn-action { border: none; width: 38px; height: 38px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .btn-action { border: none; width: 38px; height: 38px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .btn-save { background: rgba(128, 66, 255, 0.1); color: #b794ff; }
         .btn-save.saved { background: var(--danger); color: white; }
-        .btn-cal { background: rgba(31, 196, 124, 0.1); color: var(--accent); }
 
         @media (max-width: 768px) {
             .table-header { display: none; }
-            .row { grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; }
-            .info-group { grid-column: span 2; }
-            .actions { grid-column: span 2; justify-content: center; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.05); }
-            .mobile-label { font-size: 10px; opacity: 0.5; display: block; margin-bottom: 2px; }
+            .row { grid-template-columns: 1fr 1fr; gap: 15px; }
+            .info-group, .actions { grid-column: span 2; }
         }
     </style>
 </head>
@@ -69,72 +49,57 @@
         <div id="countdown" class="countdown-bar"></div>
         <div class="search-wrapper">
             <h2>جداول YIC الذكية <span style="font-size: 12px; background: var(--primary); padding: 2px 8px; border-radius: 6px;">PRO</span></h2>
-            <input id="studentId" type="text" placeholder="ابحث برمز المادة أو اسمها...">
+            <input id="searchInput" type="text" placeholder="ابحث برمز المادة أو اسمها...">
         </div>
 
         <div id="myScheduleSection" style="display:none;">
             <div class="section-title"><i class="fa fa-star" style="color:#ffd166"></i> جدولك الشخصي</div>
-            <div class="table-header">
-                <div>المادة</div><div>التاريخ</div><div>الوقت</div><div>المدة</div><div style="text-align:left">خيارات</div>
-            </div>
             <div id="myRows"></div>
         </div>
 
         <div class="section-title"><i class="fa fa-search"></i> نتائج البحث</div>
-        <div id="searchHeader" class="table-header" style="display:none;">
-            <div>المادة</div><div>التاريخ</div><div>الوقت</div><div>المدة</div><div style="text-align:left">خيارات</div>
-        </div>
         <div id="searchRows">
-            <div style="text-align: center; padding: 60px; opacity: 0.3;">ابدأ البحث لعرض الاختبارات</div>
+            <div style="text-align: center; padding: 60px; opacity: 0.3;">جاري تحميل البيانات...</div>
         </div>
     </main>
 
     <script>
-        // دمج البيانات مباشرة هنا لضمان عدم "نسيان" أي شيء
-        const allExams = [
-            {"date": "29-03-2026 (Sun)", "time": "09:40 AM - 10:40 AM", "code": "CE 402", "course_name": "Plant Design and Economics", "actual_size": "1", "duration": "01 H 00 M"},
-            {"date": "29-03-2026 (Sun)", "time": "09:40 AM - 10:40 AM", "code": "ME 302", "course_name": "Dynamics of Machinery", "actual_size": "5", "duration": "01 H 00 M"},
-            {"date": "29-03-2026 (Sun)", "time": "01:20 PM - 03:20 PM", "code": "ME 303", "course_name": "Mechanics of Materials", "actual_size": "2", "duration": "02 H 00 M"},
-            {"date": "29-03-2026 (Sun)", "time": "01:20 PM - 03:20 PM", "code": "MATH 203", "course_name": "Calculus III", "actual_size": "55", "duration": "02 H 00 M"}
-            // ملاحظة: قم بلصق بقية الـ 117 مادة هنا بنفس التنسيق
-        ];
-
+        let allExams = [];
         let myExams = JSON.parse(localStorage.getItem('yic_saved_exams')) || [];
 
-        function init() {
-            renderMySchedule();
-            if ("Notification" in window) { Notification.requestPermission(); }
+        // 1. وظيفة جلب البيانات من الملف الخارجي
+        async function loadData() {
+            try {
+                // تأكد أن اسم الملف مطابق تماماً لما لديك
+                const response = await fetch('exams_data.json');
+                if (!response.ok) throw new Error('لم يتم العثور على ملف JSON');
+                
+                const data = await response.json();
+                allExams = data.exams_list;
+                
+                // بعد التحميل بنجاح، اعرض الجدول الشخصي ونظف واجهة البحث
+                renderMySchedule();
+                document.getElementById('searchRows').innerHTML = '<div style="text-align: center; padding: 60px; opacity: 0.3;">ابدأ البحث الآن في 117 مادة</div>';
+                
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('searchRows').innerHTML = '<div style="text-align: center; padding: 60px; color: var(--danger);">فشل تحميل ملف البيانات. تأكد من وجود ملف exams_data.json</div>';
+            }
         }
 
+        // 2. إنشاء الصفوف
         function createRow(ex, isSaved) {
-            const examDateStr = ex.date.split(' ')[0];
-            const examDate = dayjs(examDateStr, 'DD-MM-YYYY');
-            const isToday = examDate.isSame(dayjs(), 'day');
-            
             const row = document.createElement('div');
-            row.className = `row ${isToday ? 'pulse-border' : ''}`;
+            row.className = 'row';
             row.innerHTML = `
                 <div class="info-group">
                     <span class="label">${ex.code}</span>
-                    <span class="sub">${ex.course_name}</span>
+                    <span class="sub" style="display:block; font-size:11px; opacity:0.7;">${ex.course_name}</span>
                 </div>
-                <div>
-                    <span class="mobile-label">التاريخ</span>
-                    <div style="font-weight:bold;">${examDateStr}</div>
-                    <div style="font-size:11px; color:var(--accent);">${ex.date.split(' ')[1] || ''}</div>
-                </div>
-                <div>
-                    <span class="mobile-label">الوقت</span>
-                    <span class="time-badge">${ex.time}</span>
-                </div>
-                <div>
-                    <span class="mobile-label">المدة</span>
-                    <span class="duration-badge">${ex.duration}</span>
-                </div>
+                <div><b>${ex.date.split(' ')[0]}</b></div>
+                <div class="time-badge">${ex.time}</div>
+                <div style="font-size:12px; opacity:0.8;">${ex.duration}</div>
                 <div class="actions">
-                    <button class="btn-action btn-cal" onclick="addToCal('${ex.code}','${ex.date}','${ex.time}')">
-                        <i class="fa fa-calendar-plus"></i>
-                    </button>
                     <button class="btn-action btn-save ${isSaved ? 'saved' : ''}" onclick="toggleSave('${ex.code}')">
                         <i class="fa ${isSaved ? 'fa-trash-can' : 'fa-bookmark'}"></i>
                     </button>
@@ -143,18 +108,52 @@
             return row;
         }
 
+        // 3. عرض الجدول الشخصي
         function renderMySchedule() {
             const container = document.getElementById('myRows');
             const section = document.getElementById('myScheduleSection');
-            if (myExams.length === 0) { section.style.display = 'none'; return; }
             
-            myExams.sort((a, b) => dayjs(a.date.split(' ')[0], 'DD-MM-YYYY') - dayjs(b.date.split(' ')[0], 'DD-MM-YYYY'));
+            if (myExams.length === 0) {
+                section.style.display = 'none';
+                document.getElementById('countdown').style.display = 'none';
+                return;
+            }
+
             section.style.display = 'block';
             container.innerHTML = '';
             myExams.forEach(ex => container.appendChild(createRow(ex, true)));
+            
+            // تحديث العد التنازلي لأول اختبار مضاف
             updateCountdown(myExams[0].date);
         }
 
+        // 4. نظام البحث الفوري
+        function doSearch() {
+            const q = document.getElementById('searchInput').value.trim().toUpperCase();
+            const container = document.getElementById('searchRows');
+            
+            if (!q) {
+                container.innerHTML = '<div style="text-align: center; padding: 60px; opacity: 0.3;">ابدأ البحث الآن في 117 مادة</div>';
+                return;
+            }
+
+            const filtered = allExams.filter(e => 
+                e.code.toUpperCase().includes(q) || 
+                e.course_name.toUpperCase().includes(q)
+            );
+
+            container.innerHTML = '';
+            if (filtered.length > 0) {
+                filtered.forEach(ex => {
+                    const isSaved = myExams.some(s => s.code === ex.code);
+                    container.appendChild(createRow(ex, isSaved));
+                });
+            } else {
+                container.innerHTML = '<div style="text-align: center; padding: 40px; opacity: 0.5;">لا توجد نتائج مطابقة</div>';
+            }
+        }
+
+        // 5. حفظ وحذف المواد
         function toggleSave(code) {
             const index = myExams.findIndex(e => e.code === code);
             if (index > -1) {
@@ -168,52 +167,19 @@
             doSearch();
         }
 
-        function doSearch() {
-            const q = document.getElementById('studentId').value.trim().toUpperCase();
-            const container = document.getElementById('searchRows');
-            const header = document.getElementById('searchHeader');
-            
-            if (!q) { 
-                container.innerHTML = '<div style="text-align: center; padding: 60px; opacity: 0.3;">ابدأ البحث لعرض الاختبارات</div>';
-                header.style.display = 'none';
-                return; 
-            }
-
-            const filtered = allExams.filter(e => 
-                e.code.toUpperCase().includes(q) || 
-                e.course_name.toUpperCase().includes(q)
-            );
-
-            container.innerHTML = '';
-            if(filtered.length > 0) {
-                header.style.display = 'grid';
-                filtered.forEach(ex => {
-                    const isSaved = myExams.some(s => s.code === ex.code);
-                    container.appendChild(createRow(ex, isSaved));
-                });
-            } else {
-                header.style.display = 'none';
-                container.innerHTML = '<div style="text-align: center; padding: 40px; opacity: 0.5;">لا توجد مواد تطابق بحثك</div>';
-            }
-        }
-
         function updateCountdown(dateStr) {
             const target = dayjs(dateStr.split(' ')[0], 'DD-MM-YYYY');
             const diff = target.diff(dayjs().startOf('day'), 'day');
             const el = document.getElementById('countdown');
             el.style.display = 'block';
-            if (diff > 0) el.innerHTML = `🚀 متبقي ${diff} أيام على اختبارك القادم (${dateStr.split(' ')[0]})`;
-            else if (diff === 0) el.innerHTML = `🔥 اختبارك اليوم! فالك التوفيق`;
-            else el.innerHTML = `✅ انتهت الاختبارات في جدولك`;
+            if (diff > 0) el.innerText = `🚀 متبقي ${diff} أيام على اختبارك القادم`;
+            else if (diff === 0) el.innerText = `🔥 اختبارك اليوم! فالك التوفيق`;
+            else el.innerText = `✅ انتهت الاختبارات المضافة`;
         }
 
-        function addToCal(code, dStr, tStr) {
-            const d = dStr.split(' ')[0].split('-').reverse().join('');
-            window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=اختبار ${code}&dates=${d}/${d}`, '_blank');
-        }
-
-        document.getElementById('studentId').addEventListener('input', doSearch);
-        init();
+        // تشغيل التطبيق
+        document.getElementById('searchInput').addEventListener('input', doSearch);
+        window.onload = loadData;
     </script>
 </body>
 </html>

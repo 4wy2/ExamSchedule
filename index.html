@@ -138,27 +138,39 @@
     }
 
     /* 7. التنسيق النحيف للجوال (Slim Mode) */
-    @media (max-width: 600px) {
-        .app { width: 100%; margin: 0; border-radius: 0; border: none; }
-        
-        .search-wrapper { padding: 30px 15px; }
-        .search-wrapper h2 { font-size: 20px; }
-        .search-wrapper input { padding: 14px 45px 14px 20px; font-size: 14px; }
-        .search-icon { right: 15px; font-size: 15px; }
+  @media (max-width: 600px) {
+    .app { width: 100%; margin: 0; border-radius: 0; border: none; }
+    
+    .search-wrapper { padding: 30px 15px; }
+    .search-wrapper h2 { font-size: 20px; }
+    
+    /* إلغاء الهيدر في الجوال لأنه يستهلك مساحة دون فائدة حقيقية */
+    .table-header { display: none; }
 
-        .table-header, .row { 
-            grid-template-columns: 1fr 65px 65px 50px 35px; 
-            gap: 3px; padding: 10px 5px; margin: 3px 0; 
-            border-radius: 0; border-left: none; border-right: none;
-        }
+    .row { 
+        /* توزيع ذكي: (المادة) تاخذ كل المساحة - (التاريخ والوقت) جنب بعض - (الزر) في الأخير */
+        grid-template-columns: 1fr 90px 45px; 
+        gap: 10px; 
+        padding: 15px 12px; 
+        margin: 6px 0;
+        border-bottom: 1px solid var(--border-color);
+    }
 
-        .table-header { font-size: 9px; padding: 8px 5px; }
+    /* إخفاء عمود المدة تماماً في الجوال لتنفس التصميم */
+    .duration-box { display: none; }
 
-        .row .label { font-size: 12px !important; font-weight: 800; color: #ffd166; }
-        .row .sub { 
-            font-size: 8px !important; line-height: 1.1;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-        }
+    /* تكبير الأزرار لسهولة اللمس بالأصبع */
+    .btn-action { 
+        width: 40px; 
+        height: 40px; 
+        border-radius: 10px; 
+        font-size: 16px;
+    }
+
+    .row .label { font-size: 14px !important; white-space: normal; }
+    .row .sub { font-size: 10px !important; opacity: 0.6; }
+}
+
         
         .date-box b { font-size: 10px !important; }
         .date-box small { font-size: 7px !important; }

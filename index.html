@@ -10,71 +10,80 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.7/plugin/customParseFormat.min.js"></script>
 
     <style>
-        :root { --primary: #8042ff; --accent: #1fc47c; --danger: #ff4d6d; --bg: #050816; }
-        body { margin: 0; background: var(--bg); font-family: 'Tajawal', sans-serif; color: white; overflow-x: hidden; }
+        :root { --primary: #8042ff; --accent: #1fc47c; --danger: #ff4d6d; --bg: #050816; --card-bg: rgba(255, 255, 255, 0.04); }
+        body { margin: 0; background: var(--bg); font-family: 'Tajawal', sans-serif; color: white; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
         
         .bg-blobs { position: fixed; width: 100vw; height: 100vh; z-index: -1; overflow: hidden; }
         .blob { position: absolute; filter: blur(80px); border-radius: 50%; opacity: 0.1; animation: move 20s infinite alternate; }
         @keyframes move { from { transform: translate(0, 0); } to { transform: translate(100px, 100px); } }
 
-        .app { width: min(950px, 95%); margin: 30px auto; background: rgba(13, 23, 56, 0.7); backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.1); border-radius: 30px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.6); }
+        .app { width: min(950px, 95%); margin: 20px auto; background: rgba(13, 23, 56, 0.7); backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.1); border-radius: 25px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
 
-        .countdown-bar { background: linear-gradient(90deg, var(--danger), var(--primary)); padding: 15px; text-align: center; font-weight: 800; display: none; font-size: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .countdown-bar { background: linear-gradient(90deg, var(--danger), var(--primary)); padding: 15px; text-align: center; font-weight: 800; display: none; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.1); position: sticky; top: 0; z-index: 10; }
 
-        .search-wrapper { padding: 40px 20px; text-align: center; background: rgba(255,255,255,0.02); }
-        .search-wrapper h2 { font-weight: 900; font-size: 28px; margin-bottom: 10px; color: white; }
-        .search-wrapper input { width: 100%; max-width: 500px; padding: 18px 30px; border-radius: 50px; border: 2px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.4); color: white; outline: none; font-family: inherit; font-size: 16px; transition: 0.3s; }
-        .search-wrapper input:focus { border-color: var(--primary); box-shadow: 0 0 20px rgba(128, 66, 255, 0.4); }
+        .search-wrapper { padding: 30px 15px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .search-wrapper h2 { font-weight: 900; font-size: clamp(20px, 5vw, 28px); margin-bottom: 15px; }
+        .search-wrapper input { width: 100%; max-width: 500px; padding: 15px 25px; border-radius: 50px; border: 2px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.4); color: white; outline: none; font-family: inherit; font-size: 16px; transition: 0.3s; box-sizing: border-box; }
+        .search-wrapper input:focus { border-color: var(--primary); box-shadow: 0 0 15px rgba(128, 66, 255, 0.3); }
 
-        .section-title { padding: 25px 25px 10px; font-size: 14px; color: var(--primary); font-weight: 900; display: flex; align-items: center; gap: 12px; }
-        .section-title::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, rgba(128,66,255,0.3), transparent); }
+        .section-title { padding: 20px 20px 10px; font-size: 13px; color: var(--primary); font-weight: 900; display: flex; align-items: center; gap: 10px; }
+        .section-title::after { content: ""; flex: 1; height: 1px; background: rgba(255,255,255,0.1); }
 
-        .table-header { display: grid; grid-template-columns: 1.5fr 1fr 1fr 0.6fr 0.8fr; gap: 10px; padding: 10px 30px; opacity: 0.4; font-size: 12px; font-weight: bold; }
-
-        .row { display: grid; grid-template-columns: 1.5fr 1fr 1fr 0.6fr 0.8fr; gap: 10px; padding: 20px; margin: 8px 15px; background: rgba(255,255,255,0.03); border-radius: 18px; align-items: center; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s ease; }
+        /* تنسيق الجدول للكمبيوتر */
+        .table-header { display: grid; grid-template-columns: 1.5fr 1fr 1fr 0.6fr 0.8fr; gap: 10px; padding: 10px 25px; opacity: 0.4; font-size: 12px; font-weight: bold; }
+        .row { display: grid; grid-template-columns: 1.5fr 1fr 1fr 0.6fr 0.8fr; gap: 10px; padding: 15px 20px; margin: 8px 15px; background: var(--card-bg); border-radius: 18px; align-items: center; border: 1px solid rgba(255,255,255,0.03); transition: 0.3s; }
         
-        /* تأثير النبض للاختبارات التي تصادف اليوم */
-        .pulse-border { border: 1px solid var(--danger); animation: pulse 2s infinite; background: rgba(255, 77, 109, 0.05); }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 77, 109, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(255, 77, 109, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 77, 109, 0); } }
+        .pulse-border { border: 1px solid var(--danger); animation: pulse 2s infinite; background: rgba(255, 77, 109, 0.1); }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 77, 109, 0.4); } 70% { box-shadow: 0 0 0 8px rgba(255, 77, 109, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 77, 109, 0); } }
 
-        .info-group .label { font-weight: 900; color: #ffd166; font-size: 16px; display: block; }
-        .info-group .sub { font-size: 11px; opacity: 0.6; margin-top: 3px; display: block; }
-        .time-badge { color: var(--danger); font-weight: 800; font-size: 14px; }
-        .duration-badge { background: rgba(255,255,255,0.1); padding: 4px 10px; border-radius: 8px; font-size: 11px; font-weight: bold; }
+        .info-group .label { font-weight: 900; color: #ffd166; font-size: 15px; }
+        .info-group .sub { font-size: 11px; opacity: 0.5; display: block; margin-top: 2px; }
+        .time-badge { color: var(--danger); font-weight: 800; }
+        .duration-badge { background: rgba(255,255,255,0.1); padding: 3px 8px; border-radius: 6px; font-size: 11px; }
 
-        .actions { display: flex; gap: 10px; justify-content: flex-end; }
-        .btn-action { border: none; width: 40px; height: 40px; border-radius: 12px; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+        .actions { display: flex; gap: 8px; justify-content: flex-end; }
+        .btn-action { border: none; width: 38px; height: 38px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 15px; transition: 0.2s; }
         .btn-save { background: rgba(128, 66, 255, 0.15); color: #b794ff; }
         .btn-save.saved { background: var(--danger); color: white; }
         .btn-cal { background: rgba(31, 196, 124, 0.15); color: var(--accent); }
 
-        #notify-banner { background: #1a1a2e; padding: 10px; text-align: center; font-size: 12px; display: none; border-bottom: 1px solid var(--primary); }
+        #notify-banner { background: var(--primary); color: white; padding: 10px; text-align: center; font-size: 12px; display: none; font-weight: bold; }
 
+        /* التنسيق الخاص بالجوال */
         @media (max-width: 768px) {
             .table-header { display: none; }
-            .row { grid-template-columns: 1.5fr 1fr 0.6fr; padding: 15px; }
-            .hide-mobile { display: none; }
+            .row { 
+                grid-template-columns: 1fr 1fr; 
+                grid-template-areas: "info info" "date time" "dur actions"; 
+                gap: 15px;
+                padding: 18px;
+            }
+            .info-group { grid-area: info; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 10px; }
+            .row > div:nth-child(2) { grid-area: date; text-align: right !important; }
+            .hide-mobile-flex { grid-area: time; display: block !important; text-align: left; }
+            .duration-box { grid-area: dur; display: flex !important; align-items: center; }
+            .actions { grid-area: actions; }
+            .section-title { padding: 15px 15px 5px; }
         }
     </style>
 </head>
 <body>
 
-    <div id="notify-banner">
-        🔔 هل تريد تفعيل تنبيهات الاختبارات على هذا المتصفح؟ 
-        <button onclick="requestNotificationPermission()" style="margin-right:10px; padding:4px 10px; border-radius:5px; border:none; background:var(--primary); color:white; cursor:pointer;">تفعيل</button>
+    <div id="notify-banner" onclick="requestNotificationPermission()">
+        🔔 اضغط هنا لتفعيل تنبيهات الاختبارات لضمان عدم فوات موعدك!
     </div>
 
     <div class="bg-blobs">
-        <div class="blob" style="width:500px; height:500px; background:var(--primary); top:-150px; right:-100px;"></div>
-        <div class="blob" style="width:400px; height:400px; background:var(--accent); bottom:-100px; left:-50px;"></div>
+        <div class="blob" style="width:400px; height:400px; background:var(--primary); top:-100px; right:-100px;"></div>
+        <div class="blob" style="width:300px; height:300px; background:var(--accent); bottom:-50px; left:-50px;"></div>
     </div>
 
     <main class="app">
         <div id="countdown" class="countdown-bar"></div>
 
         <div class="search-wrapper">
-            <h2>جداول YIC الذكية <span style="font-size: 12px; vertical-align: middle; background: var(--primary); color: white; padding: 2px 8px; border-radius: 6px;">PRO</span></h2>
-            <input id="studentId" type="text" placeholder="ابحث برمز المادة أو اسمها (مثال: GSMA101)..." aria-label="ابحث عن مادة">
+            <h2>جداول YIC الذكية <span style="font-size: 10px; background: var(--primary); padding: 2px 6px; border-radius: 4px; vertical-align: middle;">PRO</span></h2>
+            <input id="studentId" type="text" placeholder="ابحث برمز المادة أو اسمها..." aria-label="ابحث عن مادة">
         </div>
 
         <div id="myScheduleSection" style="display:none;">
@@ -98,9 +107,9 @@
             <div style="text-align:left">خيارات</div>
         </div>
         <div id="searchRows">
-            <div style="text-align: center; padding: 80px; opacity: 0.3;">
-                <i class="fa fa-search" style="font-size: 40px; margin-bottom: 15px;"></i>
-                <div style="font-size: 16px;">ابدأ بالبحث لعرض تفاصيل الاختبارات</div>
+            <div style="text-align: center; padding: 60px; opacity: 0.3;">
+                <i class="fa fa-search" style="font-size: 30px; margin-bottom: 10px;"></i>
+                <div>ابدأ البحث لعرض الاختبارات</div>
             </div>
         </div>
     </main>
@@ -112,21 +121,39 @@
 
         async function init() {
             try {
-                const res = await fetch('exams_data.json');
+                // منع الكاش بإضافة التوقيت الحالي ?v=
+                const res = await fetch('exams_data.json?v=' + Date.now());
                 const data = await res.json();
                 allExams = data.exams_list;
+
+                syncMyExams(); // تحديث بيانات الطالب إذا تغيرت في الملف
                 renderMySchedule();
                 checkNotificationStatus();
-            } catch(e) { console.error("Data load error"); }
+            } catch(e) { console.error("Data Load Error"); }
+        }
+
+        // دالة تحديث بيانات الطالب المحفوظة تلقائياً إذا تغيرت في السيرفر
+        function syncMyExams() {
+            let updated = false;
+            myExams = myExams.map(oldEx => {
+                const newEx = allExams.find(e => e.code === oldEx.code);
+                if (newEx && (newEx.date !== oldEx.date || newEx.time !== oldEx.time)) {
+                    updated = true;
+                    return newEx;
+                }
+                return oldEx;
+            });
+            if (updated) {
+                localStorage.setItem('yic_saved_exams', JSON.stringify(myExams));
+                console.log("تم تحديث مواعيد جدولك بناءً على آخر التعديلات.");
+            }
         }
 
         function createRow(ex, isSaved) {
-            // تحسين مقترح: كشف إذا كان الاختبار اليوم
             const isToday = dayjs(ex.date.split(' ')[0], 'DD-MM-YYYY').isSame(dayjs(), 'day');
-            const pulseClass = isToday ? 'pulse-border' : '';
-
+            
             const row = document.createElement('div');
-            row.className = `row ${pulseClass}`;
+            row.className = `row ${isToday ? 'pulse-border' : ''}`;
             row.innerHTML = `
                 <div class="info-group">
                     <span class="label">${ex.code}</span>
@@ -134,19 +161,19 @@
                 </div>
                 <div style="text-align:center">
                     <div style="font-weight:bold; font-size:14px;">${ex.date.split(' ')[0]}</div>
-                    <div style="font-size:11px; color:var(--accent); margin-top:2px;">${ex.date.split(' ')[1] || ''}</div>
+                    <div style="font-size:11px; color:var(--accent)">${ex.date.split(' ')[1] || ''}</div>
                 </div>
-                <div class="hide-mobile" style="text-align:center">
+                <div class="hide-mobile-flex" style="text-align:center; display:none">
                     <span class="time-badge">${ex.time}</span>
                 </div>
-                <div class="hide-mobile" style="text-align:center">
+                <div class="duration-box hide-mobile-flex" style="text-align:center; display:none">
                     <span class="duration-badge">${ex.duration}</span>
                 </div>
                 <div class="actions">
-                    <button class="btn-action btn-cal" onclick="addToCal('${ex.code}','${ex.date}','${ex.time}')" aria-label="إضافة اختبار ${ex.code} للتقويم">
+                    <button class="btn-action btn-cal" onclick="addToCal('${ex.code}','${ex.date}','${ex.time}')" aria-label="تقويم">
                         <i class="fa fa-calendar-plus"></i>
                     </button>
-                    <button class="btn-action btn-save ${isSaved ? 'saved' : ''}" onclick="toggleSave('${ex.code}')" aria-label="${isSaved ? 'حذف' : 'حفظ'} اختبار ${ex.code}">
+                    <button class="btn-action btn-save ${isSaved ? 'saved' : ''}" onclick="toggleSave('${ex.code}')" aria-label="حفظ">
                         <i class="fa ${isSaved ? 'fa-trash-can' : 'fa-bookmark'}"></i>
                     </button>
                 </div>
@@ -154,33 +181,12 @@
             return row;
         }
 
-        // --- وظائف الإشعارات ---
-        function checkNotificationStatus() {
-            if ("Notification" in window && Notification.permission === "default") {
-                document.getElementById('notify-banner').style.display = 'block';
-            }
-        }
-
-        function requestNotificationPermission() {
-            Notification.requestPermission().then(permission => {
-                if (permission === "granted") {
-                    document.getElementById('notify-banner').style.display = 'none';
-                    alert("تم تفعيل التنبيهات بنجاح!");
-                }
-            });
-        }
-
-        // --- الوظائف الأساسية ---
         function renderMySchedule() {
             const container = document.getElementById('myRows');
             const section = document.getElementById('myScheduleSection');
-            if (myExams.length === 0) { section.style.display = 'none'; return; }
+            if (myExams.length === 0) { section.style.display = 'none'; document.getElementById('countdown').style.display='none'; return; }
             
-            myExams.sort((a, b) => {
-                const dA = dayjs(a.date.split(' ')[0], 'DD-MM-YYYY');
-                const dB = dayjs(b.date.split(' ')[0], 'DD-MM-YYYY');
-                return dA - dB;
-            });
+            myExams.sort((a, b) => dayjs(a.date.split(' ')[0], 'DD-MM-YYYY') - dayjs(b.date.split(' ')[0], 'DD-MM-YYYY'));
 
             section.style.display = 'block';
             container.innerHTML = '';
@@ -190,64 +196,50 @@
 
         function toggleSave(code) {
             const index = myExams.findIndex(e => e.code === code);
-            if (index > -1) { myExams.splice(index, 1); } 
-            else { myExams.push(allExams.find(e => e.code === code)); }
+            if (index > -1) myExams.splice(index, 1);
+            else myExams.push(allExams.find(e => e.code === code));
+            
             localStorage.setItem('yic_saved_exams', JSON.stringify(myExams));
             renderMySchedule();
             doSearch();
         }
 
         function doSearch() {
-            const qRaw = document.getElementById('studentId').value;
-            const qClean = qRaw.trim().toUpperCase().replace(/\s+/g, '');
+            const q = document.getElementById('studentId').value.trim().toUpperCase().replace(/\s+/g, '');
             const container = document.getElementById('searchRows');
             const header = document.getElementById('searchHeader');
             
-            if (!qClean) { 
-                container.innerHTML = '<div style="text-align: center; padding: 80px; opacity: 0.3;"><i class="fa fa-search" style="font-size: 40px; margin-bottom: 15px;"></i><div style="font-size: 16px;">ابدأ بالبحث لعرض تفاصيل الاختبارات</div></div>';
+            if (!q) { 
+                container.innerHTML = '<div style="text-align: center; padding: 60px; opacity: 0.3;"><i class="fa fa-search" style="font-size: 30px; margin-bottom: 10px;"></i><div>ابدأ البحث لعرض الاختبارات</div></div>';
                 header.style.display = 'none';
                 return; 
             }
 
-            const filtered = allExams.filter(e => {
-                const cCode = e.code.toUpperCase().replace(/\s+/g, '');
-                const cName = e.course_name.toUpperCase().replace(/\s+/g, '');
-                return cCode.includes(qClean) || cName.includes(qClean);
-            });
-
+            const filtered = allExams.filter(e => e.code.toUpperCase().replace(/\s+/g, '').includes(q) || e.course_name.toUpperCase().includes(q));
             container.innerHTML = '';
-            if(filtered.length > 0) {
-                header.style.display = 'grid';
-                filtered.forEach(ex => {
-                    const isSaved = myExams.some(s => s.code === ex.code);
-                    container.appendChild(createRow(ex, isSaved));
-                });
-            } else {
-                header.style.display = 'none';
-                container.innerHTML = '<div style="text-align: center; padding: 40px; opacity: 0.5;">لا توجد مواد تطابق بحثك</div>';
-            }
+            header.style.display = filtered.length > 0 ? 'grid' : 'none';
+            filtered.forEach(ex => container.appendChild(createRow(ex, myExams.some(s => s.code === ex.code))));
         }
 
         function updateCountdown(dateStr) {
-            const datePart = dateStr.split(' ')[0];
-            const targetDate = dayjs(datePart, 'DD-MM-YYYY').startOf('day');
-            const diff = targetDate.diff(dayjs().startOf('day'), 'day');
+            const diff = dayjs(dateStr.split(' ')[0], 'DD-MM-YYYY').startOf('day').diff(dayjs().startOf('day'), 'day');
             const el = document.getElementById('countdown');
             el.style.display = 'block';
-            if (diff > 0) el.innerHTML = `🚀 متبقي ${diff} أيام على اختبارك القادم (${datePart})`;
-            else if (diff === 0) el.innerHTML = `🔥 اختبارك اليوم! فالك التوفيق (${datePart})`;
-            else el.innerHTML = `✅ انتهت جميع الاختبارات في جدولك`;
+            el.innerHTML = diff > 0 ? `🚀 متبقي ${diff} أيام على اختبارك القادم (${dateStr.split(' ')[0]})` : (diff === 0 ? `🔥 اختبارك اليوم! كل التوفيق لك` : `✅ انتهت اختباراتك`);
         }
 
         function addToCal(code, dateStr, timeStr) {
             const d = dateStr.split(' ')[0].split('-').reverse().join('');
-            let startTime = "080000"; 
-            if(timeStr && timeStr.includes(':')) {
-                const t = timeStr.split(' ')[0].replace(':', '');
-                startTime = t.padStart(4, '0') + "00";
-            }
-            const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=اختبار ${code}&dates=${d}T${startTime}/${d}T${parseInt(startTime)+20000}&details=YIC Smart Exams&sf=true&output=xml`;
+            const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=اختبار ${code}&dates=${d}/${d}`;
             window.open(url, '_blank');
+        }
+
+        function checkNotificationStatus() {
+            if ("Notification" in window && Notification.permission === "default") document.getElementById('notify-banner').style.display = 'block';
+        }
+
+        function requestNotificationPermission() {
+            Notification.requestPermission().then(p => { if(p==='granted') document.getElementById('notify-banner').style.display='none'; });
         }
 
         document.getElementById('studentId').addEventListener('input', doSearch);

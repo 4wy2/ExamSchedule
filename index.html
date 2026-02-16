@@ -11,7 +11,7 @@
     <script>dayjs.extend(window.dayjs_plugin_customParseFormat);</script>
 
     <style>
-    /* 1. المتغيرات والأساسيات (العناصر الجوهرية) */
+    /* 1. المتغيرات والأساسيات */
     :root { 
         --primary: #8042ff; 
         --accent: #1fc47c; 
@@ -20,6 +20,7 @@
         --glass-bg: rgba(13, 23, 56, 0.4);
         --row-bg: rgba(255, 255, 255, 0.02);
         --border-color: rgba(255, 255, 255, 0.08);
+        --text-dim: rgba(255, 255, 255, 0.4);
     }
     
     body { 
@@ -45,7 +46,7 @@
         to { transform: translate(60px, 40px) scale(1.1); }
     }
 
-    /* 3. حاوية التطبيق (تأثير الزجاج) */
+    /* 3. حاوية التطبيق الرئيسية */
     .app { 
         width: min(950px, 96%); 
         margin: 40px auto; 
@@ -64,23 +65,39 @@
         text-align: center; 
         font-weight: 900; 
         font-size: 14px; 
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
 
-    /* 4. قسم البحث */
-    .search-wrapper { padding: 40px 20px; text-align: center; }
-    .search-wrapper h2 { margin-bottom: 25px; font-weight: 900; font-size: 24px; }
+    /* 4. قسم البحث المطور */
+    .search-wrapper { padding: 50px 20px; text-align: center; }
+    .search-wrapper h2 { 
+        margin-bottom: 30px; 
+        font-weight: 900; 
+        font-size: 28px; 
+        background: linear-gradient(to bottom, #fff, #aaa);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .input-group { position: relative; max-width: 550px; margin: 0 auto; }
+    .search-icon {
+        position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
+        color: var(--primary); font-size: 18px; opacity: 0.6; pointer-events: none;
+    }
     .search-wrapper input { 
-        width: 100%; max-width: 500px; padding: 16px 20px; border-radius: 20px; 
-        border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.4); 
-        color: white; outline: none; font-size: 16px; transition: 0.3s;
+        width: 100%; padding: 18px 55px 18px 25px; border-radius: 22px; 
+        border: 1px solid var(--border-color); background: rgba(255, 255, 255, 0.03); 
+        color: white; outline: none; font-size: 16px; transition: all 0.4s ease;
+        backdrop-filter: blur(10px);
     }
-    .search-wrapper input:focus { border-color: var(--primary); box-shadow: 0 0 20px rgba(128, 66, 255, 0.2); }
+    .search-wrapper input:focus { 
+        border-color: var(--primary); background: rgba(255, 255, 255, 0.07);
+        box-shadow: 0 0 30px rgba(128, 66, 255, 0.15); transform: scale(1.01);
+    }
 
-    /* 5. نظام الجدول الموحد (المسطرة الثابتة) */
+    /* 5. نظام الجريد (المسطرة الموحدة) */
     .table-header, .row { 
         display: grid; 
-        /* المادة مرنة (1fr) والباقي مسافات ثابتة لضمان التنصيف المثالي */
+        /* المادة مرنة، البقية قياسات ثابتة للمسافات */
         grid-template-columns: 1fr 115px 110px 85px 55px; 
         gap: 12px; 
         align-items: center; 
@@ -92,11 +109,11 @@
         background: rgba(255,255,255,0.03); 
         border-radius: 12px; 
         font-size: 11px; font-weight: 800;
-        color: rgba(255,255,255,0.3); 
+        color: var(--text-dim); 
         text-align: center;
     }
 
-    /* محاذاة المادة لليمين وبقية البيانات للوسط */
+    /* محاذاة المادة لليمين والبيانات للوسط */
     .table-header div, .row > div { text-align: center; }
     .table-header div:first-child, .row .info-group { text-align: right !important; padding-right: 10px; }
 
@@ -106,12 +123,11 @@
     }
     .row:hover { background: rgba(255,255,255,0.06); transform: translateY(-3px); border-color: rgba(255,255,255,0.15); }
 
-    /* 6. الأزرار والعناوين الفرعية */
+    /* 6. الأزرار والعناوين */
     .btn-action { 
         border: none; width: 34px; height: 34px; border-radius: 10px; 
         cursor: pointer; display: flex; align-items: center; justify-content: center; 
-        background: rgba(128, 66, 255, 0.2); color: #b794ff; transition: 0.3s; margin: 0 auto;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        background: rgba(128, 66, 255, 0.15); color: #b794ff; transition: 0.3s; margin: 0 auto;
     }
     .btn-action:active { transform: scale(0.9); }
     .btn-save.saved { background: var(--danger); color: white; transform: rotate(90deg); }
@@ -121,23 +137,27 @@
         font-weight: 900; display: flex; align-items: center; gap: 10px; 
     }
 
-    /* 7. التنسيق النحيف (Slim Mode) للجوال - الأداء الأفضل والترتيب الأرقى */
+    /* 7. التنسيق النحيف للجوال (Slim Mode) */
     @media (max-width: 600px) {
         .app { width: 100%; margin: 0; border-radius: 0; border: none; }
         
+        .search-wrapper { padding: 30px 15px; }
+        .search-wrapper h2 { font-size: 20px; }
+        .search-wrapper input { padding: 14px 45px 14px 20px; font-size: 14px; }
+        .search-icon { right: 15px; font-size: 15px; }
+
         .table-header, .row { 
-            /* ضغط الأعمدة الجانبية لأقصى حد لتوفير المساحة للمادة */
             grid-template-columns: 1fr 65px 65px 50px 35px; 
             gap: 3px; padding: 10px 5px; margin: 3px 0; 
             border-radius: 0; border-left: none; border-right: none;
         }
 
-        .table-header { font-size: 9px; padding: 8px 5px; color: rgba(255,255,255,0.4); }
+        .table-header { font-size: 9px; padding: 8px 5px; }
 
         .row .label { font-size: 12px !important; font-weight: 800; color: #ffd166; }
         .row .sub { 
-            font-size: 8px !important; line-height: 1.1; margin-top: 1px;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis; /* سطر واحد أنيق */
+            font-size: 8px !important; line-height: 1.1;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
         
         .date-box b { font-size: 10px !important; }

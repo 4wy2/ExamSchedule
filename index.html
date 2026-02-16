@@ -109,63 +109,62 @@
     const row = document.createElement('div');
     row.className = 'row';
     
-    // 1. معالجة التاريخ واليوم
     const dateParts = ex.date.split(' ');
     const dateNum = dateParts[0];
     const dayName = dateParts[1] ? dateParts[1].replace(/[()]/g, '') : '';
 
-    // 2. نظام ألوان ذكي للفترات (AM/PM)
-    const isPM = ex.time.toUpperCase().includes('PM');
-    const timeTheme = isPM ? {color: '#ff9f43', icon: 'fa-moon'} : {color: '#00d2d3', icon: 'fa-sun'};
+    // معالجة الوقت لفصل البداية عن النهاية
+    // نفترض أن الوقت يأتي بتنسيق مثل: 08:00 AM - 10:00 AM
+    const timeParts = ex.time.split('-');
+    const startTime = timeParts[0] ? timeParts[0].trim() : ex.time;
+    const endTime = timeParts[1] ? timeParts[1].trim() : '';
 
-    // 3. تنظيف عرض المدة (مثلاً: 02 H 00 M تصبح 2س)
-    const durationClean = ex.duration
-        .replace(/0(\d)/g, '$1') // حذف الأصفار الزائدة (02 تصبح 2)
-        .replace(' H ', 'س ')
-        .replace(' M', 'د');
+    const isPM = ex.time.toUpperCase().includes('PM');
+    const timeColor = isPM ? '#ff9f43' : '#00d2d3';
 
     row.innerHTML = `
         <div class="info-group">
             <span class="label" style="color: #ffd166; font-size: 17px; font-weight: 900;">${ex.code}</span>
-            <span class="sub" style="display:block; font-size:11px; opacity:0.5; margin-top:2px; font-weight:300;">
+            <span class="sub" style="display:block; font-size:11px; opacity:0.5; margin-top:2px;">
                 ${ex.course_name}
             </span>
         </div>
 
-        <div class="date-box">
+        <div class="date-box" style="display: flex; align-items: center;">
             <div style="display: flex; align-items: center; gap: 10px;">
-                <div style="width: 3px; height: 24px; background: var(--accent); border-radius: 4px; opacity: 0.8;"></div>
+                <div style="width: 3px; height: 30px; background: var(--accent); border-radius: 4px;"></div>
                 <div>
-                    <b style="display: block; font-size: 14px; color: #eee;">${dateNum}</b>
-                    <small style="font-size: 10px; color: var(--accent); font-weight: 800; text-transform: uppercase;">${dayName}</small>
+                    <b style="display: block; font-size: 14px;">${dateNum}</b>
+                    <small style="font-size: 10px; color: var(--accent); font-weight: 800;">${dayName}</small>
                 </div>
             </div>
         </div>
 
-        <div class="time-box">
-            <div style="display: flex; align-items: center; gap: 8px;">
-                <i class="fa-solid ${timeTheme.icon}" style="font-size: 11px; color: ${timeTheme.color};"></i>
-                <span class="time-badge" style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #fff;">
-                    ${ex.time}
+        <div class="time-box" style="display: flex; align-items: center; justify-content: center;">
+            <div style="text-align: center; background: rgba(255,255,255,0.03); padding: 5px 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); min-width: 80px;">
+                <div style="font-size: 14px; font-weight: 900; color: ${timeColor}; letter-spacing: 0.5px;">
+                    ${startTime}
+                </div>
+                ${endTime ? `
+                <div style="font-size: 10px; opacity: 0.4; margin-top: -2px; font-weight: 500; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 2px;">
+                    إلى ${endTime}
+                </div>` : ''}
+            </div>
+        </div>
+
+        <div class="duration-box" style="display: flex; align-items: center; justify-content: center;">
+            <div style="text-align: center;">
+                <span style="font-size: 12px; color: #fff; font-weight: 500; display: block;">
+                    ${ex.duration.replace(' H ', 'س ').replace(' M', 'د')}
+                </span>
+                <span style="font-size: 9px; opacity: 0.4;">
+                    <i class="fa-solid fa-users" style="font-size: 8px;"></i> ${ex.actual_size}
                 </span>
             </div>
         </div>
 
-        <div class="duration-box">
-            <div style="display: flex; flex-direction: column; gap: 3px;">
-                <span style="font-size: 12px; color: #fff; font-weight: 500;">
-                    <i class="fa-regular fa-hourglass-half" style="font-size: 10px; margin-left: 4px; opacity: 0.6;"></i>
-                    ${durationClean}
-                </span>
-                <span style="font-size: 9px; opacity: 0.4; display: flex; align-items: center; gap: 4px;">
-                    <i class="fa-solid fa-users" style="font-size: 8px;"></i> ${ex.actual_size} طالب
-                </span>
-            </div>
-        </div>
-
-        <div class="actions">
+        <div class="actions" style="display: flex; align-items: center; justify-content: flex-end;">
             <button class="btn-action btn-save ${isSaved ? 'saved' : ''}" 
-                    style="transition: 0.3s all cubic-bezier(0.175, 0.885, 0.32, 1.275);"
                     onclick="toggleSave('${ex.code}')">
                 <i class="fa-solid ${isSaved ? 'fa-xmark' : 'fa-plus'}"></i>
             </button>

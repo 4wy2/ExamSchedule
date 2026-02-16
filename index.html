@@ -27,32 +27,45 @@
         .section-title { padding: 25px 25px 10px; font-size: 14px; color: var(--primary); font-weight: 900; display: flex; align-items: center; gap: 12px; }
         
         /* تصميم رأس الجدول */
-        .table-header { 
+        /* رأس الجدول - Header */
+.table-header { 
     display: grid; 
     grid-template-columns: 1.5fr 1fr 1fr 0.6fr 0.4fr; 
     gap: 10px; 
-    padding: 12px 35px; 
+    padding: 12px 25px; /* قللنا البادينج ليناسب الصفوف */
     background: rgba(255,255,255,0.05);
-    margin: 0 15px;
+    margin: 10px 15px;
     border-radius: 12px;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 800;
     color: rgba(255,255,255,0.4);
-    text-align: center; /* لضمان توسط العناوين */
+    align-items: center;
 }
 
-/* لتعديل محاذاة أول عنوان "المادة" وآخر عنوان "حفظ" */
-.table-header div:first-child { text-align: right; }
-.table-header div:last-child { text-align: left; }
+/* محاذاة نصوص الهيدر لتطابق الصفوف */
+.table-header div { text-align: center; }
+.table-header div:first-child { text-align: right; } /* المادة لليمين */
+.table-header div:last-child { text-align: left; }  /* الحفظ لليسار */
 
+/* الصفوف - Rows */
 .row {
     display: grid;
     grid-template-columns: 1.5fr 1fr 1fr 0.6fr 0.4fr;
-    align-items: center; /* سنترة العناصر عمودياً */
-    text-align: center;  /* سنترة النصوص */
+    gap: 10px;
+    align-items: center; 
     padding: 15px 25px;
-    /* ... بقية التنسيقات ... */
-}        .info-group .label { font-weight: 900; color: #ffd166; font-size: 16px; }
+    margin: 8px 15px; 
+    background: rgba(255,255,255,0.03); 
+    border-radius: 18px; 
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: 0.3s;
+}
+
+.row:hover {
+    background: rgba(255,255,255,0.06);
+    border-color: var(--primary);
+}
+        .info-group .label { font-weight: 900; color: #ffd166; font-size: 16px; }
         .time-badge { color: var(--danger); font-weight: 800; font-size: 13px; }
         .actions { display: flex; justify-content: flex-end; }
         .btn-action { border: none; width: 38px; height: 38px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
@@ -129,6 +142,7 @@
     const row = document.createElement('div');
     row.className = 'row';
     
+    // تجهيز البيانات
     const dateParts = ex.date.split(' ');
     const dateNum = dateParts[0];
     const dayName = dateParts[1] ? dateParts[1].replace(/[()]/g, '') : '';
@@ -142,29 +156,27 @@
 
     row.innerHTML = `
         <div class="info-group" style="text-align: right;">
-            <span class="label" style="color: #ffd166; font-size: 17px; font-weight: 900; display: block;">${ex.code}</span>
-            <span class="sub" style="font-size: 10px; opacity: 0.5; font-weight: 300;">${ex.course_name}</span>
+            <span class="label" style="color: #ffd166; font-size: 16px; font-weight: 900; display: block;">${ex.code}</span>
+            <span class="sub" style="font-size: 10px; opacity: 0.5; font-weight: 300; display: block;">${ex.course_name}</span>
         </div>
 
-        <div class="date-box">
-            <div style="display: flex; align-items: center; justify-content: center; gap: 8px;">
-                <div style="text-align: left;">
-                    <b style="display: block; font-size: 14px; letter-spacing: 0.5px;">${dateNum}</b>
-                    <small style="font-size: 10px; color: var(--accent); font-weight: 800; display: block; text-align: right;">${dayName}</small>
-                </div>
-                <div style="width: 3px; height: 28px; background: var(--accent); border-radius: 2px;"></div>
+        <div class="date-box" style="display: flex; justify-content: center; align-items: center; gap: 8px;">
+            <div style="text-align: left;">
+                <b style="display: block; font-size: 14px; letter-spacing: 0.5px; color: #fff;">${dateNum}</b>
+                <small style="font-size: 10px; color: var(--accent); font-weight: 800; display: block; text-align: right;">${dayName}</small>
             </div>
+            <div style="width: 3px; height: 26px; background: var(--accent); border-radius: 2px;"></div>
         </div>
 
-        <div class="time-box">
-            <div style="display: inline-block; text-align: center; background: rgba(255,255,255,0.02); padding: 4px 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.05);">
+        <div class="time-box" style="display: flex; justify-content: center;">
+            <div style="background: rgba(255,255,255,0.02); padding: 5px 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); min-width: 85px;">
                 <div style="font-size: 13px; font-weight: 800; color: ${timeColor};">${startTime}</div>
-                ${endTime ? `<div style="font-size: 9px; opacity: 0.3; margin-top: -1px; font-weight: 400;">${endTime}</div>` : ''}
+                ${endTime ? `<div style="font-size: 9px; opacity: 0.3; font-weight: 400;">${endTime}</div>` : ''}
             </div>
         </div>
 
         <div class="duration-box" style="text-align: center;">
-            <span style="font-size: 12px; font-weight: 600; display: block;">
+            <span style="font-size: 12px; font-weight: 600; display: block; color: #eee;">
                 ${ex.duration.replace(' H ', 'س ').replace(' M', 'د')}
             </span>
             <span style="font-size: 9px; opacity: 0.4; display: flex; align-items: center; justify-content: center; gap: 3px;">
@@ -172,7 +184,7 @@
             </span>
         </div>
 
-        <div class="actions">
+        <div class="actions" style="display: flex; justify-content: flex-end;">
             <button class="btn-action btn-save ${isSaved ? 'saved' : ''}" onclick="toggleSave('${ex.code}')">
                 <i class="fa-solid ${isSaved ? 'fa-xmark' : 'fa-plus'}"></i>
             </button>
@@ -180,7 +192,6 @@
     `;
     return row;
 }
-
         function renderMySchedule() {
             const container = document.getElementById('myRows');
             const section = document.getElementById('myScheduleSection');

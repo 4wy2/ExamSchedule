@@ -99,40 +99,69 @@
                 const data = await response.json();
                 allExams = data.exams_list;
                 renderMySchedule();
-                document.getElementById('searchRows').innerHTML = '<div style="text-align: center; padding: 60px; opacity: 0.3;">ابدأ البحث الآن في 117 مادة</div>';
+                document.getElementById('searchRows').innerHTML = '<div style="text-align: center; padding: 60px; opacity: 0.3;">ابدأ البحث الآن عن اختبارك</div>';
             } catch (error) {
                 document.getElementById('searchRows').innerHTML = '<div style="text-align: center; padding: 60px; color: var(--danger);">تأكد من وجود ملف exams_data.json</div>';
             }
         }
 
         function createRow(ex, isSaved) {
-            const row = document.createElement('div');
-            row.className = 'row';
-            row.innerHTML = `
-                <div class="info-group">
-                    <span class="label">${ex.code}</span>
-                    <span class="sub" style="display:block; font-size:11px; opacity:0.7;">${ex.course_name}</span>
-                </div>
+    const row = document.createElement('div');
+    row.className = 'row';
+    
+    // استخراج اليوم (مثل Sunday) والتاريخ بشكل منفصل إذا وجد
+    const dateParts = ex.date.split(' ');
+    const dayName = dateParts[1] ? dateParts[1].replace(/[()]/g, '') : '';
+    const dateNum = dateParts[0];
+
+    row.innerHTML = `
+        <div class="info-group">
+            <span class="label" style="color: #ffd166; font-size: 18px;">${ex.code}</span>
+            <span class="sub" style="display:block; font-size:12px; opacity:0.8; margin-top:4px; line-height:1.4;">
+                <i class="fa-solid fa-book-open" style="font-size: 10px; margin-left: 5px; color: var(--primary);"></i>
+                ${ex.course_name}
+            </span>
+        </div>
+
+        <div class="date-box">
+            <span class="mobile-label">الموعد</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <i class="fa-regular fa-calendar-check" style="color: var(--accent);"></i>
                 <div>
-                    <span class="mobile-label">التاريخ</span>
-                    <b>${ex.date.split(' ')[0]}</b>
+                    <b style="display: block; font-size: 14px;">${dateNum}</b>
+                    <small style="font-size: 10px; color: var(--accent); opacity: 0.9;">${dayName}</small>
                 </div>
-                <div>
-                    <span class="mobile-label">الوقت</span>
-                    <span class="time-badge">${ex.time}</span>
-                </div>
-                <div>
-                    <span class="mobile-label">المدة</span>
-                    <span style="font-size:12px; opacity:0.8;">${ex.duration}</span>
-                </div>
-                <div class="actions">
-                    <button class="btn-action btn-save ${isSaved ? 'saved' : ''}" onclick="toggleSave('${ex.code}')">
-                        <i class="fa ${isSaved ? 'fa-trash-can' : 'fa-bookmark'}"></i>
-                    </button>
-                </div>
-            `;
-            return row;
-        }
+            </div>
+        </div>
+
+        <div class="time-box">
+            <span class="mobile-label">الوقت</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <i class="fa-regular fa-clock" style="color: var(--danger);"></i>
+                <span class="time-badge" style="background: rgba(255, 77, 109, 0.1); padding: 4px 8px; border-radius: 6px;">
+                    ${ex.time}
+                </span>
+            </div>
+        </div>
+
+        <div class="duration-box">
+            <span class="mobile-label">المدة</span>
+            <div style="display: flex; align-items: center; gap: 8px; opacity: 0.9;">
+                <i class="fa-solid fa-hourglass-half" style="font-size: 12px;"></i>
+                <span style="font-size: 13px;">${ex.duration.replace('H', 'ساعة').replace('M', 'دقيقة')}</span>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button class="btn-action btn-save ${isSaved ? 'saved' : ''}" 
+                    title="${isSaved ? 'حذف من جدولي' : 'حفظ في جدولي'}"
+                    onclick="toggleSave('${ex.code}')">
+                <i class="fa-solid ${isSaved ? 'fa-trash-can' : 'fa-plus'}"></i>
+            </button>
+        </div>
+    `;
+    return row;
+}
 
         function renderMySchedule() {
             const container = document.getElementById('myRows');
@@ -152,7 +181,7 @@
             const header = document.getElementById('searchHeader');
             
             if (!q) {
-                container.innerHTML = '<div style="text-align: center; padding: 60px; opacity: 0.3;">ابدأ البحث الآن في 117 مادة</div>';
+                container.innerHTML = '<div style="text-align: center; padding: 60px; opacity: 0.3;">ابدأ البحث الآن عن اختبارك</div>';
                 header.style.display = 'none';
                 return;
             }

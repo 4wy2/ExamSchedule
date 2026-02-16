@@ -11,7 +11,12 @@
     <script>dayjs.extend(window.dayjs_plugin_customParseFormat);</script>
 
     <style>
-    :root { --primary: #8042ff; --accent: #1fc47c; --danger: #ff4d6d; --bg: #050816; }
+    :root { 
+        --primary: #8042ff; 
+        --accent: #1fc47c; 
+        --danger: #ff4d6d; 
+        --bg: #050816; 
+    }
     body { margin: 0; background: var(--bg); font-family: 'Tajawal', sans-serif; color: white; overflow-x: hidden; }
     
     .bg-blobs { position: fixed; width: 100vw; height: 100vh; z-index: -1; overflow: hidden; }
@@ -27,38 +32,58 @@
 
     .section-title { padding: 25px 25px 10px; font-size: 14px; color: var(--primary); font-weight: 900; display: flex; align-items: center; gap: 12px; }
 
-    /* تنسيق الجدول للكمبيوتر */
-    .table-header { 
+    /* إعدادات الشبكة الموحدة (Grid) */
+    .table-header, .row { 
         display: grid; 
-        grid-template-columns: 1.5fr 1fr 1fr 0.6fr 0.4fr; 
-        gap: 10px; padding: 12px 25px; background: rgba(255,255,255,0.05); margin: 10px 15px; border-radius: 12px; font-size: 12px; font-weight: 800; color: rgba(255,255,255,0.4); align-items: center; text-align: center;
+        /* توزيع مرن جداً للأعمدة */
+        grid-template-columns: 1.5fr 1fr 1fr 0.7fr 0.4fr; 
+        gap: 12px; 
+        align-items: center; 
+    }
+
+    .table-header { 
+        padding: 12px 25px; 
+        background: rgba(255,255,255,0.05); 
+        margin: 10px 15px; 
+        border-radius: 12px; 
+        font-size: 12px; 
+        font-weight: 800; 
+        color: rgba(255,255,255,0.3); 
+        text-align: center; 
     }
     .table-header div:first-child { text-align: right; }
-    .table-header div:last-child { text-align: left; }
 
-    .row {
-        display: grid; grid-template-columns: 1.5fr 1fr 1fr 0.6fr 0.4fr; gap: 10px; align-items: center; padding: 15px 25px; margin: 8px 15px; background: rgba(255,255,255,0.03); border-radius: 18px; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; text-align: center;
+    .row { 
+        padding: 15px 25px; 
+        margin: 8px 15px; 
+        background: rgba(255,255,255,0.03); 
+        border-radius: 18px; 
+        border: 1px solid rgba(255,255,255,0.05); 
+        transition: 0.3s; 
     }
     .row:hover { background: rgba(255,255,255,0.06); border-color: var(--primary); }
 
-    .btn-action { border: none; width: 42px; height: 42px; border-radius: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; background: rgba(128, 66, 255, 0.1); color: #b794ff; }
+    .btn-action { border: none; width: 40px; height: 40px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; background: rgba(128, 66, 255, 0.1); color: #b794ff; margin-right: auto; }
     .btn-save.saved { background: var(--danger); color: white; }
 
-    /* تنسيق الجوال السحري - هنا الضمان! */
-    @media (max-width: 768px) {
-        .table-header { display: none; }
-        .row { 
-            grid-template-columns: 1fr auto; /* معلومات على اليمين وزر على اليسار */
-            gap: 5px; padding: 15px; text-align: right;
+    /* استجابة الجوال (بدون تخبيص - نظام التدرج الصغير) */
+    @media (max-width: 650px) {
+        .app { width: 98%; margin: 10px auto; border-radius: 20px; }
+        .table-header, .row { 
+            grid-template-columns: 1.2fr 1fr 1fr 0.8fr 0.4fr; 
+            gap: 6px; 
+            padding: 12px 10px; 
+            margin: 6px 8px; 
         }
-        .info-group { grid-column: 1; }
-        .date-box { grid-column: 1; justify-content: flex-start !important; }
-        .time-box { grid-column: 1; justify-content: flex-start !important; margin: 5px 0; }
-        .duration-box { grid-column: 1; text-align: right !important; opacity: 0.8; }
-        .actions { grid-column: 2; grid-row: 1 / span 4; align-self: center; }
+        .table-header { font-size: 10px; padding: 8px 10px; }
         
-        .row .label { font-size: 15px !important; }
-        .time-box div { padding: 4px 10px !important; background: rgba(255,255,255,0.05) !important; display: inline-block !important; }
+        .row .label { font-size: 14px !important; }
+        .row .sub { font-size: 8px !important; }
+        .date-box b { font-size: 12px !important; }
+        .time-box div { min-width: 70px !important; padding: 4px !important; }
+        .time-box div div:first-child { font-size: 11px !important; }
+        .duration-box span { font-size: 10px !important; }
+        .btn-action { width: 34px; height: 34px; border-radius: 10px; }
     }
 </style>
 </head>
@@ -124,33 +149,38 @@
     const row = document.createElement('div');
     row.className = 'row';
     
+    // 1. استخراج التاريخ واليوم
     const dateParts = ex.date.split(' ');
-    const dateNum = dateParts[0];
+    const dateNum = dateParts[0] || '';
     const dayName = dateParts[1] ? dateParts[1].replace(/[()]/g, '') : '';
+
+    // 2. تنسيق الوقت (بداية ونهاية)
     const timeParts = ex.time.split('-');
     const startTime = timeParts[0] ? timeParts[0].trim() : ex.time;
     const endTime = timeParts[1] ? timeParts[1].trim() : '';
+
+    // 3. تحديد اللون بناءً على الفترة
     const isPM = ex.time.toUpperCase().includes('PM');
     const timeColor = isPM ? '#ff9f43' : '#00d2d3';
 
     row.innerHTML = `
-        <div class="info-group" style="text-align: right;">
-            <span class="label" style="color: #ffd166; font-size: 16px; font-weight: 900; display: block;">${ex.code}</span>
-            <span class="sub" style="font-size: 10px; opacity: 0.5; font-weight: 300;">${ex.course_name}</span>
+        <div class="info-group" style="text-align: right; overflow: hidden;">
+            <span class="label" style="color: #ffd166; font-size: 16px; font-weight: 900; display: block; line-height: 1.2;">${ex.code}</span>
+            <span class="sub" style="font-size: 10px; opacity: 0.5; font-weight: 300; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${ex.course_name}</span>
         </div>
 
-        <div class="date-box" style="display: flex; justify-content: center; align-items: center; gap: 8px;">
+        <div class="date-box" style="display: flex; justify-content: center; align-items: center; gap: 6px;">
             <div style="text-align: left;">
-                <b style="display: block; font-size: 14px; color: #fff;">${dateNum}</b>
+                <b style="display: block; font-size: 14px; color: #fff; line-height: 1;">${dateNum}</b>
                 <small style="font-size: 10px; color: var(--accent); font-weight: 800; display: block; text-align: right;">${dayName}</small>
             </div>
-            <div style="width: 3px; height: 26px; background: var(--accent); border-radius: 2px;"></div>
+            <div style="width: 2px; height: 22px; background: var(--accent); border-radius: 1px;"></div>
         </div>
 
         <div class="time-box" style="display: flex; justify-content: center;">
-            <div style="text-align: center; border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); min-width: 85px;">
-                <div style="font-size: 13px; font-weight: 800; color: ${timeColor};">${startTime}</div>
-                ${endTime ? `<div style="font-size: 9px; opacity: 0.3;">${endTime}</div>` : ''}
+            <div style="text-align: center; background: rgba(255,255,255,0.02); border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); min-width: 85px; padding: 5px;">
+                <div style="font-size: 13px; font-weight: 800; color: ${timeColor}; line-height: 1;">${startTime}</div>
+                ${endTime ? `<div style="font-size: 9px; opacity: 0.3; margin-top: 2px;">${endTime}</div>` : ''}
             </div>
         </div>
 
@@ -158,14 +188,14 @@
             <span style="font-size: 12px; font-weight: 600; display: block; color: #eee;">
                 ${ex.duration.replace(' H ', 'س ').replace(' M', 'د')}
             </span>
-            <span style="font-size: 9px; opacity: 0.4;">
+            <span style="font-size: 9px; opacity: 0.4; display: block;">
                 <i class="fa-solid fa-users" style="font-size: 7px;"></i> ${ex.actual_size}
             </span>
         </div>
 
         <div class="actions">
             <button class="btn-action btn-save ${isSaved ? 'saved' : ''}" onclick="toggleSave('${ex.code}')">
-                <i class="fa-solid ${isSaved ? 'fa-xmark' : 'fa-plus'}"></i>
+                <i class="fa-solid ${isSaved ? 'fa-xmark' : 'fa-plus'}" style="font-size: 14px;"></i>
             </button>
         </div>
     `;

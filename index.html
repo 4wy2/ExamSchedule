@@ -10,16 +10,14 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.7/dayjs.min.js"></script>
 
   <style>
-    :root { --anim-speed: 0.4s; }
-
+    :root { --primary: #8042ff; --accent: #1fc47c; }
     body {
       margin: 0; background: #050816; min-height: 100vh;
       display: flex; align-items: center; justify-content: center;
-      font-family: 'Tajawal', sans-serif; transition: background 0.5s ease;
-      overflow-x: hidden;
+      font-family: 'Tajawal', sans-serif; overflow-x: hidden;
     }
 
-    /* تأثير الخلفية المتطور */
+    /* تأثيرات الخلفية */
     .bg-blobs { position: fixed; width: 100vw; height: 100vh; z-index: -1; overflow: hidden; }
     .blob { position: absolute; filter: blur(80px); border-radius: 50%; opacity: 0.15; animation: move 20s infinite alternate; }
     @keyframes move { from { transform: translate(0, 0); } to { transform: translate(100px, 100px); } }
@@ -31,51 +29,52 @@
       border: 1px solid rgba(255,255,255,0.1);
       border-radius: 30px;
       box-shadow: 0 40px 100px rgba(0,0,0,0.5);
-      overflow: hidden; animation: fadeIn 0.8s ease-out;
-      margin: 20px 0;
+      overflow: hidden; margin: 20px 0;
     }
 
-    /* شريط العداد التنازلي */
+    /* شريط "كم باقي" المطور */
     .countdown-bar {
       background: linear-gradient(90deg, #ff4d6d, #8042ff);
       color: white; padding: 12px; text-align: center;
-      font-size: 14px; font-weight: bold; display: none;
+      font-size: 14px; font-weight: 800; display: none;
       box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      animation: slideDown 0.5s ease;
     }
+    @keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } }
 
     .row {
-      display: grid; grid-template-columns: 1.2fr 1fr 1fr 0.8fr 0.8fr;
+      display: grid; grid-template-columns: 1.2fr 1fr 1fr 0.6fr 0.6fr;
       gap: 12px; padding: 15px; margin-bottom: 10px;
       background: rgba(255,255,255,0.03);
-      border-radius: 20px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      border: 1px solid transparent; color: white; align-items: center;
+      border-radius: 20px; transition: 0.3s;
+      color: white; align-items: center; border: 1px solid transparent;
     }
     .row:hover {
-      transform: scale(1.02) translateY(-5px);
       background: rgba(255,255,255,0.08);
-      border-color: #8042ff;
+      border-color: var(--primary);
+      transform: scale(1.01);
     }
 
     .btn-cal {
       background: rgba(31, 196, 124, 0.15); color: #1fc47c; border: 1px solid #1fc47c;
-      padding: 5px 10px; border-radius: 10px; font-size: 11px; cursor: pointer; transition: 0.2s;
+      padding: 6px 12px; border-radius: 12px; font-size: 11px; cursor: pointer; transition: 0.2s;
     }
     .btn-cal:hover { background: #1fc47c; color: white; }
 
-    .theme-1 { --primary: #2734fe; --accent: #1fc47c; }
-    .theme-2 { --primary: #007BFF; --accent: #ffd166; }
-    .theme-3 { --primary: #cb3cff; --accent: #00c2ff; }
-
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .controls input {
+      width: 100%; padding: 15px 25px; border-radius: 50px;
+      border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05);
+      color: white; outline: none; box-sizing: border-box;
+    }
 
     @media (max-width: 600px) {
-      .row { grid-template-columns: 1fr 1fr; gap: 10px; }
-      .cell.venue, .cell.cal-btn { display: none; }
+      .row { grid-template-columns: 1fr 1fr; }
+      .cell.hide-mobile { display: none; }
       .app { border-radius: 0; width: 100%; margin: 0; min-height: 100vh; }
     }
   </style>
 </head>
-<body class="theme-1" id="appRoot">
+<body class="theme-1">
 
   <div class="bg-blobs">
     <div id="blob1" class="blob" style="width:400px; height:400px; background:#2734fe; top:-100px; right:-100px;"></div>
@@ -85,170 +84,135 @@
   <main class="app">
     <div id="countdown" class="countdown-bar"></div>
     
-    <header class="top" style="padding: 30px; text-align: center;">
-      <h1 style="font-size: 28px; font-weight: 900; color: #fff; margin-bottom: 10px;">
-        جداول الكلية الذكية
-        <span style="font-size: 12px; background: #8042ff; padding: 4px 12px; border-radius: 20px;">V2.0 PRO</span>
+    <header style="padding: 30px; text-align: center;">
+      <h1 style="color: #fff; font-size: 26px; font-weight: 900; margin-bottom: 15px;">
+        نظام جداول YIC الذكي
+        <span style="font-size: 10px; background: var(--primary); padding: 3px 10px; border-radius: 10px; vertical-align: middle;">V2.1</span>
       </h1>
 
-      <div class="controls" style="display: flex; flex-direction: column; gap: 15px; align-items: center;">
-        <div class="search-wrapper" style="width: 100%; max-width: 400px; position: relative;">
-          <input id="studentId" type="text" placeholder="ابحث برمز المادة أو اسمها..." 
-                 style="width: 100%; padding: 15px 25px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: white; outline: none;">
-          <button id="searchBtn" style="position: absolute; left: 5px; top: 5px; bottom: 5px; width: 50px; border-radius: 50px; background: #8042ff; border: none; color: white; cursor: pointer;">
-            <i class="fa fa-search"></i>
-          </button>
-        </div>
-        
-        <button id="themeSwitch" style="background: transparent; color: #aaa; border: none; cursor: pointer; font-size: 12px;">
-           <i class="fa fa-magic"></i> تبديل مظهر النظام
+      <div class="search-wrapper" style="max-width: 450px; margin: 0 auto; position: relative;">
+        <input id="studentId" type="text" placeholder="ابحث برمز المادة (مثلاً: GSMA101) أو اسمها...">
+        <button id="searchBtn" style="position: absolute; left: 8px; top: 8px; bottom: 8px; width: 45px; border-radius: 50px; background: var(--primary); border: none; color: white; cursor: pointer;">
+          <i class="fa fa-search"></i>
         </button>
       </div>
     </header>
 
-    <section class="results-wrap" style="padding: 20px;">
-      <div id="rows" class="r-body">
-        <div class="empty" style="text-align: center; color: #666; padding: 40px;">
-          <i class="fa fa-calendar-alt" style="font-size: 50px; margin-bottom: 20px; display: block;"></i>
-          جاري التحميل...
+    <section id="results" style="padding: 0 20px 20px;">
+      <div id="rows">
+        <div style="text-align: center; color: #555; padding: 40px;">
+          <i class="fa fa-database" style="font-size: 40px; margin-bottom: 15px;"></i>
+          <p>جاري انتظار البحث في قاعدة البيانات...</p>
         </div>
       </div>
     </section>
-
-    <footer style="padding: 20px; text-align: center; font-size: 11px; color: #444; border-top: 1px solid rgba(255,255,255,0.05);">
-      Designed with Intelligence for YIC Students
-    </footer>
   </main>
 
   <script>
-    let examsData = []; 
+    let examsData = [];
     const elRows = document.getElementById('rows');
     const studentInput = document.getElementById('studentId');
     const countdownEl = document.getElementById('countdown');
 
-    // 1. جلب البيانات من ملف JSON
-    async function loadExamsData() {
-        try {
-            const response = await fetch('exams_data.json');
-            if (!response.ok) throw new Error();
-            const data = await response.json();
-            // دعم الصيغتين: سواء كان ملف الـ JSON مصفوفة مباشرة أو داخل كائن اسمه exams
-            examsData = Array.isArray(data) ? data : data.exams;
-
-            elRows.innerHTML = `
-                <div class="empty" style="text-align: center; color: #666; padding: 40px;">
-                    <i class="fa fa-check-circle" style="font-size: 50px; color: #1fc47c; margin-bottom: 20px; display: block;"></i>
-                    تم تحميل البيانات! ابحث الآن عن مادتك.
-                </div>`;
-        } catch (e) {
-            elRows.innerHTML = '<div class="empty" style="color:#ff4d6d;">تأكد من وجود ملف exams_data.json بجانب الصفحة</div>';
-        }
-    }
-
-    // 2. منطق البحث
-    function doSearch() {
-      const query = studentInput.value.trim().toUpperCase();
-      if (!query) {
-          countdownEl.style.display = 'none';
-          return;
+    // 1. جلب البيانات من ملف JSON حسب الترتيب الجديد
+    async function loadData() {
+      try {
+        const response = await fetch('exams_data.json');
+        const data = await response.json();
+        // الوصول للمصفوفة الصحيحة حسب الملف المرسل
+        examsData = data.exams_list; 
+        console.log("Data Loaded:", examsData.length, "exams found.");
+      } catch (e) {
+        elRows.innerHTML = '<p style="color:red; text-align:center;">خطأ: تأكد من ملف الـ JSON</p>';
       }
-
-      const filtered = examsData.filter(ex => 
-        (ex.code || ex.Code || "").toUpperCase().includes(query) || 
-        (ex.name || ex["Course Name"] || "").toUpperCase().includes(query)
-      );
-
-      renderAdvancedRows(filtered);
     }
 
-    // 3. عرض الصفوف وتحديث العداد
-    function renderAdvancedRows(exams) {
-      if (exams.length === 0) {
-        elRows.innerHTML = '<div class="empty">لا توجد نتائج.</div>';
+    // 2. تحديث عداد "كم باقي"
+    function updateCountdown(dateStr) {
+      if (!dateStr) return;
+      
+      // استخراج التاريخ فقط (تجاهل الأيام المكتوبة بين قوسين)
+      const datePart = dateStr.split(' ')[0]; // تأخذ 29-03-2026
+      const [d, m, y] = datePart.split('-');
+      
+      const targetDate = dayjs(`${y}-${m}-${d}`);
+      const today = dayjs().startOf('day');
+      const diff = targetDate.diff(today, 'day');
+
+      countdownEl.style.display = 'block';
+      
+      if (diff > 0) {
+        countdownEl.innerHTML = `⏳ متبقي <span style="font-size: 18px;">${diff}</span> أيام على اختبارك القادم (${datePart})`;
+      } else if (diff === 0) {
+        countdownEl.innerHTML = `🔥 اختبارك القادم اليوم! شد حيلك وفالك التوفيق.`;
+      } else {
+        countdownEl.innerHTML = `✅ انتهى موعد الاختبار المختار.`;
+      }
+    }
+
+    // 3. عرض النتائج
+    function renderExams(list) {
+      if (list.length === 0) {
+        elRows.innerHTML = '<p style="text-align:center; color:#aaa;">لا يوجد نتائج مطابقة</p>';
         countdownEl.style.display = 'none';
         return;
       }
 
       elRows.innerHTML = '';
-      exams.forEach((ex) => {
-        // توحيد مسميات الحقول
-        const code = ex.code || ex.Code;
-        const name = ex.name || ex["Course Name"];
-        const date = ex.date || ex["Date (Day)"];
-        const time = ex.time || ex.Time;
-
+      list.forEach(ex => {
         const row = document.createElement('div');
         row.className = 'row';
         row.innerHTML = `
           <div class="cell">
-            <div style="color: #ffd166; font-weight: 900;">${code}</div>
-            <div style="font-size: 11px; opacity: 0.7;">${name}</div>
+            <div style="color: #ffd166; font-weight: 800;">${ex.code}</div>
+            <div style="font-size: 11px; opacity: 0.7;">${ex.course_name}</div>
           </div>
           <div class="cell" style="text-align: center;">
-            <div style="font-size: 14px;">${date}</div>
-            <div style="color: #1fc47c; font-size: 12px;">Exam Day</div>
+            <div style="font-size: 13px;">${ex.date.split(' ')[0]}</div>
+            <div style="color: var(--accent); font-size: 11px;">${ex.date.split(' ')[1] || ''}</div>
           </div>
           <div class="cell">
-            <div style="color: #ff4d6d; font-size: 13px;">${time}</div>
+            <div style="color: #ff4d6d; font-size: 12px;">${ex.time}</div>
+            <div style="font-size: 10px; opacity: 0.5;">المدة: ${ex.duration}</div>
           </div>
-          <div class="cell venue">القاعة: 102</div>
-          <div class="cell cal-btn" style="text-align: left;">
-            <button class="btn-cal" onclick='addToGoogleCalendar("${code}", "${date}")'>
-              <i class="fa fa-plus"></i> تقويم
+          <div class="cell hide-mobile" style="font-size: 11px; opacity: 0.8;">
+            <i class="fa fa-users"></i> ${ex.actual_size} طالب
+          </div>
+          <div class="cell" style="text-align: left;">
+            <button class="btn-cal" onclick="addToCal('${ex.code}', '${ex.date}')">
+              <i class="fa fa-plus"></i>
             </button>
           </div>
         `;
         elRows.appendChild(row);
       });
 
-      // تحديث العداد لأول نتيجة تظهر
-      const firstDate = exams[0].date || exams[0]["Date (Day)"];
-      updateCountdown(firstDate);
+      // تشغيل العداد لأول مادة تظهر في القائمة
+      updateCountdown(list[0].date);
     }
 
-    // 4. ميزة "كم باقي" الذكية
-    function updateCountdown(dateStr) {
-      if (!dateStr) return;
-
-      // تنظيف التاريخ: نأخذ أول 10 حروف فقط (مثلاً 29-03-2026) لنتجنب مشاكل النصوص الزائدة
-      const cleanDate = dateStr.match(/\d{2}-\d{2}-\d{4}/);
-      if (!cleanDate) return;
-
-      const [d, m, y] = cleanDate[0].split('-');
-      const target = dayjs(`${y}-${m}-${d}`);
-      const today = dayjs().startOf('day');
-      const diff = target.diff(today, 'day');
-
-      countdownEl.style.display = 'block';
-      if (diff > 0) {
-        countdownEl.innerHTML = `🚀 متبقي <span style="font-size: 18px;">${diff}</span> أيام على اختبارك القادم!`;
-      } else if (diff === 0) {
-        countdownEl.innerHTML = `🔥 اختبارك اليوم! فالك التوفيق والنجاح.`;
-      } else {
-        countdownEl.innerHTML = `✅ انتهى وقت هذا الاختبار.`;
-        countdownEl.style.background = "#333";
-      }
-    }
-
-    function addToGoogleCalendar(code, date) {
-      const cleanDate = date.match(/\d{2}-\d{2}-\d{4}/);
-      if(!cleanDate) return;
-      const d = cleanDate[0].split('-').reverse().join('');
+    function addToCal(code, date) {
+      const d = date.split(' ')[0].split('-').reverse().join('');
       const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=اختبار ${code}&dates=${d}/${d}`;
       window.open(url, '_blank');
     }
 
-    // الأزرار
-    studentInput.addEventListener('input', doSearch);
-    document.getElementById('searchBtn').onclick = doSearch;
+    // 4. تنفيذ البحث
+    function handleSearch() {
+      const q = studentInput.value.trim().toUpperCase();
+      if (!q) {
+        countdownEl.style.display = 'none';
+        return;
+      }
+      const filtered = examsData.filter(ex => 
+        ex.code.toUpperCase().includes(q) || 
+        ex.course_name.toUpperCase().includes(q)
+      );
+      renderExams(filtered);
+    }
 
-    let currentTheme = 1;
-    document.getElementById('themeSwitch').onclick = () => {
-      currentTheme = currentTheme >= 3 ? 1 : currentTheme + 1;
-      document.body.className = `theme-${currentTheme}`;
-    };
-
-    loadExamsData();
+    studentInput.addEventListener('input', handleSearch);
+    loadData();
   </script>
 </body>
 </html>

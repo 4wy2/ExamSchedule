@@ -2,944 +2,234 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>جدول الاختبارات - قسم الهندسة الكهربائية</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+  <title>YIC Smart Exams - نظام الجداول الذكي</title>
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
-
-  <!-- Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;500;800;900&family=Rubik:wght@300;500;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.7/dayjs.min.js"></script>
 
   <style>
-    /* ==============================
-       ✅ Prevent unstyled flash
-       ============================== */
-    body{
-      opacity:0;
-      transition: opacity .2s ease;
-      margin:0;
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:18px;
-      background:#050816;
-    }
-    body.loaded{ opacity:1; }
+    :root { --anim-speed: 0.4s; }
 
-    *{ box-sizing:border-box; margin:0; padding:0; }
-
-    /* =========================================================
-       ✅ Your additions (kept)
-       ========================================================= */
-    .two-line-code{
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      row-gap:0;
-      line-height:.9;
-    }
-    .two-line-code span{
-      line-height:.7;
-      margin-top:-.3em;
-      margin-bottom:-.3em;
-    }
-    .bmc-btn-text{ text-align: justify !important; }
-
-    /* =========================================================
-       ✅ Theme wrapper + themes
-       ========================================================= */
-    .eec-app{
-      width:100%;
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:18px;
-      direction:rtl;
-      text-align:right;
+    body {
+      margin: 0; background: #050816; min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Tajawal', sans-serif; transition: background 0.5s ease;
+      overflow-x: hidden;
     }
 
-    /* =========================
-       THEME 1 (your original)
-       ========================= */
-    .eec-app.theme-1{
-      --bg0:#060a16;
-      --bg1:#0b1330;
-      --panel:#0d1738;
-      --panel2:#101f46;
-      --stroke:rgba(255,255,255,.08);
-      --soft:rgba(255,255,255,.06);
-      --text:#eaf0ff;
-      --muted:rgba(234,240,255,.65);
-      --rc-blue:#0a2e7a;
-      --rc-royal:#2734fe;
-      --rc-purple:#8042ff;
-      --rc-green:#1fc47c;
-      --rc-gold:#dac6b5;
-      --shadow: 0 20px 60px rgba(0,0,0,.45);
+    /* تأثير الخلفية المتطور */
+    .bg-blobs { position: fixed; width: 100vw; height: 100vh; z-index: -1; overflow: hidden; }
+    .blob { position: absolute; filter: blur(80px); border-radius: 50%; opacity: 0.15; animation: move 20s infinite alternate; }
+    @keyframes move { from { transform: translate(0, 0); } to { transform: translate(100px, 100px); } }
 
-      font-family:"Tajawal", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color:var(--text);
-
-      background:
-        radial-gradient(1200px 600px at 70% 0%, rgba(39,52,254,.20), transparent 60%),
-        radial-gradient(900px 520px at 10% 20%, rgba(31,196,124,.10), transparent 55%),
-        linear-gradient(180deg, var(--bg0), #050816 60%, #040610);
+    /* الكارد الرئيسي */
+    .app {
+      width: min(920px, 95%);
+      background: rgba(13, 23, 56, 0.7);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 30px;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+      overflow: hidden; animation: fadeIn 0.8s ease-out;
+      margin: 20px 0;
     }
 
-    /* =========================
-       THEME 2 (Rubik dark)
-       ========================= */
-    .eec-app.theme-2{
-      --bg0:#000;
-      --bg1:#000;
-      --panel:#0f0f10;
-      --panel2:#17171a;
-      --stroke:rgba(255,255,255,.12);
-      --soft:rgba(255,255,255,.08);
-      --text:#ffffff;
-      --muted:rgba(255,255,255,.65);
-
-      --rc-blue:#007BFF;
-      --rc-royal:#007BFF;
-      --rc-purple:#7a46ff;
-      --rc-green:#1fc47c;
-      --rc-gold:#ffd166;
-
-      --shadow: 0 20px 60px rgba(0,0,0,.55);
-
-      font-family:"Rubik", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color:var(--text);
-
-      background:
-        radial-gradient(1000px 520px at 70% 0%, rgba(0,123,255,.18), transparent 60%),
-        radial-gradient(900px 520px at 15% 15%, rgba(122,70,255,.14), transparent 55%),
-        linear-gradient(180deg, #000, #050505 70%, #000);
+    /* نظام العداد التنازلي */
+    .countdown-bar {
+      background: linear-gradient(90deg, #ff4d6d, #8042ff);
+      color: white; padding: 10px; text-align: center;
+      font-size: 13px; font-weight: bold; display: none;
     }
 
-    /* =========================
-       ✅ THEME 3
-       ========================= */
-    .eec-app.theme-3{
-      --bg-800: #081028;
-      --bg-700: #0a1330;
-      --bg-600: #0b1739;
-      --bg-500: #7e89ac;
-
-      --neutral--colors--400: #aeb9e1;
-      --neutral--colors--300: #d1dbf9;
-      --neutral--colors--200: #d9e1fa;
-      --neutral--colors--100: #ffffff;
-
-      --primary-color-1: #cb3cff;
-      --primary-color-2: #9a91fb;
-      --primary-color-3: #00c2ff;
-      --primary-color-4: #fdb52a;
-      --primary-color-5: #ffb016;
-      --primary-color-6: #ff5a65;
-      --primary-color-7: #05c168;
-
-      --border-color-4: #343b4f;
-      --border-cell-4: 52, 59, 79;
-
-      --gradient--pink: linear-gradient(to bottom right, #cb3cff 20%, #7f25fb 68%);
-
-      --bg0: var(--bg-800);
-      --bg1: var(--bg-700);
-      --panel: var(--bg-700);
-      --panel2: var(--bg-600);
-      --stroke: rgba(var(--border-cell-4), .9);
-      --soft: rgba(var(--border-cell-4), .35);
-
-      --text: var(--neutral--colors--100);
-      --muted: var(--neutral--colors--400);
-
-      --rc-royal: var(--primary-color-2);
-      --rc-purple: var(--primary-color-1);
-      --rc-green: var(--primary-color-7);
-      --rc-gold: var(--primary-color-4);
-
-      --shadow: 0 20px 60px rgba(0,0,0,.50);
-
-      font-family: "Rubik", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color: var(--text);
-
-      background:
-        radial-gradient(1000px 520px at 70% 0%, rgba(203,60,255,.18), transparent 60%),
-        radial-gradient(900px 520px at 15% 15%, rgba(0,194,255,.14), transparent 55%),
-        linear-gradient(180deg, var(--bg-800), #060b18 70%, #050814);
+    /* شكل الصفوف */
+    .row {
+      display: grid; grid-template-columns: 1.2fr 1fr 1fr 0.8fr 0.8fr;
+      gap: 12px; padding: 15px; margin-bottom: 10px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 20px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid transparent;
+      color: white; align-items: center;
+    }
+    .row:hover {
+      transform: scale(1.02) translateY(-5px);
+      background: rgba(255,255,255,0.08);
+      border-color: #8042ff;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     }
 
-    .eec-app.theme-3.light-theme{
-      --bg-800: #ffffff;
-      --bg-700: #ffffff;
-      --bg-600: #f8f9fc;
-      --bg-500: #c2c7d6;
+    .btn-cal {
+      background: rgba(31, 196, 124, 0.15); color: #1fc47c; border: 1px solid #1fc47c;
+      padding: 5px 10px; border-radius: 10px; font-size: 11px; cursor: pointer; transition: 0.2s;
+    }
+    .btn-cal:hover { background: #1fc47c; color: white; }
 
-      --neutral--colors--400: #4a4a4a;
-      --neutral--colors--300: #2f2f2f;
-      --neutral--colors--200: #1f1f1f;
-      --neutral--colors--100: #404040;
+    .theme-1 { --primary: #2734fe; --accent: #1fc47c; }
+    .theme-2 { --primary: #007BFF; --accent: #ffd166; }
+    .theme-3 { --primary: #cb3cff; --accent: #00c2ff; }
 
-      --primary-color-1: hsl(284, 100%, 75%);
-      --primary-color-2: #9a91fb;
-      --primary-color-3: #00a6d6;
-      --primary-color-4: #fdb52a;
-      --primary-color-5: #ffb016;
-      --primary-color-6: #e53946;
-      --primary-color-7: #05c168;
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-      --border-color-4: #d0d4e1;
-      --border-cell-4: 208, 212, 225;
-
-      --shadow: 0 20px 60px rgba(10,10,10,.15);
-
-      background:
-        radial-gradient(1000px 520px at 70% 0%, rgba(203,60,255,.10), transparent 60%),
-        radial-gradient(900px 520px at 15% 15%, rgba(0,194,255,.08), transparent 55%),
-        linear-gradient(180deg, #ffffff, #f6f7fb 70%, #ffffff);
-    }
-
-    /* =========================================================
-       ✅ Theme switch button
-       ========================================================= */
-    .theme-switch{
-      background: linear-gradient(135deg, #3A57E8, #08B1BA);
-      color:white;
-      border:none;
-      border-radius:20px;
-      width:100%;
-      padding:15px;
-      margin-top:15px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      cursor:pointer;
-      box-shadow:0 4px 10px rgba(0,0,0,.2);
-      transition: all .3s ease;
-      font-family: inherit;
-      font-weight:700;
-      font-size:1.1rem;
-      gap:10px;
-    }
-    .theme-switch i{ font-size:1.5rem; }
-    .theme-switch:hover{
-      transform:scale(1.06);
-      box-shadow:0 6px 15px rgba(0,0,0,.3);
-    }
-    .eec-app.theme-3 .theme-switch{
-      background: var(--gradient--pink);
-      box-shadow: 0 8px 18px rgba(203,60,255,.20);
-    }
-    .eec-app.theme-3 .theme-switch:hover{
-      box-shadow: 0 10px 26px rgba(203,60,255,.28);
-    }
-
-    /* =========================================================
-       Existing layout (your design) using vars
-       ========================================================= */
-    .app{
-      width:min(920px, 100%);
-      background: linear-gradient(180deg, rgba(13,23,56,.82), rgba(13,23,56,.72));
-      border:1px solid var(--stroke);
-      border-radius:22px;
-      box-shadow: var(--shadow);
-      overflow:hidden;
-      backdrop-filter: blur(10px);
-      margin:0 auto;
-    }
-    .eec-app.theme-2 .app{
-      background: linear-gradient(180deg, rgba(15,15,16,.88), rgba(23,23,26,.74));
-    }
-    .eec-app.theme-3 .app{
-      background: linear-gradient(180deg, rgba(11,23,57,.92), rgba(10,19,48,.82));
-      border-color: rgba(var(--border-cell-4), .9);
-    }
-    .eec-app.theme-3.light-theme .app{
-      background: linear-gradient(180deg, rgba(248,249,252,.92), rgba(255,255,255,.82));
-    }
-
-    .top{
-      padding:18px 18px 14px;
-      border-bottom:1px solid var(--stroke);
-      background: linear-gradient(180deg, rgba(16,31,70,.55), rgba(13,23,56,0));
-    }
-    .eec-app.theme-2 .top{
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,0));
-    }
-    .eec-app.theme-3 .top{
-      background: linear-gradient(180deg, rgba(10,19,48,.55), rgba(11,23,57,0));
-    }
-    .eec-app.theme-3.light-theme .top{
-      background: linear-gradient(180deg, rgba(248,249,252,.75), rgba(255,255,255,0));
-    }
-
-    .title{
-      margin:0 0 10px;
-      font-weight:900;
-      letter-spacing:.2px;
-      font-size:18px;
-      color:var(--text);
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-      text-align:center;
-    }
-
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      font-size:12px;
-      font-weight:900;
-      padding:6px 12px;
-      border-radius:999px;
-      background: linear-gradient(135deg,
-        rgba(39,52,254,.28),
-        rgba(128,66,255,.22),
-        rgba(31,196,124,.16)
-      );
-      border:1px solid rgba(39,52,254,.35);
-      color:rgba(234,240,255,.94);
-      box-shadow:
-        0 10px 24px rgba(39,52,254,.14),
-        0 0 0 1px rgba(255,255,255,.04) inset;
-      letter-spacing:.6px;
-    }
-    .eec-app.theme-3 .badge{
-      background: var(--gradient--pink);
-      border-color: rgba(203,60,255,.45);
-      box-shadow: 0 10px 24px rgba(203,60,255,.18), 0 0 0 1px rgba(255,255,255,.05) inset;
-      color: rgba(255,255,255,.95);
-    }
-
-    .subtitle{
-      margin:0 0 12px;
-      text-align:center;
-      color:var(--muted);
-      font-weight:800;
-    }
-
-    .controls{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:10px;
-      align-items:center;
-      max-width: 720px;
-      margin: 0 auto;
-    }
-
-    .results-wrap{ padding: 14px 18px 18px; }
-
-    .results{
-      background: radial-gradient(900px 200px at 50% 0%, rgba(255,255,255,.06), transparent 65%),
-                  linear-gradient(180deg, rgba(16,31,70,.55), rgba(11,19,48,.35));
-      border:1px solid var(--stroke);
-      border-radius:18px;
-      overflow:hidden;
-    }
-    .eec-app.theme-3 .results{
-      background: radial-gradient(900px 200px at 50% 0%, rgba(255,255,255,.08), transparent 65%),
-                  linear-gradient(180deg, rgba(10,19,48,.55), rgba(11,23,57,.35));
-      border-color: rgba(var(--border-cell-4), .8);
-    }
-    .eec-app.theme-3.light-theme .results{
-      background: radial-gradient(900px 200px at 50% 0%, rgba(0,0,0,.03), transparent 65%),
-                  linear-gradient(180deg, rgba(248,249,252,.75), rgba(255,255,255,.55));
-    }
-
-    .r-head{
-      display:grid;
-      grid-template-columns: 1.05fr 1fr 1.05fr 1fr 1fr;
-      gap:10px;
-      padding:12px;
-      background: rgba(0,0,0,.10);
-      border-bottom:1px solid var(--stroke);
-    }
-
-    .h-pill{
-      text-align:center;
-      padding:10px 8px;
-      border-radius:999px;
-      background: rgba(10,16,36,.65);
-      border:1px solid rgba(255, 255, 205, 0.71);
-      color: rgba(255, 255, 205, 0.71);
-      font-weight:1000;
-      font-size:13px;
-      box-shadow: inset 0 0 0 1px rgba(0,0,0,.06);
-    }
-    .eec-app.theme-3 .h-pill{
-      background: rgba(8,16,40,.70);
-      border-color: rgba(203,60,255,.45);
-      color: rgba(209,219,249,.95);
-    }
-    .eec-app.theme-3.light-theme .h-pill{
-      background: rgba(248,249,252,.85);
-      border-color: rgba(208,212,225,1);
-      color: rgba(47,47,47,.95);
-    }
-
-    .r-body{
-      padding: 10px 12px 14px;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
-
-    .row{
-      display:grid;
-      grid-template-columns: 1.05fr 1fr 1.05fr 1fr 1fr;
-      gap:10px;
-      align-items:center;
-      padding:10px 10px;
-      border-radius:16px;
-      background:
-        radial-gradient(600px 120px at 50% 0%, rgba(39,52,254,.06), transparent 60%),
-        rgba(255,255,255,.04);
-      border:1px solid rgba(255,255,255,.06);
-      transition:.12s border-color ease, .12s background ease;
-    }
-    .row:hover{
-      border-color: rgba(39,52,254,.18);
-      background:
-        radial-gradient(600px 120px at 50% 0%, rgba(31,196,124,.06), transparent 60%),
-        rgba(255,255,255,.045);
-    }
-
-    .eec-app.theme-3 .row{
-      border-color: rgba(var(--border-cell-4), .85);
-      background:
-        radial-gradient(600px 120px at 50% 0%, rgba(203,60,255,.08), transparent 60%),
-        rgba(255,255,255,.035);
-    }
-    .eec-app.theme-3 .row:hover{
-      border-color: rgba(203,60,255,.30);
-      background:
-        radial-gradient(600px 120px at 50% 0%, rgba(0,194,255,.08), transparent 60%),
-        rgba(255,255,255,.05);
-    }
-    .eec-app.theme-3.light-theme .row{
-      background: rgba(255,255,255,.85);
-      border-color: rgba(var(--border-cell-4), 1);
-    }
-
-    .cell{
-      text-align:center;
-      font-weight:1000;
-      line-height:1.15;
-    }
-
-    .course{ color: var(--rc-gold); font-size:16px; letter-spacing:.35px }
-    .date-top{ color: rgba(234,240,255,.92); font-size:15px; opacity:.95 }
-    .date-bot{ color: rgba(31,196,124,.98); font-size:14px; font-weight:1000 }
-    .t-top{ color: var(--rc-gold); font-size:15px; letter-spacing:.3px }
-    .t-bot{ color: rgba(255,77,109,.95); font-size:15px; opacity:.95 }
-    .duration{ color: rgba(234,240,255,.76); font-size:14px; font-weight:900 }
-    .venue{ color: rgba(278,252,204,.92); font-size:15px }
-
-    .eec-app.theme-3 .date-top{ color: var(--neutral--colors--300); }
-    .eec-app.theme-3 .duration{ color: var(--neutral--colors--400); }
-    .eec-app.theme-3 .venue{ color: var(--neutral--colors--200); }
-    .eec-app.theme-3 .t-top{ color: var(--primary-color-2); }
-    .eec-app.theme-3 .t-bot{ color: var(--primary-color-6); }
-
-    .two{
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:6px;
-    }
-
-    .empty{
-      padding:18px;
-      text-align:center;
-      color:var(--muted);
-      font-weight:900;
-    }
-
-    /* ✅ Mobile: same look (5 columns) */
-    @media (max-width: 560px){
-      .eec-app{ padding:12px; }
-      .top{ padding:14px 14px 12px; }
-      .title{ font-size:16px; }
-
-      .results-wrap{ padding: 12px 14px 14px; }
-
-      .r-head, .row{
-        gap:6px;
-        grid-template-columns: 1.02fr .95fr 1.02fr .95fr .95fr;
-      }
-
-      .h-pill{ padding:8px 6px; font-size:12px; }
-      .row{ padding:10px 8px; }
-
-      .course{ font-size:14px; }
-      .venue{ font-size:13px; }
-      .duration{ font-size:12px; }
-
-      .date-top, .t-top{ font-size:13px; }
-      .date-bot, .t-bot{ font-size:12px; }
-
-      .two{ gap:4px; }
-      .footer{ font-size:11px; padding:10px 14px 12px; }
-    }
-
-    @media (max-width: 390px){
-      .r-head, .row{ gap:5px; }
-      .h-pill{ font-size:11px; padding:7px 5px; }
-      .course{ font-size:13px; }
-      .date-top, .t-top{ font-size:12px; }
-      .date-bot, .t-bot{ font-size:11px; }
-      .venue{ font-size:12px; }
-      .duration{ font-size:11px; }
-    }
-
-    /* ==== Expanding Search Button ==== */
-    .search-wrapper{
-      width:52px;
-      height:52px;
-      display:flex;
-      align-items:center;
-      border-radius:999px;
-      background: rgba(255,255,255,.06);
-      border:1px solid var(--stroke);
-      overflow:hidden;
-      transition: width .35s ease, background .2s ease;
-      position:relative;
-      margin: 0 auto;
-    }
-    .eec-app.theme-3 .search-wrapper{
-      background: rgba(255,255,255,.04);
-      border-color: rgba(var(--border-cell-4), .85);
-    }
-    .eec-app.theme-3.light-theme .search-wrapper{
-      background: rgba(248,249,252,.95);
-    }
-
-    .search-wrapper.active{
-      width:100%;
-      max-width:360px;
-    }
-
-    .search-wrapper input{
-      position:absolute;
-      inset:0;
-      width:100%;
-      height:100%;
-      padding-inline:16px 64px;
-      border:none;
-      outline:none;
-      background:transparent;
-      color:var(--text);
-      font-weight:900;
-      font-size:15px;
-      opacity:0;
-      transition: opacity .2s ease;
-      direction: rtl;
-      text-align: right;
-      font-family: inherit;
-    }
-    .search-wrapper.active input{ opacity:1; }
-
-    .search-btn{
-      width:52px;
-      height:52px;
-      border-radius:50%;
-      border:none;
-      cursor:pointer;
-      background: linear-gradient(180deg, rgba(31,196,124,1), rgba(39,52,254,.9));
-      margin-inline-start:auto;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      box-shadow:
-        0 12px 28px rgba(31,196,124,.25),
-        inset 0 0 0 1px rgba(255,255,255,.15);
-      z-index: 1;
-    }
-    .eec-app.theme-3 .search-btn{
-      background: var(--gradient--pink);
-      box-shadow:
-        0 12px 28px rgba(203,60,255,.22),
-        inset 0 0 0 1px rgba(255,255,255,.18);
-    }
-
-    .search-btn i{ color:#071022; font-size:15px; }
-    .eec-app.theme-3 .search-btn i{ color:#fff; }
-
-    /* Footer */
-    .footer{
-      padding:12px 18px 14px;
-      text-align:center;
-      color:var(--muted);
-      font-weight:900;
-      font-size:12px;
-      letter-spacing:.2px;
-      border-top:1px solid var(--stroke);
-      background: rgba(0,0,0,.08);
-    }
-    .footer span{ color: rgba(234,240,255,.72); }
-    .eec-app.theme-3 .footer span{ color: var(--neutral--colors--300); }
-    .eec-app.theme-3.light-theme .footer span{ color: var(--neutral--colors--300); }
-
-    /* =========================================================
-       ✅ MOBILE CENTER CARD FIX (هذا التعديل المطلوب)
-       - يجعل الكارد في النص وبعرض ثابت مثل المثال
-       ========================================================= */
-    @media (max-width: 560px){
-      body{
-        padding: 14px;
-        padding-left:  max(14px, env(safe-area-inset-left));
-        padding-right: max(14px, env(safe-area-inset-right));
-        padding-top:   max(14px, env(safe-area-inset-top));
-        padding-bottom:max(14px, env(safe-area-inset-bottom));
-      }
-      .eec-app{
-        padding: 0;             /* نخلي البودي هو اللي يتحكم بالهوامش */
-        min-height: auto;       /* ما نحتاجها على الجوال */
-      }
-      .app{
-        width: 100%;
-        max-width: 430px;       /* غيّرها 400-460 حسب ذوقك */
-        margin: 0 auto;
-      }
+    @media (max-width: 600px) {
+      .row { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .cell.venue, .cell.cal-btn { display: none; }
+      .app { border-radius: 0; width: 100%; margin: 0; min-height: 100vh; }
     }
   </style>
 </head>
+<body class="theme-1" id="appRoot">
 
-<body>
-  <!-- ✅ Default theme -->
-  <div class="eec-app theme-1" id="appRoot">
-    <main class="app">
-      <header class="top">
-        <h1 class="title">
-          جدول الاختبارات
-          <span class="badge"> FINAL 471</span>
-        </h1>
-
-        <div class="subtitle"></div>
-
-        <div class="controls">
-          <div class="search-wrapper" id="searchBox">
-            <input
-              id="studentId"
-              type="search"
-              inputmode="numeric"
-              autocomplete="off"
-              placeholder="أدخل الرقم الأكاديمي"
-            />
-            <button class="search-btn" id="searchBtn" type="button" aria-label="بحث">
-              <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-          </div>
-
-          <!-- ✅ Theme switch (cycles 1→2→3) -->
-          <button class="theme-switch" id="themeSwitch" type="button" aria-label="تغيير الثيم">
-            <i class="fa-solid fa-moon"></i>
-            <span id="themeLabel">تغيير الثيم</span>
-          </button>
-        </div>
-      </header>
-
-      <section class="results-wrap">
-        <div class="results">
-          <div class="r-head">
-            <div class="h-pill">رمز المقرر</div>
-            <div class="h-pill">التاريخ</div>
-            <div class="h-pill">الوقت</div>
-            <div class="h-pill">المدة</div>
-            <div class="h-pill">القاعة</div>
-          </div>
-
-          <div class="r-body" id="rows">
-            <div class="empty">ابدأ بإدخال الرقم الأكاديمي للبحث.</div>
-          </div>
-        </div>
-      </section>
-
-      <footer class="footer">
-        <span>Designed by alrasasi</span>
-      </footer>
-    </main>
+  <div class="bg-blobs">
+    <div id="blob1" class="blob" style="width:400px; height:400px; background:#2734fe; top:-100px; right:-100px;"></div>
+    <div id="blob2" class="blob" style="width:300px; height:300px; background:#1fc47c; bottom:-50px; left:-50px;"></div>
   </div>
 
+  <main class="app">
+    <div id="countdown" class="countdown-bar"></div>
+    
+    <header class="top" style="padding: 30px; text-align: center;">
+      <h1 style="font-size: 28px; font-weight: 900; color: #fff; margin-bottom: 10px;">
+        جداول الكلية الذكية
+        <span style="font-size: 12px; background: #8042ff; padding: 4px 12px; border-radius: 20px;">V2.0 PRO</span>
+      </h1>
+
+      <div class="controls" style="display: flex; flex-direction: column; gap: 15px; align-items: center;">
+        <div class="search-wrapper" style="width: 100%; max-width: 400px; position: relative;">
+          <input id="studentId" type="text" placeholder="ابحث برمز المادة أو اسمها..." 
+                 style="width: 100%; padding: 15px 25px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: white; outline: none;">
+          <button id="searchBtn" style="position: absolute; left: 5px; top: 5px; bottom: 5px; width: 50px; border-radius: 50px; background: #8042ff; border: none; color: white; cursor: pointer;">
+            <i class="fa fa-search"></i>
+          </button>
+        </div>
+        
+        <button id="themeSwitch" style="background: transparent; color: #aaa; border: none; cursor: pointer; font-size: 12px;">
+           <i class="fa fa-magic"></i> تبديل مظهر النظام
+        </button>
+      </div>
+    </header>
+
+    <section class="results-wrap" style="padding: 20px;">
+      <div id="rows" class="r-body">
+        <div class="empty" style="text-align: center; color: #666; padding: 40px;">
+          <i class="fa fa-calendar-alt" style="font-size: 50px; margin-bottom: 20px; display: block;"></i>
+          جاري تجهيز الاتصال بملف البيانات...
+        </div>
+      </div>
+    </section>
+
+    <footer style="padding: 20px; text-align: center; font-size: 11px; color: #444; border-top: 1px solid rgba(255,255,255,0.05);">
+      Designed with Intelligence for YIC Students
+    </footer>
+  </main>
+
   <script>
-    // ✅ Mark as loaded to prevent flash
-    window.addEventListener('DOMContentLoaded', () => {
-      document.body.classList.add('loaded');
-      applySavedTheme();
-    });
-
-    // ✅ Cloudflare Worker API
-    const API_BASE = "https://eec.mohammed-rasasi.workers.dev";
-
-    // Elements
-    const elStudentId = document.getElementById('studentId');
-    const elSearchBtn = document.getElementById('searchBtn');
+    let examsData = []; // هنا سيتم تخزين البيانات من ملف JSON
     const elRows = document.getElementById('rows');
-    const searchBox = document.getElementById('searchBox');
+    const studentInput = document.getElementById('studentId');
 
-    // Theme elements
-    const appRoot = document.getElementById('appRoot');
-    const themeSwitch = document.getElementById('themeSwitch');
-    const themeIcon = themeSwitch.querySelector('i');
-    const themeLabel = document.getElementById('themeLabel');
-
-    const THEMES = ['theme-1', 'theme-2', 'theme-3'];
-
-    function getCurrentTheme(){
-      return THEMES.find(t => appRoot.classList.contains(t)) || 'theme-1';
-    }
-
-    function setTheme(themeName){
-      THEMES.forEach(t => appRoot.classList.remove(t));
-      appRoot.classList.add(themeName);
-
-      if (themeName !== 'theme-3') appRoot.classList.remove('light-theme');
-
-      if (themeName === 'theme-1'){
-        themeIcon.className = 'fa-solid fa-moon';
-        themeLabel.textContent = 'ثيم 1 (الأصلي)';
-      } else if (themeName === 'theme-2'){
-        themeIcon.className = 'fa-solid fa-sun';
-        themeLabel.textContent = 'ثيم 2 (Rubik)';
-      } else {
-        themeIcon.className = 'fa-solid fa-wand-magic-sparkles';
-        themeLabel.textContent = appRoot.classList.contains('light-theme')
-          ? 'ثيم 3 (فاتح)'
-          : 'ثيم 3 (داكن)';
-      }
-
-      localStorage.setItem('eec_theme', themeName);
-      localStorage.setItem('eec_theme3_light', appRoot.classList.contains('light-theme') ? '1' : '0');
-    }
-
-    function toggleThemeCycle(){
-      const cur = getCurrentTheme();
-      const idx = THEMES.indexOf(cur);
-      const next = THEMES[(idx + 1) % THEMES.length];
-      setTheme(next);
-    }
-
-    let pressTimer = null;
-    themeSwitch.addEventListener('pointerdown', () => {
-      pressTimer = setTimeout(() => {
-        if (getCurrentTheme() === 'theme-3') {
-          appRoot.classList.toggle('light-theme');
-          setTheme('theme-3');
+    // 1. جلب البيانات من ملف JSON
+    async function loadExamsData() {
+        try {
+            const response = await fetch('exams_data.json');
+            if (!response.ok) throw new Error();
+            examsData = await response.json();
+            elRows.innerHTML = `
+                <div class="empty" style="text-align: center; color: #666; padding: 40px;">
+                    <i class="fa fa-check-circle" style="font-size: 50px; color: #1fc47c; margin-bottom: 20px; display: block;"></i>
+                    تم تحميل البيانات بنجاح! ابحث الآن عن موادك.
+                </div>`;
+        } catch (e) {
+            elRows.innerHTML = '<div class="empty" style="color:#ff4d6d;">فشل الاتصال بملف exams_data.json</div>';
         }
-      }, 550);
-    });
-    themeSwitch.addEventListener('pointerup', () => { if (pressTimer) clearTimeout(pressTimer); });
-    themeSwitch.addEventListener('pointercancel', () => { if (pressTimer) clearTimeout(pressTimer); });
-
-    themeSwitch.addEventListener('click', () => { toggleThemeCycle(); });
-
-    function applySavedTheme(){
-      const saved = localStorage.getItem('eec_theme');
-      const light3 = localStorage.getItem('eec_theme3_light') === '1';
-
-      if (saved && THEMES.includes(saved)){
-        setTheme(saved);
-        if (saved === 'theme-3' && light3){
-          appRoot.classList.add('light-theme');
-          setTheme('theme-3');
-        }
-      } else {
-        setTheme('theme-1');
-      }
     }
 
-    function convertArabicToEnglishNumbers(str) {
-      const arabic = '٠١٢٣٤٥٦٧٨٩';
-      const english = '0123456789';
-      return String(str || '').split('').map(ch => {
-        const i = arabic.indexOf(ch);
-        return i !== -1 ? english[i] : ch;
-      }).join('');
+    // 2. منطق البحث
+    function doSearch() {
+      const query = studentInput.value.trim().toUpperCase();
+      if (!query) return;
+
+      const filtered = examsData.filter(ex => 
+        ex.code.toUpperCase().includes(query) || 
+        ex.name.toUpperCase().includes(query)
+      );
+
+      renderAdvancedRows(filtered);
     }
 
-    function translateDayShort(dayShort) {
-      const map = {
-        'Sun':'الأحد','Mon':'الاثنين','Tue':'الثلاثاء','Wed':'الأربعاء',
-        'Thu':'الخميس','Fri':'الجمعة','Sat':'السبت'
-      };
-      return map[dayShort] || dayShort || '';
-    }
-
-    function parseTxtDate(dateStr) {
-      const m = String(dateStr || '').match(/(\d{2})-(\d{2})-(\d{4})\s*\((\w+)\)/);
-      if (!m) return null;
-      const dd = m[1], mm = m[2], yyyy = m[3], dayShort = m[4];
-      const ts = new Date(Number(yyyy), Number(mm) - 1, Number(dd)).getTime();
-      return { yyyy, mm, dd, dayShort, ts };
-    }
-
-    function escapeHtml(s){
-      return String(s ?? '')
-        .replace(/&/g,'&amp;')
-        .replace(/</g,'&lt;')
-        .replace(/>/g,'&gt;')
-        .replace(/"/g,'&quot;')
-        .replace(/'/g,'&#039;');
-    }
-
-    function renderEmpty(msg) {
-      elRows.innerHTML = `<div class="empty">${escapeHtml(msg)}</div>`;
-    }
-
-    function formatDuration(raw) {
-      if (!raw) return "";
-      const h = String(raw).match(/(\d+)\s*H/i);
-      const m = String(raw).match(/(\d+)\s*M/i);
-
-      const hours = h ? Number(h[1]) : 0;
-      const minutes = m ? Number(m[1]) : 0;
-
-      if (hours && minutes) return `${hours}H ${minutes}M`;
-      if (hours && !minutes) return `${hours}H`;
-      if (!hours && minutes) return `${minutes}M`;
-      return String(raw);
-    }
-
-    function formatTimeRange(raw) {
-      if (!raw) return { from: "", to: "" };
-      const parts = String(raw).split("-").map(p => p.trim());
-      return { from: parts[0] || "", to: parts[1] || "" };
-    }
-
-    function renderRows(records) {
-      if (!records || records.length === 0) {
-        renderEmpty('لم يتم العثور على بيانات لهذا الرقم الأكاديمي.');
+    // 3. عرض الصفوف بالتصميم الرهيب
+    function renderAdvancedRows(exams) {
+      if (exams.length === 0) {
+        elRows.innerHTML = '<div class="empty">لا توجد نتائج مطابقة لبحثك.</div>';
         return;
       }
 
-      const html = records.map(r => {
-        const d = parseTxtDate(r.dateStr);
-        const mmdd = d ? `${d.mm}/${d.dd}` : (r.dateStr || '');
-        const dayAr = translateDayShort(d?.dayShort || r.dayShort);
+      elRows.innerHTML = '';
+      exams.forEach((ex) => {
+        const row = document.createElement('div');
+        row.className = 'row';
 
-        const time = formatTimeRange(r.timeStr);
-        const t1 = time.from;
-        const t2 = time.to;
-
-        return `
-          <div class="row">
-            <div class="cell course" data-label="رمز المقرر">${escapeHtml(r.courseCode)}</div>
-
-            <div class="cell" data-label="التاريخ">
-              <div class="two">
-                <div class="date-top">${escapeHtml(mmdd)}</div>
-                <div class="date-bot">${escapeHtml(dayAr)}</div>
-              </div>
-            </div>
-
-            <div class="cell" data-label="الوقت">
-              <div class="two">
-                <div class="t-top">${escapeHtml(t1)}</div>
-                <div class="t-bot">${escapeHtml(t2)}</div>
-              </div>
-            </div>
-
-            <div class="cell duration" data-label="المدة">${escapeHtml(formatDuration(r.duration))}</div>
-            <div class="cell venue" data-label="القاعة">${escapeHtml(r.venue || '')}</div>
+        row.innerHTML = `
+          <div class="cell">
+            <div style="color: #ffd166; font-weight: 900;">${ex.code}</div>
+            <div style="font-size: 11px; opacity: 0.7;">${ex.name}</div>
+          </div>
+          <div class="cell" style="text-align: center;">
+            <div style="font-size: 14px;">${ex.date}</div>
+            <div style="color: #1fc47c; font-size: 12px;">Exam Day</div>
+          </div>
+          <div class="cell">
+            <div style="color: #ff4d6d; font-size: 13px;">${ex.time}</div>
+          </div>
+          <div class="cell venue">القاعة: 102</div>
+          <div class="cell cal-btn" style="text-align: left;">
+            <button class="btn-cal" onclick='addToGoogleCalendar(${JSON.stringify(ex)})'>
+              <i class="fa fa-plus"></i> تقويم
+            </button>
           </div>
         `;
-      }).join('');
+        elRows.appendChild(row);
+      });
 
-      elRows.innerHTML = html;
+      // تحديث العداد لأول نتيجة تظهر
+      if(exams[0].date) updateCountdown(exams[0].date);
     }
 
-    async function doSearch() {
-      const cleaned = convertArabicToEnglishNumbers(elStudentId.value).replace(/\D/g,'').trim();
+    function addToGoogleCalendar(exam) {
+      const title = `اختبار: ${exam.code}`;
+      const d = exam.date.split('-').reverse().join(''); // YYYYMMDD
+      const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${d}/${d}`;
+      window.open(url, '_blank');
+    }
 
-      if (!cleaned) {
-        renderEmpty('الرجاء إدخال الرقم الأكاديمي بشكل صحيح.');
-        return;
-      }
+    function updateCountdown(dateStr) {
+      const countdownEl = document.getElementById('countdown');
+      // تحويل DD-MM-YYYY إلى format يفهمه dayjs
+      const parts = dateStr.split('-');
+      const target = dayjs(`${parts[2]}-${parts[1]}-${parts[0]}`);
+      const diff = target.diff(dayjs(), 'day');
 
-      renderEmpty('جاري البحث...');
-
-      try {
-        const url = `${API_BASE}/exams?studentId=${encodeURIComponent(cleaned)}`;
-        const res = await fetch(url, { cache: 'no-store' });
-
-        const text = await res.text();
-        if (!res.ok) {
-          try {
-            const err = JSON.parse(text);
-            renderEmpty(err.error || text);
-          } catch {
-            renderEmpty(text);
-          }
-          return;
-        }
-
-        const data = JSON.parse(text);
-        renderRows(data.records || []);
-      } catch (err) {
-        console.error(err);
-        renderEmpty('تعذر جلب البيانات. تأكد من رابط الـ API وحاول.');
+      if (diff >= 0) {
+        countdownEl.style.display = 'block';
+        countdownEl.innerHTML = `🚀 متبقي ${diff} أيام على اختبار ${dateStr} ! شد حيلك.`;
       }
     }
 
-    // Expand on hover
-    searchBox.addEventListener("mouseenter", () => {
-      if (document.activeElement !== elStudentId) {
-        searchBox.classList.add("active");
-      }
-    });
+    // الأزرار والـ Theme Switcher
+    studentInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') doSearch(); });
+    document.getElementById('searchBtn').onclick = doSearch;
 
-    // Collapse on leave if not focused and empty
-    searchBox.addEventListener("mouseleave", () => {
-      if (document.activeElement !== elStudentId && !elStudentId.value.trim()) {
-        searchBox.classList.remove("active");
-      }
-    });
+    let currentTheme = 1;
+    document.getElementById('themeSwitch').onclick = () => {
+      currentTheme = currentTheme >= 3 ? 1 : currentTheme + 1;
+      document.body.className = `theme-${currentTheme}`;
+      const colors = ['#2734fe', '#007BFF', '#cb3cff'];
+      document.getElementById('blob1').style.background = colors[currentTheme-1];
+    };
 
-    // Click expand + focus + search
-    elSearchBtn.addEventListener("click", () => {
-      searchBox.classList.add("active");
-      elStudentId.focus();
-      doSearch();
-    });
+    // تشغيل جلب البيانات عند البداية
+    loadExamsData();
 
-    // Keep expanded while focused
-    elStudentId.addEventListener("focus", () => {
-      searchBox.classList.add("active");
-    });
-
-    // Collapse on blur if empty
-    elStudentId.addEventListener("blur", () => {
-      if (!elStudentId.value.trim()) {
-        searchBox.classList.remove("active");
-      }
-    });
-
-    // Enforce numeric input (Arabic -> English)
-    elStudentId.addEventListener('input', (e) => {
-      const v = convertArabicToEnglishNumbers(e.target.value).replace(/\D/g,'');
-      e.target.value = v;
-    });
-
-    // Enter to search
-    elStudentId.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        doSearch();
-      }
-    });
-
-    (function init(){
-      renderEmpty('ابدأ بإدخال الرقم الأكاديمي للبحث.');
-    })();
   </script>
 </body>
 </html>

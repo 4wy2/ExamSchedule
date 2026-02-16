@@ -109,54 +109,59 @@
     const row = document.createElement('div');
     row.className = 'row';
     
-    // استخراج اليوم (مثل Sunday) والتاريخ بشكل منفصل إذا وجد
+    // معالجة التاريخ واليوم
     const dateParts = ex.date.split(' ');
     const dayName = dateParts[1] ? dateParts[1].replace(/[()]/g, '') : '';
     const dateNum = dateParts[0];
 
+    // تحديد اللون بناءً على الفترة (صباحي/مسائي)
+    const isPM = ex.time.includes('PM');
+    const timeColor = isPM ? '#ff9f43' : '#00d2d3'; // برتقالي للمساء، فيروزي للصباح
+
     row.innerHTML = `
         <div class="info-group">
-            <span class="label" style="color: #ffd166; font-size: 18px;">${ex.code}</span>
-            <span class="sub" style="display:block; font-size:12px; opacity:0.8; margin-top:4px; line-height:1.4;">
-                <i class="fa-solid fa-book-open" style="font-size: 10px; margin-left: 5px; color: var(--primary);"></i>
+            <span class="label" style="color: #ffd166; font-size: 18px; letter-spacing: 1px;">${ex.code}</span>
+            <span class="sub" style="display:block; font-size:11px; opacity:0.6; margin-top:2px;">
                 ${ex.course_name}
             </span>
         </div>
 
         <div class="date-box">
-            <span class="mobile-label">الموعد</span>
-            <div style="display: flex; align-items: center; gap: 8px;">
-                <i class="fa-regular fa-calendar-check" style="color: var(--accent);"></i>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <div style="width: 3px; height: 25px; background: var(--accent); border-radius: 10px;"></div>
                 <div>
-                    <b style="display: block; font-size: 14px;">${dateNum}</b>
-                    <small style="font-size: 10px; color: var(--accent); opacity: 0.9;">${dayName}</small>
+                    <b style="display: block; font-size: 15px; letter-spacing: 0.5px;">${dateNum}</b>
+                    <small style="font-size: 10px; color: var(--accent); font-weight: bold;">${dayName}</small>
                 </div>
             </div>
         </div>
 
         <div class="time-box">
-            <span class="mobile-label">الوقت</span>
             <div style="display: flex; align-items: center; gap: 8px;">
-                <i class="fa-regular fa-clock" style="color: var(--danger);"></i>
-                <span class="time-badge" style="background: rgba(255, 77, 109, 0.1); padding: 4px 8px; border-radius: 6px;">
+                <i class="fa-solid fa-circle" style="font-size: 6px; color: ${timeColor};"></i>
+                <span class="time-badge" style="font-family: monospace; font-size: 13px; font-weight: bold; color: white;">
                     ${ex.time}
                 </span>
             </div>
         </div>
 
         <div class="duration-box">
-            <span class="mobile-label">المدة</span>
-            <div style="display: flex; align-items: center; gap: 8px; opacity: 0.9;">
-                <i class="fa-solid fa-hourglass-half" style="font-size: 12px;"></i>
-                <span style="font-size: 13px;">${ex.duration.replace('H', 'ساعة').replace('M', 'دقيقة')}</span>
+            <div style="display: flex; flex-direction: column; gap: 2px;">
+                <span style="font-size: 13px; color: #fff;">
+                    <i class="fa-regular fa-hourglass-half" style="font-size: 11px; margin-left: 4px; opacity: 0.7;"></i>
+                    ${ex.duration.replace('H', 'س').replace('M', 'د')}
+                </span>
+                <span style="font-size: 9px; opacity: 0.4;">
+                    <i class="fa-solid fa-users" style="font-size: 8px;"></i> ${ex.actual_size} طالب
+                </span>
             </div>
         </div>
 
         <div class="actions">
             <button class="btn-action btn-save ${isSaved ? 'saved' : ''}" 
-                    title="${isSaved ? 'حذف من جدولي' : 'حفظ في جدولي'}"
+                    style="border: 1px solid ${isSaved ? 'var(--danger)' : 'rgba(255,255,255,0.1)'};"
                     onclick="toggleSave('${ex.code}')">
-                <i class="fa-solid ${isSaved ? 'fa-trash-can' : 'fa-plus'}"></i>
+                <i class="fa-solid ${isSaved ? 'fa-xmark' : 'fa-plus'}"></i>
             </button>
         </div>
     `;

@@ -9,66 +9,71 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.7/dayjs.min.js"></script>
 
     <style>
-        :root { --primary: #8042ff; --accent: #1fc47c; --danger: #ff4d6d; }
+        :root { --primary: #8042ff; --accent: #1fc47c; --danger: #ff4d6d; --card-bg: rgba(13, 23, 56, 0.7); }
         body { margin: 0; background: #050816; font-family: 'Tajawal', sans-serif; color: white; overflow-x: hidden; }
         
         .bg-blobs { position: fixed; width: 100vw; height: 100vh; z-index: -1; overflow: hidden; }
         .blob { position: absolute; filter: blur(80px); border-radius: 50%; opacity: 0.1; animation: move 20s infinite alternate; }
         @keyframes move { from { transform: translate(0, 0); } to { transform: translate(100px, 100px); } }
 
-        .app { width: min(920px, 95%); margin: 20px auto; background: rgba(13, 23, 56, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 25px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        .app { width: min(920px, 98%); margin: 15px auto; background: var(--card-bg); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 25px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
 
-        .countdown-bar { background: linear-gradient(90deg, var(--danger), var(--primary)); padding: 12px; text-align: center; font-weight: bold; display: none; font-size: 13px; }
+        .countdown-bar { background: linear-gradient(90deg, var(--danger), var(--primary)); padding: 10px; text-align: center; font-weight: bold; display: none; font-size: 12px; }
 
-        .section-title { padding: 15px 20px 5px; font-size: 14px; color: var(--primary); font-weight: 800; display: flex; align-items: center; gap: 10px; }
+        .section-title { padding: 15px 15px 5px; font-size: 14px; color: var(--primary); font-weight: 800; display: flex; align-items: center; gap: 8px; }
         .section-title::after { content: ""; flex: 1; height: 1px; background: rgba(255,255,255,0.1); }
 
-        /* تصميم الصف الأفقي المتجاوب */
+        /* حاوية الصف - توزيع أفقي احترافي */
         .row { 
             display: flex; 
             flex-direction: row; 
-            justify-content: space-between; 
             align-items: center; 
-            padding: 12px 15px; 
-            margin: 10px 15px; 
+            padding: 12px 10px; 
+            margin: 8px 10px; 
             background: rgba(255,255,255,0.03); 
             border-radius: 15px; 
-            border: 1px solid transparent; 
-            transition: 0.3s; 
-            gap: 10px;
+            border: 1px solid rgba(255,255,255,0.05); 
+            gap: 5px;
+            transition: 0.3s;
         }
-        .row:hover { background: rgba(255,255,255,0.07); border-color: var(--primary); }
 
-        .data-item { display: flex; flex-direction: column; align-items: center; text-align: center; flex: 1; min-width: 0; }
-        .caption { font-size: 9px; color: #5d78ff; font-weight: bold; margin-bottom: 4px; opacity: 0.8; }
-        
-        .info-group { flex: 1.5; align-items: flex-start; text-align: right; }
-        .course-code { font-weight: 800; color: #ffd166; font-size: 14px; }
-        .val-text { font-weight: bold; font-size: 12px; white-space: nowrap; }
+        /* أعمدة البيانات */
+        .data-item { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            text-align: center; 
+            flex: 1; 
+            min-width: 0; /* يمنع التداخل */
+        }
 
-        .btn-action { border: none; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
-        .btn-save { background: rgba(128, 66, 255, 0.1); color: #b794ff; border: 1px solid rgba(128, 66, 255, 0.3); }
+        .info-group { flex: 1.4; align-items: flex-start; text-align: right; }
+
+        .caption { font-size: 9px; color: #5d78ff; font-weight: bold; margin-bottom: 4px; opacity: 0.9; }
+        .course-code { font-weight: 800; color: #ffd166; font-size: 13px; }
+        .val-text { font-weight: 700; font-size: 11px; white-space: nowrap; }
+
+        .actions-cell { display: flex; gap: 5px; flex: 0.5; justify-content: flex-end; }
+        .btn-action { border: none; width: 30px; height: 30px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; transition: 0.2s; }
+        .btn-save { background: rgba(255, 77, 109, 0.1); color: var(--danger); border: 1px solid rgba(255, 77, 109, 0.2); }
         .btn-save.saved { background: var(--danger); color: white; border: none; }
-        .btn-cal { background: rgba(31, 196, 124, 0.1); color: var(--accent); border: 1px solid rgba(31, 196, 124, 0.3); }
+        .btn-cal { background: rgba(31, 196, 124, 0.1); color: var(--accent); border: 1px solid rgba(31, 196, 124, 0.2); }
 
-        .search-wrapper { padding: 30px 20px; text-align: center; }
-        .search-wrapper input { width: 100%; max-width: 450px; padding: 14px 20px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.3); color: white; outline: none; font-size: 15px; }
+        .search-wrapper { padding: 25px 15px; text-align: center; }
+        .search-wrapper input { width: 100%; max-width: 400px; padding: 12px 20px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.3); color: white; outline: none; font-size: 14px; }
 
         /* تنبيه التحديث */
-        .toast {
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-            background: var(--primary); color: white; padding: 12px 20px;
-            border-radius: 50px; z-index: 10000; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            font-weight: bold; font-size: 13px; display: none; animation: slideUp 0.5s ease-out;
-        }
-        @keyframes slideUp { from { bottom: -50px; opacity: 0; } to { bottom: 20px; opacity: 1; } }
+        .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--primary); color: white; padding: 10px 20px; border-radius: 50px; z-index: 9999; font-weight: bold; font-size: 12px; display: none; box-shadow: 0 5px 20px rgba(0,0,0,0.4); }
 
-        @media (max-width: 600px) {
-            .row { padding: 10px 8px; gap: 4px; margin: 8px 10px; }
-            .val-text { font-size: 11px; }
+        @media (max-width: 500px) {
+            .row { padding: 10px 6px; margin: 6px 8px; }
+            .info-group { flex: 1.2; }
+            .course-code { font-size: 11px; }
+            .val-text { font-size: 9px; }
             .caption { font-size: 8px; }
+            .actions-cell { flex-direction: column; flex: 0.3; align-items: center; }
+            .btn-action { width: 26px; height: 26px; font-size: 10px; }
             .hide-mobile { display: none; }
-            .actions-cell { flex-direction: column; gap: 4px; }
         }
     </style>
 </head>
@@ -77,8 +82,8 @@
     <div id="updateToast" class="toast"></div>
 
     <div class="bg-blobs">
-        <div class="blob" style="width:400px; height:400px; background:var(--primary); top:-100px; right:-100px;"></div>
-        <div class="blob" style="width:300px; height:300px; background:var(--accent); bottom:-50px; left:-50px;"></div>
+        <div class="blob" style="width:300px; height:300px; background:var(--primary); top:-50px; right:-50px;"></div>
+        <div class="blob" style="width:250px; height:250px; background:var(--accent); bottom:-30px; left:-30px;"></div>
     </div>
 
     <main class="app">
@@ -86,7 +91,7 @@
 
         <div class="search-wrapper">
             <h2 style="margin-bottom: 5px; font-weight: 900;">جداول YIC الذكية</h2>
-            <p style="font-size: 12px; opacity: 0.6; margin-bottom: 15px;">سيتم تحديث جدولك تلقائياً عند تغيير المواعيد</p>
+            <p style="font-size: 11px; opacity: 0.6; margin-bottom: 15px;">سيتم تحديث جدولك تلقائياً عند تغيير المواعيد</p>
             <input id="studentId" type="text" placeholder="ابحث بالرمز أو الاسم...">
         </div>
 
@@ -105,39 +110,35 @@
 
         async function init() {
             try {
-                // v=Date.now تجبر المتصفح على تحميل أحدث ملف JSON بدون كاش
+                // إضافة متغير الوقت لضمان تحميل أحدث نسخة من السيرفر دائماً
                 const res = await fetch('exams_data.json?v=' + Date.now());
                 const data = await res.json();
                 allExams = data.exams_list;
-
-                syncData(); // فحص التحديثات للمواد المحفوظة
+                syncExams(); // تحديث المواعيد المحفوظة تلقائياً
                 renderMySchedule();
-            } catch(e) { console.error("Load Error:", e); }
+            } catch(e) { console.error("Error:", e); }
         }
 
-        // دالة المزامنة والتنبيه
-        function syncData() {
-            let hasUpdate = false;
-            myExams = myExams.map(savedEx => {
-                const latest = allExams.find(e => e.code === savedEx.code);
-                if (latest && (latest.date !== savedEx.date || latest.time !== savedEx.time)) {
-                    hasUpdate = true;
-                    return latest; // تحديث البيانات القديمة بالجديدة
+        function syncExams() {
+            let updated = false;
+            myExams = myExams.map(saved => {
+                const latest = allExams.find(e => e.code === saved.code);
+                if (latest && (latest.date !== saved.date || latest.time !== saved.time)) {
+                    updated = true;
+                    return latest;
                 }
-                return savedEx;
+                return saved;
             });
-
-            if (hasUpdate) {
+            if (updated) {
                 localStorage.setItem('yic_saved_exams', JSON.stringify(myExams));
-                showToast("🔔 تم تحديث مواعيد في جدولك الشخصي");
+                showToast("🔔 تم تحديث المواعيد في جدولك الشخصي");
             }
         }
 
         function showToast(msg) {
             const t = document.getElementById('updateToast');
-            t.innerHTML = msg;
-            t.style.display = 'block';
-            setTimeout(() => { t.style.display = 'none'; }, 5000);
+            t.innerText = msg; t.style.display = 'block';
+            setTimeout(() => t.style.display = 'none', 4000);
         }
 
         function createRow(ex, isSaved) {
@@ -145,24 +146,24 @@
             row.className = 'row';
             row.innerHTML = `
                 <div class="data-item info-group">
-                    <div class="caption">المادة</div>
-                    <div class="course-code">${ex.code}</div>
-                    <div style="font-size:9px; opacity:0.5; white-space:nowrap;">${ex.course_name}</div>
+                    <span class="caption">المادة</span>
+                    <span class="course-code">${ex.code}</span>
+                    <span style="font-size:8px; opacity:0.5; white-space:nowrap; overflow:hidden;">${ex.course_name}</span>
                 </div>
                 <div class="data-item">
-                    <div class="caption">التاريخ</div>
-                    <div class="val-text">${ex.date.split(' ')[0]}</div>
-                    <div style="font-size:9px; color:var(--accent)">${ex.date.split(' ')[1] || ''}</div>
+                    <span class="caption">التاريخ</span>
+                    <span class="val-text">${ex.date.split(' ')[0]}</span>
+                    <span style="font-size:8px; color:var(--accent)">${ex.date.split(' ')[1] || ''}</span>
                 </div>
                 <div class="data-item">
-                    <div class="caption">الوقت</div>
-                    <div class="val-text" style="color:var(--danger)">${ex.time}</div>
+                    <span class="caption">الوقت</span>
+                    <span class="val-text" style="color:var(--danger)">${ex.time}</span>
                 </div>
                 <div class="data-item hide-mobile">
-                    <div class="caption">المدة</div>
-                    <div style="font-size:10px; background:rgba(255,255,255,0.1); padding:2px 5px; border-radius:4px;">${ex.duration}</div>
+                    <span class="caption">المدة</span>
+                    <span style="font-size:9px; background:rgba(255,255,255,0.1); padding:2px 4px; border-radius:4px;">${ex.duration}</span>
                 </div>
-                <div class="actions-cell" style="display:flex; gap:6px;">
+                <div class="actions-cell">
                     <button class="btn-action btn-cal" onclick="addToCal('${ex.code}','${ex.date}','${ex.time}')"><i class="fa fa-calendar-plus"></i></button>
                     <button class="btn-action btn-save ${isSaved ? 'saved' : ''}" onclick="toggleSave('${ex.code}')"><i class="fa ${isSaved ? 'fa-trash-can' : 'fa-bookmark'}"></i></button>
                 </div>
@@ -174,36 +175,25 @@
             const container = document.getElementById('myRows');
             const section = document.getElementById('myScheduleSection');
             if (myExams.length === 0) { section.style.display = 'none'; return; }
-
-            myExams.sort((a, b) => {
-                const dateA = a.date.split(' ')[0].split('-').reverse().join('');
-                const dateB = b.date.split(' ')[0].split('-').reverse().join('');
-                return dateA.localeCompare(dateB);
-            });
-
             section.style.display = 'block';
             container.innerHTML = '';
-            myExams.forEach(ex => container.appendChild(createRow(ex, true)));
+            myExams.sort((a,b) => a.date.localeCompare(b.date)).forEach(ex => container.appendChild(createRow(ex, true)));
             updateCountdown(myExams[0].date);
         }
 
         function toggleSave(code) {
-            const index = myExams.findIndex(e => e.code === code);
-            if (index > -1) myExams.splice(index, 1);
-            else {
-                const exam = allExams.find(e => e.code === code);
-                if(exam) myExams.push(exam);
-            }
+            const idx = myExams.findIndex(e => e.code === code);
+            if (idx > -1) myExams.splice(idx, 1);
+            else myExams.push(allExams.find(e => e.code === code));
             localStorage.setItem('yic_saved_exams', JSON.stringify(myExams));
-            renderMySchedule();
-            doSearch();
+            renderMySchedule(); doSearch();
         }
 
         function doSearch() {
-            const q = document.getElementById('studentId').value.trim().toUpperCase().replace(/\s+/g, '');
+            const q = document.getElementById('studentId').value.trim().toUpperCase();
             const container = document.getElementById('searchRows');
             if (!q) { container.innerHTML = ''; return; }
-            const filtered = allExams.filter(e => e.code.toUpperCase().replace(/\s+/g, '').includes(q) || e.course_name.toUpperCase().replace(/\s+/g, '').includes(q));
+            const filtered = allExams.filter(e => e.code.includes(q) || e.course_name.toUpperCase().includes(q));
             container.innerHTML = '';
             filtered.forEach(ex => container.appendChild(createRow(ex, myExams.some(s => s.code === ex.code))));
         }
@@ -215,7 +205,7 @@
             const el = document.getElementById('countdown');
             el.style.display = 'block';
             if (diff > 0) el.innerHTML = `🚀 متبقي ${diff} أيام على اختبارك القادم (${datePart})`;
-            else if (diff === 0) el.innerHTML = `🔥 اختبارك اليوم! بالتوفيق (${datePart})`;
+            else if (diff === 0) el.innerHTML = `🔥 اختبارك اليوم! كل التوفيق (${datePart})`;
             else el.style.display = 'none';
         }
 

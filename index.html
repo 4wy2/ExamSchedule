@@ -24,7 +24,6 @@
     .blob { position: absolute; filter: blur(80px); border-radius: 50%; opacity: 0.15; animation: move 20s infinite alternate; }
     @keyframes move { from { transform: translate(0, 0); } to { transform: translate(100px, 100px); } }
 
-    /* الكارد الرئيسي */
     .app {
       width: min(920px, 95%);
       background: rgba(13, 23, 56, 0.7);
@@ -36,27 +35,25 @@
       margin: 20px 0;
     }
 
-    /* نظام العداد التنازلي */
+    /* شريط العداد التنازلي */
     .countdown-bar {
       background: linear-gradient(90deg, #ff4d6d, #8042ff);
-      color: white; padding: 10px; text-align: center;
-      font-size: 13px; font-weight: bold; display: none;
+      color: white; padding: 12px; text-align: center;
+      font-size: 14px; font-weight: bold; display: none;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
 
-    /* شكل الصفوف */
     .row {
       display: grid; grid-template-columns: 1.2fr 1fr 1fr 0.8fr 0.8fr;
       gap: 12px; padding: 15px; margin-bottom: 10px;
       background: rgba(255,255,255,0.03);
       border-radius: 20px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      border: 1px solid transparent;
-      color: white; align-items: center;
+      border: 1px solid transparent; color: white; align-items: center;
     }
     .row:hover {
       transform: scale(1.02) translateY(-5px);
       background: rgba(255,255,255,0.08);
       border-color: #8042ff;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     }
 
     .btn-cal {
@@ -113,7 +110,7 @@
       <div id="rows" class="r-body">
         <div class="empty" style="text-align: center; color: #666; padding: 40px;">
           <i class="fa fa-calendar-alt" style="font-size: 50px; margin-bottom: 20px; display: block;"></i>
-          جاري تجهيز الاتصال بملف البيانات...
+          جاري التحميل...
         </div>
       </div>
     </section>
@@ -124,66 +121,79 @@
   </main>
 
   <script>
-    let examsData = []; // هنا سيتم تخزين البيانات من ملف JSON
+    let examsData = []; 
     const elRows = document.getElementById('rows');
     const studentInput = document.getElementById('studentId');
+    const countdownEl = document.getElementById('countdown');
 
     // 1. جلب البيانات من ملف JSON
     async function loadExamsData() {
         try {
             const response = await fetch('exams_data.json');
             if (!response.ok) throw new Error();
-            examsData = await response.json();
+            const data = await response.json();
+            // دعم الصيغتين: سواء كان ملف الـ JSON مصفوفة مباشرة أو داخل كائن اسمه exams
+            examsData = Array.isArray(data) ? data : data.exams;
+
             elRows.innerHTML = `
                 <div class="empty" style="text-align: center; color: #666; padding: 40px;">
                     <i class="fa fa-check-circle" style="font-size: 50px; color: #1fc47c; margin-bottom: 20px; display: block;"></i>
-                    تم تحميل البيانات بنجاح! ابحث الآن عن موادك.
+                    تم تحميل البيانات! ابحث الآن عن مادتك.
                 </div>`;
         } catch (e) {
-            elRows.innerHTML = '<div class="empty" style="color:#ff4d6d;">فشل الاتصال بملف exams_data.json</div>';
+            elRows.innerHTML = '<div class="empty" style="color:#ff4d6d;">تأكد من وجود ملف exams_data.json بجانب الصفحة</div>';
         }
     }
 
     // 2. منطق البحث
     function doSearch() {
       const query = studentInput.value.trim().toUpperCase();
-      if (!query) return;
+      if (!query) {
+          countdownEl.style.display = 'none';
+          return;
+      }
 
       const filtered = examsData.filter(ex => 
-        ex.code.toUpperCase().includes(query) || 
-        ex.name.toUpperCase().includes(query)
+        (ex.code || ex.Code || "").toUpperCase().includes(query) || 
+        (ex.name || ex["Course Name"] || "").toUpperCase().includes(query)
       );
 
       renderAdvancedRows(filtered);
     }
 
-    // 3. عرض الصفوف بالتصميم الرهيب
+    // 3. عرض الصفوف وتحديث العداد
     function renderAdvancedRows(exams) {
       if (exams.length === 0) {
-        elRows.innerHTML = '<div class="empty">لا توجد نتائج مطابقة لبحثك.</div>';
+        elRows.innerHTML = '<div class="empty">لا توجد نتائج.</div>';
+        countdownEl.style.display = 'none';
         return;
       }
 
       elRows.innerHTML = '';
       exams.forEach((ex) => {
+        // توحيد مسميات الحقول
+        const code = ex.code || ex.Code;
+        const name = ex.name || ex["Course Name"];
+        const date = ex.date || ex["Date (Day)"];
+        const time = ex.time || ex.Time;
+
         const row = document.createElement('div');
         row.className = 'row';
-
         row.innerHTML = `
           <div class="cell">
-            <div style="color: #ffd166; font-weight: 900;">${ex.code}</div>
-            <div style="font-size: 11px; opacity: 0.7;">${ex.name}</div>
+            <div style="color: #ffd166; font-weight: 900;">${code}</div>
+            <div style="font-size: 11px; opacity: 0.7;">${name}</div>
           </div>
           <div class="cell" style="text-align: center;">
-            <div style="font-size: 14px;">${ex.date}</div>
+            <div style="font-size: 14px;">${date}</div>
             <div style="color: #1fc47c; font-size: 12px;">Exam Day</div>
           </div>
           <div class="cell">
-            <div style="color: #ff4d6d; font-size: 13px;">${ex.time}</div>
+            <div style="color: #ff4d6d; font-size: 13px;">${time}</div>
           </div>
           <div class="cell venue">القاعة: 102</div>
           <div class="cell cal-btn" style="text-align: left;">
-            <button class="btn-cal" onclick='addToGoogleCalendar(${JSON.stringify(ex)})'>
+            <button class="btn-cal" onclick='addToGoogleCalendar("${code}", "${date}")'>
               <i class="fa fa-plus"></i> تقويم
             </button>
           </div>
@@ -192,44 +202,53 @@
       });
 
       // تحديث العداد لأول نتيجة تظهر
-      if(exams[0].date) updateCountdown(exams[0].date);
+      const firstDate = exams[0].date || exams[0]["Date (Day)"];
+      updateCountdown(firstDate);
     }
 
-    function addToGoogleCalendar(exam) {
-      const title = `اختبار: ${exam.code}`;
-      const d = exam.date.split('-').reverse().join(''); // YYYYMMDD
-      const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${d}/${d}`;
-      window.open(url, '_blank');
-    }
-
+    // 4. ميزة "كم باقي" الذكية
     function updateCountdown(dateStr) {
-      const countdownEl = document.getElementById('countdown');
-      // تحويل DD-MM-YYYY إلى format يفهمه dayjs
-      const parts = dateStr.split('-');
-      const target = dayjs(`${parts[2]}-${parts[1]}-${parts[0]}`);
-      const diff = target.diff(dayjs(), 'day');
+      if (!dateStr) return;
 
-      if (diff >= 0) {
-        countdownEl.style.display = 'block';
-        countdownEl.innerHTML = `🚀 متبقي ${diff} أيام على اختبار ${dateStr} ! شد حيلك.`;
+      // تنظيف التاريخ: نأخذ أول 10 حروف فقط (مثلاً 29-03-2026) لنتجنب مشاكل النصوص الزائدة
+      const cleanDate = dateStr.match(/\d{2}-\d{2}-\d{4}/);
+      if (!cleanDate) return;
+
+      const [d, m, y] = cleanDate[0].split('-');
+      const target = dayjs(`${y}-${m}-${d}`);
+      const today = dayjs().startOf('day');
+      const diff = target.diff(today, 'day');
+
+      countdownEl.style.display = 'block';
+      if (diff > 0) {
+        countdownEl.innerHTML = `🚀 متبقي <span style="font-size: 18px;">${diff}</span> أيام على اختبارك القادم!`;
+      } else if (diff === 0) {
+        countdownEl.innerHTML = `🔥 اختبارك اليوم! فالك التوفيق والنجاح.`;
+      } else {
+        countdownEl.innerHTML = `✅ انتهى وقت هذا الاختبار.`;
+        countdownEl.style.background = "#333";
       }
     }
 
-    // الأزرار والـ Theme Switcher
-    studentInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') doSearch(); });
+    function addToGoogleCalendar(code, date) {
+      const cleanDate = date.match(/\d{2}-\d{2}-\d{4}/);
+      if(!cleanDate) return;
+      const d = cleanDate[0].split('-').reverse().join('');
+      const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=اختبار ${code}&dates=${d}/${d}`;
+      window.open(url, '_blank');
+    }
+
+    // الأزرار
+    studentInput.addEventListener('input', doSearch);
     document.getElementById('searchBtn').onclick = doSearch;
 
     let currentTheme = 1;
     document.getElementById('themeSwitch').onclick = () => {
       currentTheme = currentTheme >= 3 ? 1 : currentTheme + 1;
       document.body.className = `theme-${currentTheme}`;
-      const colors = ['#2734fe', '#007BFF', '#cb3cff'];
-      document.getElementById('blob1').style.background = colors[currentTheme-1];
     };
 
-    // تشغيل جلب البيانات عند البداية
     loadExamsData();
-
   </script>
 </body>
 </html>

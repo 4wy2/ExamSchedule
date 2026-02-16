@@ -171,14 +171,14 @@
     const timeColor = isPM ? '#ff9f43' : '#00d2d3';
 
     row.innerHTML = `
-        <div class="info-group" style="text-align: right; padding-right: 5px; overflow: hidden; display: flex; flex-direction: column; justify-content: center;">
-            <span class="label" style="color: #ffd166; font-size: 14px; font-weight: 900; display: block; line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                ${ex.code}
-            </span>
-            <span class="sub" style="font-size: 9px; opacity: 0.6; font-weight: 500; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px;">
-                ${ex.course_name}
-            </span>
-        </div>
+        <div class="info-group" style="text-align: right; display: flex; flex-direction: column; justify-content: center; padding-right: 15px; min-width: 140px;">
+    <span class="label" style="color: #ffd166; font-size: 15px; font-weight: 900; line-height: 1.1; white-space: nowrap;">
+        ${ex.code}
+    </span>
+    <span class="sub" style="font-size: 10px; opacity: 0.6; font-weight: 500; display: block; white-space: nowrap; margin-top: 4px; color: #fff;">
+        ${ex.course_name}
+    </span>
+</div>
 
         <div class="date-box" style="display: flex; justify-content: center; align-items: center; gap: 6px; border-right: 1px solid rgba(255,255,255,0.05);">
             <div style="text-align: left;">

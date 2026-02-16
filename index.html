@@ -21,69 +21,66 @@
     
     .bg-blobs { position: fixed; width: 100vw; height: 100vh; z-index: -1; overflow: hidden; }
     .blob { position: absolute; filter: blur(80px); border-radius: 50%; opacity: 0.1; animation: move 20s infinite alternate; }
-    @keyframes move { from { transform: translate(0, 0); } to { transform: translate(100px, 100px); } }
     
-    .app { width: min(950px, 95%); margin: 30px auto; background: rgba(13, 23, 56, 0.7); backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.1); border-radius: 30px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.6); min-height: 500px; }
-    .countdown-bar { background: linear-gradient(90deg, var(--danger), var(--primary)); padding: 15px; text-align: center; font-weight: 800; display: none; }
+    .app { width: min(950px, 98%); margin: 20px auto; background: rgba(13, 23, 56, 0.7); backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.6); }
+    .countdown-bar { background: linear-gradient(90deg, var(--danger), var(--primary)); padding: 12px; text-align: center; font-weight: 800; font-size: 13px; }
     
-    .search-wrapper { padding: 40px 20px; text-align: center; }
-    .search-wrapper input { width: 100%; max-width: 500px; padding: 18px 30px; border-radius: 50px; border: 2px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.4); color: white; outline: none; font-size: 16px; transition: 0.3s; }
-    .search-wrapper input:focus { border-color: var(--primary); box-shadow: 0 0 15px rgba(128, 66, 255, 0.3); }
+    .search-wrapper { padding: 30px 15px; text-align: center; }
+    .search-wrapper input { width: 100%; max-width: 450px; padding: 15px 25px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.3); color: white; outline: none; font-size: 15px; }
 
-    .section-title { padding: 25px 25px 10px; font-size: 14px; color: var(--primary); font-weight: 900; display: flex; align-items: center; gap: 12px; }
+    .section-title { padding: 20px 20px 5px; font-size: 13px; color: var(--primary); font-weight: 800; display: flex; align-items: center; gap: 8px; }
 
-    /* إعدادات الشبكة الموحدة (Grid) */
+    /* إعدادات الجدول الموحد للكمبيوتر والجوال */
     .table-header, .row { 
         display: grid; 
-        /* توزيع مرن جداً للأعمدة */
-        grid-template-columns: 1.5fr 1fr 1fr 0.7fr 0.4fr; 
-        gap: 12px; 
+        grid-template-columns: 1.4fr 1fr 1fr 0.7fr 0.4fr; /* نفس تقسيمك المفضل */
+        gap: 8px; 
         align-items: center; 
+        text-align: center;
     }
 
     .table-header { 
-        padding: 12px 25px; 
+        padding: 10px 15px; 
         background: rgba(255,255,255,0.05); 
-        margin: 10px 15px; 
-        border-radius: 12px; 
-        font-size: 12px; 
-        font-weight: 800; 
-        color: rgba(255,255,255,0.3); 
-        text-align: center; 
+        margin: 10px; 
+        border-radius: 10px; 
+        font-size: 11px; 
+        color: rgba(255,255,255,0.4); 
     }
-    .table-header div:first-child { text-align: right; }
 
     .row { 
-        padding: 15px 25px; 
-        margin: 8px 15px; 
-        background: rgba(255,255,255,0.03); 
-        border-radius: 18px; 
+        padding: 12px 15px; 
+        margin: 5px 10px; 
+        background: rgba(255,255,255,0.02); 
+        border-radius: 12px; 
         border: 1px solid rgba(255,255,255,0.05); 
-        transition: 0.3s; 
     }
-    .row:hover { background: rgba(255,255,255,0.06); border-color: var(--primary); }
 
-    .btn-action { border: none; width: 40px; height: 40px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; background: rgba(128, 66, 255, 0.1); color: #b794ff; margin-right: auto; }
+    .btn-action { border: none; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; background: rgba(128, 66, 255, 0.1); color: #b794ff; margin: 0 auto; }
     .btn-save.saved { background: var(--danger); color: white; }
 
-    /* استجابة الجوال (بدون تخبيص - نظام التدرج الصغير) */
-    @media (max-width: 650px) {
-        .app { width: 98%; margin: 10px auto; border-radius: 20px; }
+    /* ضبط الجوال ليبقى أفقياً وواضحاً للتصوير */
+    @media (max-width: 600px) {
+        .app { width: 100%; margin: 0; border-radius: 0; border: none; }
         .table-header, .row { 
-            grid-template-columns: 1.2fr 1fr 1fr 0.8fr 0.4fr; 
-            gap: 6px; 
-            padding: 12px 10px; 
-            margin: 6px 8px; 
+            gap: 4px; 
+            padding: 10px 5px; 
+            margin: 4px 5px; 
+            grid-template-columns: 1.3fr 1fr 1.1fr 0.7fr 0.4fr; /* تعديل بسيط للنسب */
         }
-        .table-header { font-size: 10px; padding: 8px 10px; }
         
-        .row .label { font-size: 14px !important; }
-        .row .sub { font-size: 8px !important; }
-        .date-box b { font-size: 12px !important; }
-        .time-box div { min-width: 70px !important; padding: 4px !important; }
-        .time-box div div:first-child { font-size: 11px !important; }
-        .duration-box span { font-size: 10px !important; }
-        .btn-action { width: 34px; height: 34px; border-radius: 10px; }
+        .row .label { font-size: 12px !important; }
+        .row .sub { font-size: 7px !important; }
+        
+        .date-box b { font-size: 11px !important; }
+        .date-box small { font-size: 8px !important; }
+        
+        .time-box div { min-width: auto !important; padding: 2px !important; border-radius: 6px !important; }
+        .time-box div div:first-child { font-size: 10px !important; }
+        .time-box div div:last-child { font-size: 7px !important; }
+        
+        .duration-box span { font-size: 9px !important; }
+        .btn-action { width: 28px; height: 28px; font-size: 10px; }
     }
 </style>
 </head>
@@ -149,53 +146,44 @@
     const row = document.createElement('div');
     row.className = 'row';
     
-    // 1. استخراج التاريخ واليوم
     const dateParts = ex.date.split(' ');
     const dateNum = dateParts[0] || '';
     const dayName = dateParts[1] ? dateParts[1].replace(/[()]/g, '') : '';
-
-    // 2. تنسيق الوقت (بداية ونهاية)
     const timeParts = ex.time.split('-');
     const startTime = timeParts[0] ? timeParts[0].trim() : ex.time;
     const endTime = timeParts[1] ? timeParts[1].trim() : '';
-
-    // 3. تحديد اللون بناءً على الفترة
     const isPM = ex.time.toUpperCase().includes('PM');
     const timeColor = isPM ? '#ff9f43' : '#00d2d3';
 
     row.innerHTML = `
-        <div class="info-group" style="text-align: right; overflow: hidden;">
-            <span class="label" style="color: #ffd166; font-size: 16px; font-weight: 900; display: block; line-height: 1.2;">${ex.code}</span>
-            <span class="sub" style="font-size: 10px; opacity: 0.5; font-weight: 300; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${ex.course_name}</span>
+        <div class="info-group" style="text-align: right;">
+            <span class="label" style="color: #ffd166; font-size: 14px; font-weight: 800; display: block; line-height: 1;">${ex.code}</span>
+            <span class="sub" style="font-size: 9px; opacity: 0.5; display: block; white-space: nowrap; overflow: hidden;">${ex.course_name}</span>
         </div>
 
-        <div class="date-box" style="display: flex; justify-content: center; align-items: center; gap: 6px;">
+        <div class="date-box" style="display: flex; justify-content: center; align-items: center; gap: 4px;">
             <div style="text-align: left;">
-                <b style="display: block; font-size: 14px; color: #fff; line-height: 1;">${dateNum}</b>
-                <small style="font-size: 10px; color: var(--accent); font-weight: 800; display: block; text-align: right;">${dayName}</small>
+                <b style="display: block; font-size: 12px; color: #fff;">${dateNum}</b>
+                <small style="font-size: 9px; color: var(--accent); font-weight: 800; display: block; text-align: right;">${dayName}</small>
             </div>
-            <div style="width: 2px; height: 22px; background: var(--accent); border-radius: 1px;"></div>
+            <div style="width: 2px; height: 18px; background: var(--accent); opacity: 0.5;"></div>
         </div>
 
-        <div class="time-box" style="display: flex; justify-content: center;">
-            <div style="text-align: center; background: rgba(255,255,255,0.02); border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); min-width: 85px; padding: 5px;">
-                <div style="font-size: 13px; font-weight: 800; color: ${timeColor}; line-height: 1;">${startTime}</div>
-                ${endTime ? `<div style="font-size: 9px; opacity: 0.3; margin-top: 2px;">${endTime}</div>` : ''}
+        <div class="time-box">
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 3px; border-radius: 6px;">
+                <div style="font-size: 11px; font-weight: 800; color: ${timeColor};">${startTime}</div>
+                ${endTime ? `<div style="font-size: 8px; opacity: 0.3;">${endTime}</div>` : ''}
             </div>
         </div>
 
-        <div class="duration-box" style="text-align: center;">
-            <span style="font-size: 12px; font-weight: 600; display: block; color: #eee;">
-                ${ex.duration.replace(' H ', 'س ').replace(' M', 'د')}
-            </span>
-            <span style="font-size: 9px; opacity: 0.4; display: block;">
-                <i class="fa-solid fa-users" style="font-size: 7px;"></i> ${ex.actual_size}
-            </span>
+        <div class="duration-box">
+            <span style="font-size: 10px; font-weight: 600; display: block;">${ex.duration.replace(' H ', 'س ').replace(' M', 'د')}</span>
+            <span style="font-size: 8px; opacity: 0.3;">${ex.actual_size} ط</span>
         </div>
 
         <div class="actions">
             <button class="btn-action btn-save ${isSaved ? 'saved' : ''}" onclick="toggleSave('${ex.code}')">
-                <i class="fa-solid ${isSaved ? 'fa-xmark' : 'fa-plus'}" style="font-size: 14px;"></i>
+                <i class="fa-solid ${isSaved ? 'fa-xmark' : 'fa-plus'}"></i>
             </button>
         </div>
     `;

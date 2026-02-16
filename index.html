@@ -11,7 +11,7 @@
     <script>dayjs.extend(window.dayjs_plugin_customParseFormat);</script>
 
     <style>
-    /* 1. المتغيرات والأساسيات */
+    /* 1. المتغيرات والأساسيات (العناصر الجوهرية) */
     :root { 
         --primary: #8042ff; 
         --accent: #1fc47c; 
@@ -31,7 +31,7 @@
         direction: rtl; 
     }
 
-    /* 2. الخلفية السينمائية */
+    /* 2. الخلفية السينمائية (الفقاعات المتحركة) */
     .bg-blobs { position: fixed; width: 100vw; height: 100vh; z-index: -1; overflow: hidden; }
     .blob { 
         position: absolute; 
@@ -45,7 +45,7 @@
         to { transform: translate(60px, 40px) scale(1.1); }
     }
 
-    /* 3. حاوية التطبيق الرئيسية */
+    /* 3. حاوية التطبيق (تأثير الزجاج) */
     .app { 
         width: min(950px, 96%); 
         margin: 40px auto; 
@@ -64,9 +64,10 @@
         text-align: center; 
         font-weight: 900; 
         font-size: 14px; 
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
 
-    /* 4. البحث */
+    /* 4. قسم البحث */
     .search-wrapper { padding: 40px 20px; text-align: center; }
     .search-wrapper h2 { margin-bottom: 25px; font-weight: 900; font-size: 24px; }
     .search-wrapper input { 
@@ -76,10 +77,10 @@
     }
     .search-wrapper input:focus { border-color: var(--primary); box-shadow: 0 0 20px rgba(128, 66, 255, 0.2); }
 
-    /* 5. نظام الجريد (المسطرة الموحدة) */
+    /* 5. نظام الجدول الموحد (المسطرة الثابتة) */
     .table-header, .row { 
         display: grid; 
-        /* المادة مرنة (1fr) والباقي مسافات ثابتة لضمان التنصيف المليمتري */
+        /* المادة مرنة (1fr) والباقي مسافات ثابتة لضمان التنصيف المثالي */
         grid-template-columns: 1fr 115px 110px 85px 55px; 
         gap: 12px; 
         align-items: center; 
@@ -95,22 +96,24 @@
         text-align: center;
     }
 
-    /* محاذاة المادة لليمين والبقية للوسط */
+    /* محاذاة المادة لليمين وبقية البيانات للوسط */
     .table-header div, .row > div { text-align: center; }
     .table-header div:first-child, .row .info-group { text-align: right !important; padding-right: 10px; }
 
     .row { 
         background: var(--row-bg); border-radius: 16px; 
-        border: 1px solid rgba(255,255,255,0.05); transition: 0.3s;
+        border: 1px solid rgba(255,255,255,0.05); transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    .row:hover { background: rgba(255,255,255,0.06); transform: translateY(-2px); }
+    .row:hover { background: rgba(255,255,255,0.06); transform: translateY(-3px); border-color: rgba(255,255,255,0.15); }
 
-    /* 6. الأزرار والعناوين */
+    /* 6. الأزرار والعناوين الفرعية */
     .btn-action { 
         border: none; width: 34px; height: 34px; border-radius: 10px; 
         cursor: pointer; display: flex; align-items: center; justify-content: center; 
         background: rgba(128, 66, 255, 0.2); color: #b794ff; transition: 0.3s; margin: 0 auto;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
+    .btn-action:active { transform: scale(0.9); }
     .btn-save.saved { background: var(--danger); color: white; transform: rotate(90deg); }
 
     .section-title { 
@@ -118,12 +121,12 @@
         font-weight: 900; display: flex; align-items: center; gap: 10px; 
     }
 
-    /* 7. التنسيق النحيف والرهيب للجوال (Slim Mode) */
+    /* 7. التنسيق النحيف (Slim Mode) للجوال - الأداء الأفضل والترتيب الأرقى */
     @media (max-width: 600px) {
         .app { width: 100%; margin: 0; border-radius: 0; border: none; }
         
         .table-header, .row { 
-            /* ضغط الأعمدة الجانبية لأقصى حد لتوفير مساحة للمادة */
+            /* ضغط الأعمدة الجانبية لأقصى حد لتوفير المساحة للمادة */
             grid-template-columns: 1fr 65px 65px 50px 35px; 
             gap: 3px; padding: 10px 5px; margin: 3px 0; 
             border-radius: 0; border-left: none; border-right: none;
@@ -131,19 +134,16 @@
 
         .table-header { font-size: 9px; padding: 8px 5px; color: rgba(255,255,255,0.4); }
 
-        /* تعديلات نصوص المادة للجوال */
         .row .label { font-size: 12px !important; font-weight: 800; color: #ffd166; }
         .row .sub { 
             font-size: 8px !important; line-height: 1.1; margin-top: 1px;
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis; /* سطر واحد أنيق */
         }
         
-        /* التاريخ والوقت للجوال */
         .date-box b { font-size: 10px !important; }
         .date-box small { font-size: 7px !important; }
         .time-box div { min-width: 62px !important; padding: 4px 0 !important; font-size: 8px !important; }
         
-        /* الأزرار والعناوين للجوال */
         .btn-action { width: 26px; height: 26px; border-radius: 6px; }
         .section-title { padding: 15px 10px 5px; font-size: 12px; }
     }

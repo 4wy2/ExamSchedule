@@ -87,11 +87,12 @@
 <body>
 
     <div class="bg-blobs">
-        <div class="blob" style="width:500px; height:500px; background:var(--primary); top:-150px; right:-100px;"></div>
-        <div class="blob" style="width:400px; height:400px; background:var(--accent); bottom:-100px; left:-50px;"></div>
-    </div>
+    <div class="blob" style="width:600px; height:600px; background:var(--primary); top:-200px; right:-150px;"></div>
+    <div class="blob" style="width:500px; height:500px; background:var(--accent); bottom:-150px; left:-100px;"></div>
+    <div class="blob" style="width:300px; height:300px; background:var(--primary); top:40%; left:30%; opacity: 0.05;"></div>
+</div>
 
-   <main class="app">
+<main class="app">
     <div id="countdown" class="countdown-bar"></div>
     
     <div class="search-wrapper">
@@ -105,7 +106,11 @@
             جدولك الشخصي
         </div>
         <div class="table-header">
-            <div>المادة</div><div>التاريخ</div><div>الوقت</div><div>المدة</div><div>حفظ</div>
+            <div style="flex: 1.4; text-align: right; padding-right: 20px;">المادة</div>
+            <div style="flex: 1; text-align: center;">التاريخ</div>
+            <div style="flex: 1.1; text-align: center;">الوقت</div>
+            <div style="flex: 0.7; text-align: center;">المدة</div>
+            <div style="flex: 0.4; text-align: center;">حفظ</div>
         </div>
         <div id="myRows"></div>
     </div>
@@ -115,7 +120,11 @@
         نتائج البحث
     </div>
     <div id="searchHeader" class="table-header" style="display:none;">
-        <div>المادة</div><div>التاريخ</div><div>الوقت</div><div>المدة</div><div>حفظ</div>
+        <div style="flex: 1.4; text-align: right; padding-right: 20px;">المادة</div>
+        <div style="flex: 1; text-align: center;">التاريخ</div>
+        <div style="flex: 1.1; text-align: center;">الوقت</div>
+        <div style="flex: 0.7; text-align: center;">المدة</div>
+        <div style="flex: 0.4; text-align: center;">حفظ</div>
     </div>
     <div id="searchRows">
         <div style="text-align: center; padding: 60px; opacity: 0.3;">
@@ -125,89 +134,92 @@
     </div>
 </main>
 
-    <script>
-        let allExams = [];
-        let myExams = JSON.parse(localStorage.getItem('yic_saved_exams')) || [];
+<script>
+    let allExams = [];
+    let myExams = JSON.parse(localStorage.getItem('yic_saved_exams')) || [];
 
-        async function loadData() {
-            try {
-                const response = await fetch('exams_data.json');
-                if (!response.ok) throw new Error('الملف غير موجود');
-                const data = await response.json();
-                allExams = data.exams_list;
-                renderMySchedule();
-                document.getElementById('searchRows').innerHTML = '<div style="text-align: center; padding: 60px; opacity: 0.3;">ابدأ البحث الآن عن اختبارك</div>';
-            } catch (error) {
-                document.getElementById('searchRows').innerHTML = '<div style="text-align: center; padding: 60px; color: var(--danger);">تأكد من وجود ملف exams_data.json</div>';
-            }
+    async function loadData() {
+        try {
+            const response = await fetch('exams_data.json');
+            if (!response.ok) throw new Error('الملف غير موجود');
+            const data = await response.json();
+            allExams = data.exams_list;
+            renderMySchedule();
+            document.getElementById('searchRows').innerHTML = '<div style="text-align: center; padding: 60px; opacity: 0.3;">ابدأ البحث الآن عن اختبارك</div>';
+        } catch (error) {
+            document.getElementById('searchRows').innerHTML = '<div style="text-align: center; padding: 60px; color: var(--danger);">تأكد من وجود ملف exams_data.json</div>';
         }
+    }
 
-      function createRow(ex, isSaved) {
-    const row = document.createElement('div');
-    row.className = 'row';
-    
-    // 1. منطق الألوان (شغال 100%)
-    const testDate = dayjs(ex.date.split(' ')[0], 'DD-MM-YYYY');
-    const today = dayjs().startOf('day');
-    const diffDays = testDate.diff(today, 'day');
+    function createRow(ex, isSaved) {
+        const row = document.createElement('div');
+        row.className = 'row';
+        
+        // 1. حساب التاريخ والوقت والمنطق اللوني
+        const dateParts = ex.date.split(' ');
+        const dateNum = dateParts[0] || '';
+        const dayName = dateParts[1] ? dateParts[1].replace(/[()]/g, '') : '';
+        
+        const testDate = dayjs(dateNum, 'DD-MM-YYYY');
+        const today = dayjs().startOf('day');
+        const diffDays = testDate.diff(today, 'day');
 
-    let statusColor = 'var(--accent)'; 
-    if (diffDays === 0) statusColor = 'var(--danger)'; 
-    else if (diffDays > 0 && diffDays <= 3) statusColor = '#ff9f43';
+        let statusColor = 'var(--accent)'; 
+        if (diffDays === 0) statusColor = 'var(--danger)'; 
+        else if (diffDays > 0 && diffDays <= 3) statusColor = '#ff9f43';
 
-    // 2. تعريف أجزاء التاريخ (هنا كان الخطأ)
-    const dateParts = ex.date.split(' ');
-    const dateNum = dateParts[0] || '';
-    const dayName = dateParts[1] ? dateParts[1].replace(/[()]/g, '') : '';
+        const timeParts = ex.time.split(/[-–—]/); 
+        const startTime = timeParts[0] ? timeParts[0].trim() : ex.time;
+        const endTime = timeParts[1] ? timeParts[1].trim() : '';
+        
+        const isPM = ex.time.toUpperCase().includes('PM');
+        const timeColor = isPM ? '#ff9f43' : '#00d2d3';
 
-    // 3. معالجة الوقت بدقة
-    const timeParts = ex.time.split(/[-–—]/); 
-    const startTime = timeParts[0] ? timeParts[0].trim() : ex.time;
-    const endTime = timeParts[1] ? timeParts[1].trim() : '';
-    
-    const isPM = ex.time.toUpperCase().includes('PM');
-    const timeColor = isPM ? '#ff9f43' : '#00d2d3';
-
-    row.innerHTML = `
-        <div class="info-group" style="text-align: right; display: flex; flex-direction: column; justify-content: center; padding-right: 20px; flex: 1.4; overflow: hidden;">
-            <span class="label" style="color: #ffd166; font-size: 15px; font-weight: 900; line-height: 1.2; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
-                ${ex.code}
-            </span>
-            <span class="sub" style="font-size: 9px; opacity: 0.8; font-weight: 500; display: block; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; margin-top: 2px; color: #fff;">
-                ${ex.course_name}
-            </span>
-        </div>
-
-        <div class="date-box" style="display: flex; justify-content: center; align-items: center; gap: 6px; flex: 1; border-right: 1px solid rgba(255,255,255,0.05);">
-            <div style="text-align: left;">
-                <b style="display: block; font-size: 11px; color: #fff; line-height: 1;">${dateNum}</b>
-                <small style="font-size: 9px; color: ${statusColor}; font-weight: 800; display: block; text-align: right;">${dayName}</small>
+        // 2. بناء هيكل الصف المتناسق مع الهيدر
+        row.innerHTML = `
+            <div class="info-group" style="text-align: right; display: flex; flex-direction: column; justify-content: center; padding-right: 20px; flex: 1.4; overflow: hidden;">
+                <span class="label" style="color: #ffd166; font-size: 15px; font-weight: 900; line-height: 1.2; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
+                    ${ex.code}
+                </span>
+                <span class="sub" style="font-size: 9px; opacity: 0.8; font-weight: 500; display: block; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; margin-top: 2px; color: #fff;">
+                    ${ex.course_name}
+                </span>
             </div>
-            <div style="width: 2px; height: 16px; background: ${statusColor}; opacity: 0.6; border-radius: 10px;"></div>
-        </div>
 
-        <div class="time-box" style="display: flex; justify-content: center; align-items: center; flex: 1.1;">
-            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 4px 6px; border-radius: 8px; width: 100%; max-width: 85px; text-align: center;">
-                <div style="font-size: 10px; font-weight: 800; color: ${timeColor}; line-height: 1;">${startTime}</div>
-                ${endTime ? `<div style="font-size: 8px; opacity: 0.3; margin-top: 2px;">${endTime}</div>` : ''}
+            <div class="date-box" style="display: flex; justify-content: center; align-items: center; gap: 6px; flex: 1; border-right: 1px solid rgba(255,255,255,0.05);">
+                <div style="text-align: left;">
+                    <b style="display: block; font-size: 11px; color: #fff; line-height: 1;">${dateNum}</b>
+                    <small style="font-size: 9px; color: ${statusColor}; font-weight: 800; display: block; text-align: right;">${dayName}</small>
+                </div>
+                <div style="width: 2px; height: 16px; background: ${statusColor}; opacity: 0.6; border-radius: 10px;"></div>
             </div>
-        </div>
 
-        <div class="duration-box" style="text-align: center; display: flex; flex-direction: column; justify-content: center; flex: 0.7;">
-            <span style="font-size: 10px; font-weight: 700; color: #eee; display: block;">
-                ${ex.duration.replace(' H ', 'س ').replace(' M', 'د')}
-            </span>
-            <span style="font-size: 8px; opacity: 0.3; display: block;">${ex.actual_size} ط</span>
-        </div>
+            <div class="time-box" style="display: flex; justify-content: center; align-items: center; flex: 1.1;">
+                <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 4px 6px; border-radius: 8px; width: 100%; max-width: 85px; text-align: center;">
+                    <div style="font-size: 10px; font-weight: 800; color: ${timeColor}; line-height: 1;">${startTime}</div>
+                    ${endTime ? `<div style="font-size: 8px; opacity: 0.3; margin-top: 2px;">${endTime}</div>` : ''}
+                </div>
+            </div>
 
-        <div class="actions" style="display: flex; justify-content: center; align-items: center; flex: 0.4;">
-            <button class="btn-action btn-save ${isSaved ? 'saved' : ''}" onclick="toggleSave('${ex.code}')" style="box-shadow: 0 4px 10px rgba(0,0,0,0.2); width: 30px; height: 30px;">
-                <i class="fa-solid ${isSaved ? 'fa-xmark' : 'fa-plus'}"></i>
-            </button>
-        </div>
-    `;
-    return row;
-}
+            <div class="duration-box" style="text-align: center; display: flex; flex-direction: column; justify-content: center; flex: 0.7;">
+                <span style="font-size: 10px; font-weight: 700; color: #eee; display: block;">
+                    ${ex.duration.replace(' H ', 'س ').replace(' M', 'د')}
+                </span>
+                <span style="font-size: 8px; opacity: 0.3; display: block;">${ex.actual_size} ط</span>
+            </div>
+
+            <div class="actions" style="display: flex; justify-content: center; align-items: center; flex: 0.4;">
+                <button class="btn-action btn-save ${isSaved ? 'saved' : ''}" onclick="toggleSave('${ex.code}')" style="box-shadow: 0 4px 10px rgba(0,0,0,0.2); width: 30px; height: 30px;">
+                    <i class="fa-solid ${isSaved ? 'fa-xmark' : 'fa-plus'}"></i>
+                </button>
+            </div>
+        `;
+        return row;
+    }
+
+    // استدعاء البيانات عند البدء
+    loadData();
+</script>
         
         function renderMySchedule() {
             const container = document.getElementById('myRows');

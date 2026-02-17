@@ -274,47 +274,41 @@
 
     async function loadData() {
     const searchRows = document.getElementById('searchRows');
-    
+    // الرابط الخاص بك مع تحديد الفرع
+    const API_URL = 'https://examdata.mohammed-rasasi.workers.dev/?campus=main';
+
     try {
-        // 1. محاولة جلب البيانات من ذاكرة المتصفح أولاً (سرعة خارقة)
+        // التحميل من الكاش أولاً للسرعة
         const cachedData = localStorage.getItem('all_exams_cache');
         if (cachedData) {
             allExams = JSON.parse(cachedData);
             renderMySchedule();
         }
 
-        // 2. جلب البيانات من السيرفر في الخلفية لتحديث الكاش
-        const response = await fetch('exams_data.json');
-        if (!response.ok) throw new Error('Network response was not ok');
-        
+        const response = await fetch(API_URL);
+        if (!response.ok) throw new Error('تعذر جلب البيانات من السيرفر');
+
         const data = await response.json();
         
-        // 3. تنظيف وترتيب البيانات الأساسية (Sanitization)
-        allExams = data.exams_list.map(ex => ({
-            ...ex,
-            code: ex.code.trim(),
-            course_name: ex.course_name.trim()
-        }));
+        // تأكد أن الـ JSON يحتوي على مصفوفة باسم exams_list
+        if (data.exams_list) {
+            allExams = data.exams_list.map(ex => ({
+                ...ex,
+                code: ex.code.trim(),
+                course_name: ex.course_name.trim()
+            }));
 
-        // 4. تحديث الكاش بالبيانات الجديدة
-        localStorage.setItem('all_exams_cache', JSON.stringify(allExams));
-
-        // 5. تحديث الواجهة
-        renderMySchedule();
-        
-        if (searchRows) {
-            searchRows.innerHTML = '<div style="text-align: center; padding: 60px; opacity: 0.3;">ابدأ البحث الآن عن اختبارك</div>';
+            localStorage.setItem('all_exams_cache', JSON.stringify(allExams));
+            renderMySchedule();
+            
+            if (searchRows) {
+                searchRows.innerHTML = '<div style="text-align: center; padding: 60px; opacity: 0.3;">تم تحديث البيانات بنجاح</div>';
+            }
         }
-
     } catch (error) {
-        console.error("Critical Load Error:", error);
-        // إذا فشل التحميل ولا يوجد كاش قديم، أظهر رسالة خطأ
+        console.error("Error:", error);
         if (!allExams || allExams.length === 0) {
-            searchRows.innerHTML = `
-                <div style="text-align: center; padding: 60px; color: var(--danger);">
-                    <i class="fa-solid fa-triangle-exclamation"></i><br>
-                    عذراً، فشل تحميل البيانات. يرجى التأكد من اتصالك بالإنترنت.
-                </div>`;
+            searchRows.innerHTML = `<div style="text-align: center; padding: 60px; color: var(--danger);">خطأ في الاتصال بالسيرفر</div>`;
         }
     }
 }

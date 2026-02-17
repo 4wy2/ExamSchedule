@@ -313,16 +313,42 @@
     return row;
 }
         
-        function renderMySchedule() {
-            const container = document.getElementById('myRows');
-            const section = document.getElementById('myScheduleSection');
-            if (myExams.length === 0) { section.style.display = 'none'; return; }
+       function renderMySchedule() {
+    const container = document.getElementById('myRows');
+    const section = document.getElementById('myScheduleSection');
+    
+    // إذا كان الجدول فارغاً، أخفِ القسم واخرج
+    if (myExams.length === 0) { 
+        section.style.display = 'none'; 
+        return; 
+    }
 
-            section.style.display = 'block';
-            container.innerHTML = '';
-            myExams.forEach(ex => container.appendChild(createRow(ex, true)));
-            updateCountdown(myExams[0].date);
-        }
+    section.style.display = 'block';
+    container.innerHTML = '';
+    
+    // 1. ترتيب المواد برمجياً: من الأقرب تاريخاً إلى الأبعد
+    myExams.sort((a, b) => {
+        const dateA = dayjs(a.date.split(' ')[0], 'DD-MM-YYYY');
+        const dateB = dayjs(b.date.split(' ')[0], 'DD-MM-YYYY');
+        return dateA - dateB;
+    });
+
+    // 2. عرض المواد المرتبة في الجدول
+    myExams.forEach(ex => container.appendChild(createRow(ex, true)));
+    
+    // 3. تحديث العداد التنازلي لأقرب اختبار قادم (يتجاهل الاختبارات المنتهية)
+    const nextExam = myExams.find(ex => {
+        const examDate = dayjs(ex.date.split(' ')[0], 'DD-MM-YYYY');
+        return examDate.isAfter(dayjs().subtract(1, 'day')); // يبحث عن أول اختبار تاريخه اليوم أو مستقبلاً
+    });
+    
+    if (nextExam) {
+        updateCountdown(nextExam.date);
+    } else {
+        // في حال كانت كل الاختبارات المضافة قد انتهت
+        document.getElementById('countdown').innerText = "✅ اكتملت جميع اختباراتك.. بالتوفيق!";
+    }
+}
 
         function doSearch() {
             // معالجة نص البحث: تحويل لصغير وإزالة كل المسافات

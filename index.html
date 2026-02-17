@@ -60,13 +60,24 @@
     }
 
     .countdown-bar { 
-        background: linear-gradient(90deg, var(--danger), var(--primary)); 
-        padding: 14px; 
-        text-align: center; 
-        font-weight: 900; 
-        font-size: 14px; 
-        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    }
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(400px, 90%);
+    background: rgba(128, 66, 255, 0.2);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 12px 20px;
+    text-align: center; 
+    font-weight: 800; 
+    font-size: 13px; 
+    border-radius: 50px;
+    z-index: 1000;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+    display: none; /* سيظهر بواسطة الجافاسكريبت */
+}
 
     /* 4. قسم البحث المطور */
     .search-wrapper { padding: 50px 20px; text-align: center; }

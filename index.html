@@ -503,7 +503,7 @@
         const dateNum = nextExam.date.split(' ')[0];
 
         if (diff > 0) {
-            el.innerHTML = `🚀 متبقي <span style="color:#ffd166">${diff}</span> أيام على اختبارك القادم (${dateNum})`;
+           el.innerHTML = `🚀 متبقي <span style="color:#ffd166">${diff}</span> يوم على اختبار <span style="color:#8042ff">${nextExam.code}</span>`;
         } else {
             el.innerHTML = `🔥 اختبارك اليوم (<span style="color:#ffd166">${nextExam.code}</span>)! فالك التوفيق`;
         }

@@ -81,32 +81,55 @@
     to { transform: translateY(0); opacity: 1; }
 }
 
-    /* 4. قسم البحث المطور */
-    .search-wrapper { padding: 50px 20px; text-align: center; }
-    .search-wrapper h2 { 
-        margin-bottom: 30px; 
-        font-weight: 900; 
-        font-size: 28px; 
-        background: linear-gradient(to bottom, #fff, #aaa);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
-    .input-group { position: relative; max-width: 550px; margin: 0 auto; }
-    .search-icon {
-        position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
-        color: var(--primary); font-size: 18px; opacity: 0.6; pointer-events: none;
-    }
-    .search-wrapper input { 
-        width: 100%; padding: 18px 55px 18px 25px; border-radius: 22px; 
-        border: 1px solid var(--border-color); background: rgba(255, 255, 255, 0.03); 
-        color: white; outline: none; font-size: 16px; transition: all 0.4s ease;
-        backdrop-filter: blur(10px);
-    }
-    .search-wrapper input:focus { 
-        border-color: var(--primary); background: rgba(255, 255, 255, 0.07);
-        box-shadow: 0 0 30px rgba(128, 66, 255, 0.15); transform: scale(1.01);
-    }
+    /* 4. قسم البحث المطور للجوال */
+.search-wrapper { 
+    padding: 30px 15px 20px; /* تقليل المسافات العلوية */
+    text-align: center; 
+}
 
+.input-group { 
+    position: relative; 
+    max-width: 450px; /* تقليل العرض الأقصى ليكون أرشق */
+    margin: 0 auto; 
+}
+
+.search-wrapper input { 
+    width: 100%; 
+    padding: 14px 45px 14px 20px; /* تقليل الحجم الكلي (Padding) */
+    border-radius: 16px; /* زوايا أقل حدة تناسب الجوال */
+    border: 1px solid var(--border-color); 
+    background: rgba(255, 255, 255, 0.05); 
+    color: white; 
+    outline: none; 
+    font-size: 14px; /* حجم خط أنسب للجوال */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+    box-sizing: border-box; /* لضمان عدم خروج الإدخال عن الحاوية */
+}
+
+/* تأثير عند الكتابة */
+.search-wrapper input:focus { 
+    border-color: var(--primary); 
+    background: rgba(128, 66, 255, 0.08);
+    box-shadow: 0 0 20px rgba(128, 66, 255, 0.2);
+}
+
+.search-icon {
+    position: absolute; 
+    right: 15px; 
+    top: 50%; 
+    transform: translateY(-50%);
+    color: var(--primary); 
+    font-size: 16px; 
+    opacity: 0.8; 
+    transition: 0.3s;
+}
+
+/* حركة بسيطة للأيقونة عند التركيز */
+.search-wrapper input:focus + .search-icon {
+    transform: translateY(-50%) scale(1.1);
+    color: var(--accent);
+}
     /* 5. نظام الجريد (المسطرة الموحدة) */
     .table-header, .row { 
         display: grid; 

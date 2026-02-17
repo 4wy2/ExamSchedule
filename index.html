@@ -203,6 +203,46 @@
         .btn-action { width: 26px; height: 26px; border-radius: 6px; }
         .section-title { padding: 15px 10px 5px; font-size: 12px; }
     }
+    /* 8. تنسيق حالة البحث الفارغة (Empty State) */
+    .empty-state {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 80px 20px;
+        text-align: center;
+        color: var(--text-dim);
+        animation: fadeIn 0.8s ease-out;
+    }
+
+    .empty-state i {
+        font-size: 55px;
+        margin-bottom: 20px;
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        opacity: 0.3; /* تعطي طابعاً هادئاً للأيقونة الخلفية */
+    }
+
+    .empty-state p {
+        font-size: 16px;
+        font-weight: 500;
+        margin: 0;
+        letter-spacing: 0.5px;
+        opacity: 0.6;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* تحسين إضافي للجوال */
+    @media (max-width: 600px) {
+        .empty-state { padding: 50px 15px; }
+        .empty-state i { font-size: 40px; }
+        .empty-state p { font-size: 13px; }
+    }
 </style>
 </head>
 <body>

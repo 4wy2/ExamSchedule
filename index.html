@@ -231,17 +231,51 @@
     let myExams = JSON.parse(localStorage.getItem('yic_saved_exams')) || [];
 
     async function loadData() {
-        try {
-            const response = await fetch('exams_data.json');
-            if (!response.ok) throw new Error('الملف غير موجود');
-            const data = await response.json();
-            allExams = data.exams_list;
+    const searchRows = document.getElementById('searchRows');
+    
+    try {
+        // 1. محاولة جلب البيانات من ذاكرة المتصفح أولاً (سرعة خارقة)
+        const cachedData = localStorage.getItem('all_exams_cache');
+        if (cachedData) {
+            allExams = JSON.parse(cachedData);
             renderMySchedule();
-            document.getElementById('searchRows').innerHTML = '<div style="text-align: center; padding: 60px; opacity: 0.3;">ابدأ البحث الآن عن اختبارك</div>';
-        } catch (error) {
-            document.getElementById('searchRows').innerHTML = '<div style="text-align: center; padding: 60px; color: var(--danger);">تأكد من وجود ملف exams_data.json</div>';
+        }
+
+        // 2. جلب البيانات من السيرفر في الخلفية لتحديث الكاش
+        const response = await fetch('exams_data.json');
+        if (!response.ok) throw new Error('Network response was not ok');
+        
+        const data = await response.json();
+        
+        // 3. تنظيف وترتيب البيانات الأساسية (Sanitization)
+        allExams = data.exams_list.map(ex => ({
+            ...ex,
+            code: ex.code.trim(),
+            course_name: ex.course_name.trim()
+        }));
+
+        // 4. تحديث الكاش بالبيانات الجديدة
+        localStorage.setItem('all_exams_cache', JSON.stringify(allExams));
+
+        // 5. تحديث الواجهة
+        renderMySchedule();
+        
+        if (searchRows) {
+            searchRows.innerHTML = '<div style="text-align: center; padding: 60px; opacity: 0.3;">ابدأ البحث الآن عن اختبارك</div>';
+        }
+
+    } catch (error) {
+        console.error("Critical Load Error:", error);
+        // إذا فشل التحميل ولا يوجد كاش قديم، أظهر رسالة خطأ
+        if (!allExams || allExams.length === 0) {
+            searchRows.innerHTML = `
+                <div style="text-align: center; padding: 60px; color: var(--danger);">
+                    <i class="fa-solid fa-triangle-exclamation"></i><br>
+                    عذراً، فشل تحميل البيانات. يرجى التأكد من اتصالك بالإنترنت.
+                </div>`;
         }
     }
+}
 
     function createRow(ex, isSaved) {
     const row = document.createElement('div');
@@ -351,57 +385,119 @@
 }
 
         function doSearch() {
-            // معالجة نص البحث: تحويل لصغير وإزالة كل المسافات
-            const q = document.getElementById('searchInput').value.toLowerCase().replace(/\s+/g, '');
-            const container = document.getElementById('searchRows');
-            const header = document.getElementById('searchHeader');
-            
-            if (!q) {
-                container.innerHTML = '<div style="text-align: center; padding: 60px; opacity: 0.3;">ابدأ البحث الآن عن اختبارك</div>';
-                header.style.display = 'none';
-                return;
-            }
+    // 1. معالجة نص البحث: تحويل لصغير وإزالة كل المسافات
+    const q = document.getElementById('searchInput').value.toLowerCase().replace(/\s+/g, '');
+    const container = document.getElementById('searchRows');
+    const header = document.getElementById('searchHeader');
+    
+    // إذا البحث فارغ، نظف المكان وأخفِ الهيدر
+    if (!q) {
+        container.innerHTML = '<div style="text-align: center; padding: 60px; opacity: 0.3;">ابدأ البحث الآن عن اختبارك</div>';
+        header.style.display = 'none';
+        return;
+    }
 
-            const filtered = allExams.filter(e => {
-                const codeSafe = e.code.toLowerCase().replace(/\s+/g, '');
-                const nameSafe = e.course_name.toLowerCase().replace(/\s+/g, '');
-                return codeSafe.includes(q) || nameSafe.includes(q);
-            });
+    // 2. الفلترة الذكية
+    const filtered = allExams.filter(e => {
+        const codeSafe = e.code.toLowerCase().replace(/\s+/g, '');
+        const nameSafe = e.course_name.toLowerCase().replace(/\s+/g, '');
+        return codeSafe.includes(q) || nameSafe.includes(q);
+    });
 
-            container.innerHTML = '';
-            if (filtered.length > 0) {
-                header.style.display = 'grid';
-                filtered.forEach(ex => {
-                    const isSaved = myExams.some(s => s.code === ex.code);
-                    container.appendChild(createRow(ex, isSaved));
-                });
-            } else {
-                header.style.display = 'none';
-                container.innerHTML = '<div style="text-align: center; padding: 40px; opacity: 0.5;">لا توجد نتائج مطابقة</div>';
-            }
+    // 3. ترتيب نتائج البحث حسب التاريخ (اختياري لكن احترافي)
+    filtered.sort((a, b) => {
+        return dayjs(a.date.split(' ')[0], 'DD-MM-YYYY') - dayjs(b.date.split(' ')[0], 'DD-MM-YYYY');
+    });
+
+    container.innerHTML = '';
+
+    if (filtered.length > 0) {
+        header.style.display = 'grid';
+        
+        // 4. عرض أول 20 نتيجة فقط لضمان سرعة التطبيق في الجوال
+        filtered.slice(0, 20).forEach(ex => {
+            const isSaved = myExams.some(s => s.code === ex.code);
+            container.appendChild(createRow(ex, isSaved));
+        });
+
+        // إذا كانت النتائج كثيرة، نبه المستخدم
+        if (filtered.length > 20) {
+            const tip = document.createElement('div');
+            tip.style = "text-align:center; padding:10px; font-size:10px; opacity:0.5;";
+            tip.innerText = `يوجد ${filtered.length - 20} نتائج إضافية، خصص بحثك أكثر...`;
+            container.appendChild(tip);
         }
+    } else {
+        header.style.display = 'none';
+        container.innerHTML = '<div style="text-align: center; padding: 40px; opacity: 0.5;">لا توجد نتائج مطابقة</div>';
+    }
+}
 
         function toggleSave(code) {
-            const index = myExams.findIndex(e => e.code === code);
-            if (index > -1) myExams.splice(index, 1);
-            else {
-                const exam = allExams.find(e => e.code === code);
-                if (exam) myExams.push(exam);
-            }
-            localStorage.setItem('yic_saved_exams', JSON.stringify(myExams));
-            renderMySchedule();
-            doSearch();
+    // 1. البحث عن مكان المادة في قائمة "جدولي"
+    const index = myExams.findIndex(e => e.code === code);
+    
+    if (index > -1) {
+        // إذا المادة موجودة مسبقاً، نقوم بحذفها
+        myExams.splice(index, 1);
+    } else {
+        // إذا المادة غير موجودة، نبحث عنها في القائمة الكاملة ونضيفها
+        const exam = allExams.find(e => e.code === code);
+        if (exam) {
+            myExams.push(exam);
         }
+    }
 
-        function updateCountdown(dateStr) {
-            const target = dayjs(dateStr.split(' ')[0], 'DD-MM-YYYY');
-            const diff = target.diff(dayjs().startOf('day'), 'day');
-            const el = document.getElementById('countdown');
-            el.style.display = 'block';
-            if (diff > 0) el.innerText = `🚀 متبقي ${diff} أيام على اختبارك القادم (${dateStr.split(' ')[0]})`;
-            else if (diff === 0) el.innerText = `🔥 اختبارك اليوم! فالك التوفيق`;
-            else el.innerText = `✅ انتهت الاختبارات المضافة`;
+    // 2. الترتيب الذكي (Sorting):
+    // نقوم بترتيب المصفوفة بناءً على التاريخ قبل حفظها وعرضها
+    myExams.sort((a, b) => {
+        const dateA = dayjs(a.date.split(' ')[0], 'DD-MM-YYYY');
+        const dateB = dayjs(b.date.split(' ')[0], 'DD-MM-YYYY');
+        return dateA - dateB;
+    });
+
+    // 3. التخزين الدائم (Local Storage):
+    // نحفظ المصفوفة المرتبة في ذاكرة المتصفح لتبقى حتى بعد إغلاق الصفحة
+    localStorage.setItem('yic_saved_exams', JSON.stringify(myExams));
+    
+    // 4. تحديث الواجهة:
+    // إعادة رسم الجدول الشخصي وتحديث نتائج البحث (لتغيير شكل الزر من + إلى X)
+    renderMySchedule();
+    doSearch();
+}
+
+        function updateCountdown() {
+    const el = document.getElementById('countdown');
+    
+    // إذا ما فيه مواد مضافة أصلاً
+    if (myExams.length === 0) {
+        el.style.display = 'none';
+        return;
+    }
+
+    // البحث عن أول اختبار لم ينتهِ بعد (تاريخه اليوم أو مستقبلاً)
+    const nextExam = myExams.find(ex => {
+        const examDate = dayjs(ex.date.split(' ')[0], 'DD-MM-YYYY');
+        return examDate.isAfter(dayjs().subtract(1, 'day'));
+    });
+
+    el.style.display = 'block';
+
+    if (nextExam) {
+        const target = dayjs(nextExam.date.split(' ')[0], 'DD-MM-YYYY');
+        const diff = target.diff(dayjs().startOf('day'), 'day');
+        const dateNum = nextExam.date.split(' ')[0];
+
+        if (diff > 0) {
+            el.innerHTML = `🚀 متبقي <span style="color:#ffd166">${diff}</span> أيام على اختبارك القادم (${dateNum})`;
+        } else {
+            el.innerHTML = `🔥 اختبارك اليوم (<span style="color:#ffd166">${nextExam.code}</span>)! فالك التوفيق`;
         }
+    } else {
+        el.innerText = `✅ انتهت جميع اختباراتك المضافة.. مبروك!`;
+        el.style.background = 'var(--accent)'; // تغيير اللون للأخضر عند الإنجاز
+    }
+}
 
         document.getElementById('searchInput').addEventListener('input', doSearch);
         window.onload = loadData;
